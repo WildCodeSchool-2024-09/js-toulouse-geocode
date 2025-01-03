@@ -15,26 +15,26 @@ create table provider (
 
 create table region (
   id int primary key auto_increment not null,
-  name text not null
+  name varchar(80) not null
 );
 
 create table department (
   id int primary key auto_increment not null,
-  name text not null,
+  name varchar(80) not null,
   region_id int,
   foreign key(region_id) references region(id)
 );
 
 create table city (
   id int primary key auto_increment not null,
-  name text not null,
+  name varchar(80) not null,
   department_id int,
   foreign key(department_id) references department(id)
 );
 
 create table postalcode (
   id int primary key auto_increment not null,
-  code text not null,
+  code varchar(5) not null,
   city_id int,
   foreign key(city_id) references city(id)
 );
@@ -47,14 +47,14 @@ create table geo_coords (
 
 create table pdc (
   id int primary key auto_increment not null,
-  name text not null,
+  name varchar(80) not null,
   power_max float,
-  pdc_type text
+  type varchar(80)
 );
 
 create table station (
   id int primary key auto_increment not null,
-  name text not null,
+  name varchar(80) not null,
   sign_id int,
   foreign key(sign_id) references sign(id),
   operator_id int,
@@ -68,8 +68,8 @@ create table station (
   number_pdc int,
   pdc_id int,
   foreign key(pdc_id) references pdc(id),
-  access_charging text,
-  accessibility text,
+  access_charging varchar(80),
+  accessibility varchar(80),
   update_date_time datetime,
   source text
 );
@@ -79,25 +79,27 @@ create table user (
   firstname varchar(80) not null,
   lastname varchar(80) not null,
   mail varchar(80) not null,
-  sex text,
+  sex varchar(10),
   birthday date,
-  postal_code int,
-  foreign key(postal_code) references postalcode(id),
+  postal_code_id int,
+  foreign key(postal_code_id) references postalcode(id),
   number_of_vehicles int
+);
+
+create table vehicle (
+  id int primary key auto_increment not null,
+  model varchar(80) not null,
+  brand varchar(80) not null, 
+  type varchar(80) not null,
+  user_id int,
+  foreign key(user_id) references user(id)
 );
 
 create table booking (
   id int primary key auto_increment not null,
   date datetime,
   vehicle_id int,
-  station_id int
+  foreign key(vehicle_id) references vehicle(id),
+  station_id int,
+  foreign key(station_id) references station(id)
 );
-
-create table vehicle (
-  id int primary key auto_increment not null,
-  model text not null,
-  brand text not null, 
-  type text not null,
-  user_id int
-);
-
