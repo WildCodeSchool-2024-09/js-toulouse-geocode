@@ -1,21 +1,103 @@
+create table sign (
+  id int primary key auto_increment not null,
+  name varchar(80) not null
+);
+
+create table operator (
+  id int primary key auto_increment not null,
+  name varchar(80) not null
+);
+
+create table provider (
+  id int primary key auto_increment not null,
+  name varchar(80) not null
+);
+
+create table region (
+  id int primary key auto_increment not null,
+  name text not null
+);
+
+create table department (
+  id int primary key auto_increment not null,
+  name text not null,
+  region_id int,
+  foreign key(region_id) references region(id)
+);
+
+create table city (
+  id int primary key auto_increment not null,
+  name text not null,
+  department_id int,
+  foreign key(department_id) references department(id)
+);
+
+create table postalcode (
+  id int primary key auto_increment not null,
+  code text not null,
+  city_id int,
+  foreign key(city_id) references city(id)
+);
+
+create table geo_coords (
+  id int primary key auto_increment not null,
+  latitude float,
+  longitude float
+);
+
+create table pdc (
+  id int primary key auto_increment not null,
+  name text not null,
+  power_max float,
+  pdc_type text
+);
+
+create table station (
+  id int primary key auto_increment not null,
+  name text not null,
+  sign_id int,
+  foreign key(sign_id) references sign(id),
+  operator_id int,
+  foreign key(operator_id) references operator(id),
+  provider_id int,
+  foreign key(provider_id) references provider(id),
+  postalcode_id int,
+  foreign key(postalcode_id) references postalcode(id),
+  geo_coords_id int,
+  foreign key(geo_coords_id) references geo_coords(id),
+  number_pdc int,
+  pdc_id int,
+  foreign key(pdc_id) references pdc(id),
+  access_charging text,
+  accessibility text,
+  update_date_time datetime,
+  source text
+);
+
 create table user (
-  id int unsigned primary key auto_increment not null,
-  email varchar(255) not null unique,
-  password varchar(255) not null
+  id int primary key auto_increment not null,
+  firstname varchar(80) not null,
+  lastname varchar(80) not null,
+  mail varchar(80) not null,
+  sex text,
+  birthday date,
+  postal_code int,
+  foreign key(postal_code) references postalcode(id),
+  number_of_vehicles int
 );
 
-create table item (
-  id int unsigned primary key auto_increment not null,
-  title varchar(255) not null,
-  user_id int unsigned not null,
-  foreign key(user_id) references user(id)
+create table booking (
+  id int primary key auto_increment not null,
+  date datetime,
+  vehicle_id int,
+  station_id int
 );
 
-insert into user(id, email, password)
-values
-  (1, "jdoe@mail.com", "123456");
+create table vehicle (
+  id int primary key auto_increment not null,
+  model text not null,
+  brand text not null, 
+  type text not null,
+  user_id int
+);
 
-insert into item(id, title, user_id)
-values
-  (1, "Stuff", 1),
-  (2, "Doodads", 1);
