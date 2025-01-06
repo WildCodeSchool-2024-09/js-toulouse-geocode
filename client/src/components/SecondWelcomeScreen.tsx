@@ -14,7 +14,7 @@ export default function SecondWelcomeScreen() {
         </p>
       </div>
       <div className="lower-part">
-        <Link to="/welcome">
+        <Link to="/">
           <button type="button" className="prev-button">
             Précédent
           </button>
