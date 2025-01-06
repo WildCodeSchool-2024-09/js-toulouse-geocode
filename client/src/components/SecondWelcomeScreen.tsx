@@ -1,0 +1,46 @@
+import { Link } from "react-router-dom";
+
+export default function SecondWelcomeScreen() {
+  return (
+    <div className="welcome-screen">
+      <div className="upper-part">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et ex
+          diam. Nullam iaculis tortor at posuere aliquet. Aenean libero neque,
+          ullamcorper eu gravida ut, pretium sit amet sem. Sed nec elit turpis.
+          Aenean et placerat arcu. Etiam lacus turpis, egestas sed facilisis at,
+          scelerisque in magna. Pellentesque imperdiet tristique viverra.
+        </p>
+      </div>
+      <div className="lower-part">
+        <Link to="/welcome">
+          <button type="button" className="prev-button">
+            Précédent
+          </button>
+        </Link>
+        <span />
+        <span />
+        <span />
+        <Link to="/get-started">
+          <button type="button" className="next-button">
+            Suivant
+            <svg
+              width="50"
+              height="50"
+              viewBox="0 0 170 170"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>Right arrow icon</title>
+              <circle cx="85" cy="85" r="85" fill="#7CD858" />
+              <path
+                d="M75.0547 49.6827C77.7424 51.3137 80.2681 53.1399 82.8047 54.9952C83.5355 55.5206 84.2663 56.0461 85.0193 56.5875C86.5705 57.7042 88.1191 58.8244 89.6655 59.9478C92.067 61.6916 94.4758 63.4247 96.8867 65.1553C105.222 71.1468 105.222 71.1468 107.981 73.1934C109.406 74.217 110.869 75.1898 112.359 76.1172C117.676 79.5807 117.676 79.5807 118.74 82.6736C119.013 86.5574 118.459 88.2157 115.879 91.1944C114.844 91.9124 113.809 92.6304 112.742 93.3702C112.172 93.7768 111.602 94.1834 111.014 94.6023C109.047 95.9922 107.053 97.3379 105.055 98.6827C103.497 99.7518 101.939 100.822 100.383 101.894C97.9365 103.574 95.4873 105.249 93.0276 106.909C87.3375 110.755 81.865 114.788 76.5 119.073C73.905 120.781 72.1357 121.422 69.0547 121.683C66.3047 120.62 66.3047 120.62 64.0547 118.683C62.9297 115.808 62.9297 115.808 63.0547 112.683C66.7112 108.495 71.0404 105.276 75.4922 101.995C76.1865 101.48 76.8808 100.965 77.5962 100.434C79.7446 98.8439 81.8987 97.2622 84.0547 95.6827C84.7403 95.1785 85.4259 94.6743 86.1323 94.1548C88.06 92.7408 89.9933 91.3348 91.9297 89.9327C92.5181 89.5025 93.1064 89.0724 93.7126 88.6292C97.8215 85.6827 97.8215 85.6827 100.055 85.6827C100.055 85.0227 100.055 84.3627 100.055 83.6827C99.479 83.4081 98.9034 83.1335 98.3103 82.8506C96.0738 81.6926 94.047 80.4103 91.9648 78.9952C90.7967 78.2014 90.7967 78.2014 89.605 77.3917C75.8752 67.96 75.8752 67.96 69.4297 63.1827C68.4062 62.4299 67.3827 61.677 66.3281 60.9014C63.783 58.4175 63.1812 57.2023 63.0547 53.6827C64.3047 50.9327 64.3047 50.9327 66.0547 48.6827C69.98 47.3742 71.2605 48.0778 75.0547 49.6827Z"
+                fill="white"
+              />
+            </svg>
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+}
