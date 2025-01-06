@@ -13,7 +13,6 @@ import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
 import ContactPage from "./pages/ContactPage";
 import GeoMapPage from "./pages/GeoMapPage";
 import UserPage from "./pages/UserPage";
-import WelcomePage from "./pages/WelcomePage";
 
 // Import additional components for new routes
 // Try creating these components in the "pages" folder
@@ -32,7 +31,7 @@ const router = createBrowserRouter(
       children: [
         {
           path: "/",
-          element: <WelcomePage />,
+          element: <FirstWelcomeScreen />,
         },
         {
           path: "/map",
@@ -45,10 +44,6 @@ const router = createBrowserRouter(
         {
           path: "/contact",
           element: <ContactPage />,
-        },
-        {
-          path: "/welcome",
-          element: <FirstWelcomeScreen />,
         },
         {
           path: "/welcome2",
