@@ -8,8 +8,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Import the main app component
 import App from "./App";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
-import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
+import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
 
 // Import additional components for new routes
 // Try creating these components in the "pages" folder
