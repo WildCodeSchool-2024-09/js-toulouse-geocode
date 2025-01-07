@@ -23,7 +23,7 @@ interface CityPropsFromAPI {
   };
 }
 
-const spacialCharacters = {
+const urlEncodedCharacters = {
   " ": "%20",
   "'": "%27",
   ",": "%2C",
@@ -64,7 +64,7 @@ function QueryCity() {
     if (event?.currentTarget?.value) {
       let city = event?.currentTarget?.value;
 
-      for (const [key, value] of Object.entries(spacialCharacters)) {
+      for (const [key, value] of Object.entries(urlEncodedCharacters)) {
         city = city.replace(key, value);
       }
 
