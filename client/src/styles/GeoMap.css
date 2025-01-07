@@ -33,7 +33,7 @@ main > div.query-city-container > div.query-city {
   left: min(0, calc(50vw - ((100vw * 4) / 18)));
 }
 
-main > div.query-city-container > div.query-city > h2 {
+main h2 {
   width: 100%;
   display: block;
   background-color: var(--keppel-color-600);
