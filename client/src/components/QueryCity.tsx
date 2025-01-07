@@ -69,7 +69,7 @@ function QueryCity() {
       }
 
       fetch(
-        `https://geo.api.gouv.fr/communes?nom=${event?.currentTarget?.value}&fields=nom,departement,centre&limit=30`,
+        `https://geo.api.gouv.fr/communes?nom=${event?.currentTarget?.value}&fields=nom,departement,centre&limit=200`,
       )
         .then((response) => response.json())
         .then((cityNamesList) => {
@@ -133,11 +133,11 @@ function QueryCity() {
   const handleLiKeyDown = () => {};
 
   return geoPositionContext.displayQuery ? (
-    <>
+    <div className="query-city-container">
       <div className="query-city">
-        <h2>Query City</h2>
+        <h2>Recherche par ville</h2>
         <div className="main">
-          <p>Enter a city name to get the weather</p>
+          <p>Ville:</p>
           <input
             type="text"
             value={inputContent ?? ""}
@@ -160,7 +160,7 @@ function QueryCity() {
           </ul>
         </div>
       </div>
-    </>
+    </div>
   ) : null;
 }
 
