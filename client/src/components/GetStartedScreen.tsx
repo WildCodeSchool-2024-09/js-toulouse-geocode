@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import getStartedMap from "/images/get-started-map.png";
+import { useShowMenubar } from "../context/ShowMenubarProvider";
 
 export default function GetStartedScreen() {
+  const { setShowMenubar } = useShowMenubar();
+
   return (
     <div className="get-started-screen">
       <div className="upper-part">
@@ -20,7 +23,7 @@ export default function GetStartedScreen() {
         <span />
         <span />
         <span />
-        <Link to="/map">
+        <Link to="/map" onClick={() => setShowMenubar(true)}>
           <button type="button" className="start-button">
             Démarrer
           </button>
