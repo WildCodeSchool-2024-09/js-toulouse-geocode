@@ -1,0 +1,111 @@
+main div.display-station-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100% !important;
+  height: 100% !important;
+  left: 0px;
+  top: 0px;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+main div.display-station {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--keppel-color-600);
+  color: white;
+  padding: 1.25rem 0 0.6875rem 0;
+  position: fixed;
+  bottom: 0px;
+  height: fit-content;
+  z-index: 1;
+  border-top-left-radius: 1.5625rem;
+  border-top-right-radius: 1.5625rem;
+  min-height: 56vh;
+  pointer-events: all;
+}
+
+main div.display-station.collapsed {
+  max-height: 8.8675rem;
+  min-height: 8.8675rem;
+}
+
+main div.display-station > div.station-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 0.875rem 0;
+  width: 100% !important;
+}
+
+main div.display-station > div.station-main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  width: 100% !important;
+  background-color: var(--beige-color);
+  min-height: 56vh;
+  border-top-left-radius: 1.5625rem;
+  border-top-right-radius: 1.5625rem;
+}
+
+main div.display-station.collapsed > div.station-main {
+  display: flex;
+  width: 100% !important;
+  max-height: 0;
+}
+
+main div.station-title > h2 {
+  flex: 4;
+  padding: 0 0 0 1.5625rem;
+}
+
+main div.display-station.collapsed > div.station-title > h2 {
+  padding: 0 1.5625rem 0 0;
+}
+
+main div.station-title > img {
+  flex: 1;
+  box-sizing: content-box;
+  max-width: 1.6875rem;
+  height: auto;
+  padding: 0 1.5625rem 0 0;
+  transform: rotate(0deg);
+  transition: linear 0.2s;
+}
+main div.display-station.collapsed > div.station-title > img {
+  padding: 0 0 0 1.5625rem;
+}
+
+main div.display-station.collapsed img {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 768px) {
+  main div.display-station {
+    width: 66%;
+  }
+}
+
+@media (max-width: 768px) {
+  main div.display-station {
+    width: 100%;
+  }
+}
+
+main div.station-info {
+  display: block;
+  background-color: var(--ghost-white-color);
+  border-radius: 1.25rem;
+  width: 100%;
+  min-height: 100%;
+  margin: 1.25rem 1.25rem 5.9875rem 1.25rem;
+}
