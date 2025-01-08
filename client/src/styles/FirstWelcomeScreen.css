@@ -26,7 +26,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--white-color);
   gap: 0rem;
 }
 
@@ -38,13 +38,13 @@
 .logo-description p {
   font-size: 0.6rem;
   opacity: 0.4;
-  color: white;
+  color: var(--white-color);
 }
 
 .welcome-mid-part {
   width: fit-content;
   padding-inline: 2.5rem;
-  color: white;
+  color: var(--white-color);
   font-size: 1.3rem;
   text-align: left;
 }
@@ -68,14 +68,14 @@
 .skip-button {
   background-color: transparent;
   border: none;
-  color: white;
+  color: var(--white-color);
   font-size: 1.2rem;
 }
 
 .next-button {
   background-color: transparent;
   border: none;
-  color: white;
+  color: var(--white-color);
   font-size: 1.2rem;
   display: flex;
   justify-content: center;
@@ -95,6 +95,6 @@
   display: flex;
   width: 0.5rem;
   height: 0.5rem;
-  background-color: white;
+  background-color: var(--white-color);
   border-radius: 1rem;
 }
