@@ -5,6 +5,7 @@ div.footer-container {
   height: fit-content;
   position: fixed;
   bottom: 0px;
+  z-index: 0;
 }
 
 main {
@@ -13,6 +14,7 @@ main {
   position: fixed;
   top: 0px;
   bottom: 0px;
+  z-index: 0;
 }
 
 footer {

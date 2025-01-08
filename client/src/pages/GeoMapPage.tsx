@@ -2,6 +2,8 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "../styles/GeoMap.css";
+import { useState } from "react";
+import DisplayStation from "../components/DisplayStation";
 import QueryCity from "../components/QueryCity";
 import { useGeoPositionContext } from "../contexts/GeoPositionContextProvider";
 
@@ -12,6 +14,8 @@ interface ChangeViewProps {
 }
 
 function GeoMapPage() {
+  const [stationCollapsed, setStationCollapsed] = useState(true);
+
   const geoPositionContext = useGeoPositionContext();
 
   const ChangeView = ({ lat, lng, zoom }: ChangeViewProps) => {
@@ -51,6 +55,10 @@ function GeoMapPage() {
         </Marker>
       </MapContainer>
       <QueryCity />
+      <DisplayStation
+        stationCollapsed={stationCollapsed}
+        setStationCollapsed={setStationCollapsed}
+      />
     </>
   );
 }
