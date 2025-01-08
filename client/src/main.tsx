@@ -10,6 +10,7 @@ import App from "./App";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
 import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
+import { ShowMenubarProvider } from "./contexts/ShowMenubarProvider";
 import ContactPage from "./pages/ContactPage";
 import GeoMapPage from "./pages/GeoMapPage";
 import UserPage from "./pages/UserPage";
@@ -70,7 +71,9 @@ if (rootElement == null) {
 // Render the app inside the root element
 createRoot(rootElement).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ShowMenubarProvider>
+      <RouterProvider router={router} />
+    </ShowMenubarProvider>
   </StrictMode>,
 );
 
