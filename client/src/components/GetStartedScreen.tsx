@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import getStartedMap from "/images/get-started-map.png";
-import { useShowMenubar } from "../context/ShowMenubarProvider";
+import { useShowMenubar } from "../contexts/ShowMenubarProvider";
 import "../styles/GetStartedScreen.css";
 
 export default function GetStartedScreen() {
