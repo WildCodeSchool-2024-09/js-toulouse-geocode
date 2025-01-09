@@ -12,8 +12,8 @@ const convertCsvToJson = (csvFile: string) => {
 
 const fetchData = async (lat: string, lng: string) => {
   const [response, response2] = await Promise.all([
-    fetch(`https://geo.api.gouv.fr/communes?lat=${lat}&lon=${lng}`),
-    fetch(`https://geo.api.gouv.fr/communes?lat=${lng}&lon=${lat}`),
+    fetch(`https://geo.api.gouv.fr/communes?lat=${lat}&lon=${lng}&fields=nom`),
+    fetch(`https://geo.api.gouv.fr/communes?lat=${lng}&lon=${lat}&fields=nom`),
   ]);
 
   const [data, data2] = await Promise.all([response.json(), response2.json()]);
@@ -33,6 +33,8 @@ const fetchData = async (lat: string, lng: string) => {
   }
 
   if (correctData.length === 0) return false;
+
+  const city = correctData[0].nom;
 
   const codeRegion = correctData[0].codeRegion;
 
@@ -93,6 +95,7 @@ const correctionData = async (elem: CsvDataType) => {
         elem.ylatitude = correction.latitude;
         elem.xlongitude = correction.longitude;
         elem.code_insee = correction.code;
+        elem.ville = correction.ville;
       }
     }
   }
