@@ -7,6 +7,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 // Import the main app component
 import App from "./App";
+import AppAdmin from "./admin/AppAdmin";
+import ConnexionAdminPage from "./admin/pages/ConnexionAdminPage";
+import UsersPage from "./admin/pages/UsersPage";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
 import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
@@ -53,6 +56,19 @@ const router = createBrowserRouter(
         {
           path: "/get-started",
           element: <GetStartedScreen />,
+        },
+      ],
+    },
+    {
+      element: <AppAdmin />,
+      children: [
+        {
+          path: "/admin",
+          element: <ConnexionAdminPage />,
+        },
+        {
+          path: "/admin/users",
+          element: <UsersPage />,
         },
       ],
     },
