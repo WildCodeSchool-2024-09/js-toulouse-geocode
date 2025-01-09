@@ -66,6 +66,7 @@
   border: none;
   color: var(--white-color);
   font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .next-button {
@@ -77,6 +78,7 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  cursor: pointer;
 }
 
 .next-button img {
