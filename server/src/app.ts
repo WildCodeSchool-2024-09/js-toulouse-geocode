@@ -1,6 +1,7 @@
 // Load the express module to create a web application
 
 import express from "express";
+import fileUpload from "express-fileupload";
 
 const app = express();
 
@@ -54,8 +55,9 @@ app.use(
 
 app.use(express.json());
 // app.use(express.urlencoded());
-// app.use(express.text());
+app.use(express.text());
 // app.use(express.raw());
+app.use(fileUpload());
 
 /* ************************************************************************* */
 

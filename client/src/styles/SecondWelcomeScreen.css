@@ -35,3 +35,22 @@
   color: var(--white-color);
   font-size: 1.2rem;
 }
+
+@media screen and (width > 768px) {
+  .upper-part {
+    width: 70%;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 2rem;
+  }
+}
+
+@media screen and (width > 1024px) {
+  .upper-part {
+    width: 60%;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 2rem;
+    margin-top: 3rem;
+  }
+}
