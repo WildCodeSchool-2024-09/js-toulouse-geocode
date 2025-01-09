@@ -1,11 +1,15 @@
+import sha256 from "crypto-js/sha256";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "../styles/GeoMap.css";
 import { useState } from "react";
+import { GeoLocationProps } from "../../../server/common/types/StationProps";
 import DisplayStation from "../components/DisplayStation";
 import QueryCity from "../components/QueryCity";
+import StationMarker from "../components/StationMarker";
 import { useGeoPositionContext } from "../contexts/GeoPositionContextProvider";
+import { useStationsLocationsContext } from "../contexts/StationsLocationsContextProvider";
 
 interface ChangeViewProps {
   lat: number;
@@ -17,10 +21,19 @@ function GeoMapPage() {
   const [stationCollapsed, setStationCollapsed] = useState(true);
 
   const geoPositionContext = useGeoPositionContext();
+  const stationsLocationsContext = useStationsLocationsContext();
 
   const ChangeView = ({ lat, lng, zoom }: ChangeViewProps) => {
     const map = useMap();
     map.setView({ lat: lat, lng: lng }, zoom);
+    const northWestBoundary = map.getBounds().getNorthWest();
+    const southEastBoundary = map.getBounds().getSouthEast();
+    stationsLocationsContext.setNorthWestBoundary(
+      new GeoLocationProps(northWestBoundary.lat, northWestBoundary.lng),
+    );
+    stationsLocationsContext.setSouthEastBoundary(
+      new GeoLocationProps(southEastBoundary.lat, southEastBoundary.lng),
+    );
     return null;
   };
 
@@ -53,6 +66,21 @@ function GeoMapPage() {
             {`Latitude: ${geoPositionContext.position.Latitude}, Longitude: ${geoPositionContext.position.Longitude}`}
           </Popup>
         </Marker>
+        {stationsLocationsContext.stationlocations.map((station) => (
+          <StationMarker
+            key={sha256(
+              `${station.name}|${station.address}|${station.geo_coords.latitude.toFixed(6)}-${station.geo_coords.longitude.toFixed(6)}`,
+            )
+              .words.map((x) => x.toString(16).padStart(2, "0"))
+              .join("")}
+            position={[
+              station.geo_coords.latitude,
+              station.geo_coords.longitude,
+            ]}
+          >
+            <Popup>{station.name}</Popup>
+          </StationMarker>
+        ))}
       </MapContainer>
       <QueryCity />
       <DisplayStation
