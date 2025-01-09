@@ -1,14 +1,11 @@
 import Papa from "papaparse";
 import type { CsvDataType } from "../../types/csvDataType";
 
-const convertCsvToJson = (csvFile: File) => {
+const convertCsvToJson = (csvFile: string) => {
   return new Promise((resolve) => {
-    Papa.parse(csvFile, {
+    Papa.parse<CsvDataType>(csvFile, {
       header: true,
       complete: (results) => resolve(results.data),
-      error: (error) => {
-        console.error("Erreur :", error);
-      },
     });
   });
 };

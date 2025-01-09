@@ -49,12 +49,13 @@ create table pdc (
   id int primary key auto_increment not null,
   name varchar(80) not null,
   power_max float,
-  type varchar(80)
+  type text
 );
 
 create table station (
   id int primary key auto_increment not null,
-  name varchar(80) not null,
+  name varchar(255) not null,
+  address text,
   sign_id int,
   foreign key(sign_id) references sign(id),
   operator_id int,
@@ -68,7 +69,7 @@ create table station (
   number_pdc int,
   pdc_id int,
   foreign key(pdc_id) references pdc(id),
-  access_charging varchar(80),
+  access_charging varchar(255),
   accessibility varchar(80),
   update_date_time datetime,
   source text
@@ -103,3 +104,4 @@ create table booking (
   station_id int,
   foreign key(station_id) references station(id)
 );
+
