@@ -8,7 +8,7 @@ export default function GetStartedScreen() {
 
   return (
     <div className="get-started-screen">
-      <div className="upper-part">
+      <div className="get-started-upper-part">
         <p>
           Prêt à recharger ? Localisez une borne et démarrez votre session en un
           clic.
