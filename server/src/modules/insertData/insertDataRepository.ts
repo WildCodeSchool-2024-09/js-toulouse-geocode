@@ -46,14 +46,14 @@ class InsertDataRepository {
     try {
       const [row] = await databaseClient.query<Rows>(
         "SELECT * FROM city WHERE name = ?",
-        [elem.code_insee_commune],
+        [elem.ville],
       );
 
       if (row[0]) return row[0].id;
 
       const [result] = await databaseClient.query<Result>(
         "INSERT INTO city (name, department_id) VALUES (?, ?)",
-        [elem.code_insee_commune, departmentId],
+        [elem.ville, departmentId],
       );
       return result.insertId;
     } catch (error) {
@@ -61,7 +61,7 @@ class InsertDataRepository {
     }
   }
 
-  async insertPotalcode(elem: CsvDataType, cityId: number) {
+  async insertPostalCode(elem: CsvDataType, cityId: number) {
     try {
       const [row] = await databaseClient.query<Rows>(
         "SELECT * FROM postalcode WHERE code = ?",
@@ -224,7 +224,7 @@ class InsertDataRepository {
           regionId,
         );
         const cityId = await this.insertCity(correctData, departmentId);
-        const postalcodeId = await this.insertPotalcode(correctData, cityId);
+        const postalcodeId = await this.insertPostalCode(correctData, cityId);
         const signId = await this.insertSign(correctData);
         const operatorId = await this.insertOperator(correctData);
         const providerId = await this.insertProvider(correctData);
