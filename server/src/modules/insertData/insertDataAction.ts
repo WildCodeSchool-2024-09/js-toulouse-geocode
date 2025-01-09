@@ -12,21 +12,13 @@ const addStations: RequestHandler = async (req, res) => {
       return;
     }
 
-    // Type guard to handle both single file and array cases
     const uploadedFile = Array.isArray(files.file) ? files.file[0] : files.file;
-
     const csvContent = uploadedFile.data.toString("utf-8");
-
     const data = (await convertCsvToJson(csvContent)) as CsvDataType[];
-    console.info(`${data.length} lignes trouvées dans le CSV`);
-
     await insertDataRepository.createStationsFromCsvData(data);
 
-    res
-      .status(200)
-      .json({ message: "Fichier reçu avec succès", content: files });
+    res.status(200).json({ content: files });
   } catch (error) {
-    // Improved error handling
     console.error("Error processing file:", error);
     res.status(500).json({ error: "Internal server error" });
   }

@@ -231,7 +231,7 @@ class InsertDataRepository {
         const geoCoordsId = await this.insertGeoCoords(correctData);
         const pdcId = await this.insertPdc(correctData);
 
-        const idStation = await this.insertStation(
+        await this.insertStation(
           correctData,
           signId,
           operatorId,
