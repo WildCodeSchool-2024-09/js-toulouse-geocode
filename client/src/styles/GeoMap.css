@@ -1,0 +1,74 @@
+div.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  left: 0px;
+  top: 0px;
+  position: relative;
+  z-index: 0;
+}
+
+main > div.query-city-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  width: 100% !important;
+  height: 100% !important;
+  left: 0px;
+  top: 0px;
+  z-index: 5;
+}
+
+main > div.query-city-container > div.query-city {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  border-radius: 0.3375rem;
+  width: max(340px, calc((100vw * 4) / 9));
+  height: auto;
+  position: fixed;
+  top: 10vh;
+  left: min(0, calc(50vw - ((100vw * 4) / 18)));
+}
+
+main div.query-city > h2 {
+  width: 100%;
+  display: block;
+  background-color: var(--keppel-color-600);
+  color: var(--egg-color);
+  padding: 0.3375rem 0.625rem 0.3375rem 0.625rem;
+  border-top-left-radius: 0.3375rem;
+  border-top-right-radius: 0.3375rem;
+}
+
+main div.main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  background-color: var(--beige-color);
+  color: var(--dark-color);
+  padding: 0.625rem;
+  border-bottom-left-radius: 0.3375rem;
+  border-bottom-right-radius: 0.3375rem;
+}
+
+main div.main > ul:has(li) {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.625rem;
+  padding-left: 0;
+  border: var(--dark-color) 1px solid;
+  background-color: var(--egg-color);
+  overflow: auto;
+  max-height: calc(100vh - 20rem);
+}
+
+main div.main > ul > li {
+  font-size: 0.7rem;
+  cursor: pointer;
+}
