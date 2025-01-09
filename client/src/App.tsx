@@ -10,14 +10,14 @@ function App() {
 
   return (
     <>
-      <StationsLocationsContextProvider>
-        <GeoPositionContextProvider>
+      <GeoPositionContextProvider>
+        <StationsLocationsContextProvider>
           <main>
             <Outlet />
           </main>
           {showMenubar && <MenuBar />}
-        </GeoPositionContextProvider>
-      </StationsLocationsContextProvider>
+        </StationsLocationsContextProvider>
+      </GeoPositionContextProvider>
     </>
   );
 }

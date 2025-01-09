@@ -49,9 +49,9 @@ export function StationsLocationsContextProvider({
   );
 
   useEffect(() => {
-    fetch(
-      `${import.meta.env.VITE_API_URL}/api/stations/geolocation?northwestlatitude=${northWestBoundary.latitude}&northwestlongitude=${northWestBoundary.longitude}&southeastlatitude=${southEastBoundary.latitude}&southeastlongitude=${southEastBoundary.longitude}`,
-    )
+    const url = `${import.meta.env.VITE_API_URL}/api/stations/geolocation?northwestlatitude=${northWestBoundary.latitude}&northwestlongitude=${northWestBoundary.longitude}&southeastlatitude=${southEastBoundary.latitude}&southeastlongitude=${southEastBoundary.longitude}`;
+    console.info(url);
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         setStationLocations(data as Array<StationPropsWithLocation>);

@@ -1,5 +1,12 @@
 import sha256 from "crypto-js/sha256";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "../styles/GeoMap.css";
@@ -11,32 +18,84 @@ import StationMarker from "../components/StationMarker";
 import { useGeoPositionContext } from "../contexts/GeoPositionContextProvider";
 import { useStationsLocationsContext } from "../contexts/StationsLocationsContextProvider";
 
-interface ChangeViewProps {
-  lat: number;
-  lng: number;
-  zoom: number;
-}
-
 function GeoMapPage() {
   const [stationCollapsed, setStationCollapsed] = useState(true);
 
   const geoPositionContext = useGeoPositionContext();
-  const stationsLocationsContext = useStationsLocationsContext();
 
-  const ChangeView = ({ lat, lng, zoom }: ChangeViewProps) => {
+  const stationsLocationsContext = useStationsLocationsContext();
+  const [previousNorthWest, setPreviousNorthWest] = useState(
+    new GeoLocationProps(),
+  );
+  const [previousSouthEast, setPreviousSouthEast] = useState(
+    new GeoLocationProps(),
+  );
+
+  const ObserveEvents = () => {
     const map = useMap();
-    map.setView({ lat: lat, lng: lng }, zoom);
-    const northWestBoundary = map.getBounds().getNorthWest();
-    const southEastBoundary = map.getBounds().getSouthEast();
-    stationsLocationsContext.setNorthWestBoundary(
-      new GeoLocationProps(northWestBoundary.lat, northWestBoundary.lng),
-    );
-    stationsLocationsContext.setSouthEastBoundary(
-      new GeoLocationProps(southEastBoundary.lat, southEastBoundary.lng),
-    );
+
+    const detectViewChange = () => {
+      const bounds = map.getBounds();
+      const northWest = bounds.getNorthWest();
+      const southEast = bounds.getSouthEast();
+      const northWestBoundary = new GeoLocationProps(
+        northWest.lat,
+        northWest.lng,
+      );
+      const southEastBoundary = new GeoLocationProps(
+        southEast.lat,
+        southEast.lng,
+      );
+      const deltaNorthWestLatitude = Math.abs(
+        northWestBoundary.latitude - previousNorthWest.latitude,
+      );
+      const deltaNorthWestLongitude = Math.abs(
+        northWestBoundary.longitude - previousNorthWest.longitude,
+      );
+      const deltaSouthEastLatitude = Math.abs(
+        southEastBoundary.latitude - previousSouthEast.latitude,
+      );
+      const deltaSouthEastLongitude = Math.abs(
+        southEastBoundary.longitude - previousSouthEast.longitude,
+      );
+      const deltaMapLatitude = Math.abs(
+        northWestBoundary.latitude - previousSouthEast.latitude,
+      );
+      const deltaMapLongitude = Math.abs(
+        northWestBoundary.longitude - previousSouthEast.longitude,
+      );
+
+      if (
+        deltaNorthWestLatitude / deltaMapLatitude > 0.1 ||
+        deltaNorthWestLongitude / deltaMapLongitude > 0.1 ||
+        deltaSouthEastLatitude / deltaMapLatitude > 0.1 ||
+        deltaSouthEastLongitude / deltaMapLongitude > 0.1
+      ) {
+        console.info(
+          `northWest: (${northWestBoundary.latitude}, ${northWestBoundary.longitude}), southEast: (${southEastBoundary.latitude}, ${southEastBoundary.longitude})`,
+        );
+        stationsLocationsContext.setNorthWestBoundary(
+          new GeoLocationProps(northWest.lat, northWest.lng),
+        );
+        stationsLocationsContext.setSouthEastBoundary(
+          new GeoLocationProps(southEast.lat, southEast.lng),
+        );
+        setPreviousNorthWest(northWestBoundary);
+        setPreviousSouthEast(southEastBoundary);
+      }
+    };
+
+    useMapEvents({
+      move: () => {
+        detectViewChange();
+      },
+      zoom: () => {
+        detectViewChange();
+      },
+    });
+
     return null;
   };
-
   return (
     <>
       <MapContainer
@@ -47,11 +106,7 @@ function GeoMapPage() {
         zoom={geoPositionContext.zoomLevel}
         scrollWheelZoom={true}
       >
-        <ChangeView
-          lat={geoPositionContext.position.Latitude}
-          lng={geoPositionContext.position.Longitude}
-          zoom={geoPositionContext.zoomLevel}
-        />
+        <ObserveEvents />
         <TileLayer
           attribution='&copy; <a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>'
           url="https://data.geopf.fr/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/png&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}"

@@ -23,7 +23,7 @@ class StationRepository {
          st.id as id, st.name as name, st.address as address,
          pc.code as postalcode, ci.name as city_name, 
          de.name as department_name, re.name as region_name,
-         gc.latitude as latitude, gc.longitude as longitude,
+         gc.latitude as latitude, gc.longitude as longitude
          from station st
          inner join postalcode pc on st.postalcode_id = pc.id
          inner join city ci on pc.city_id = ci.id
