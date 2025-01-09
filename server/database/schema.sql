@@ -104,3 +104,4 @@ create table booking (
   station_id int,
   foreign key(station_id) references station(id)
 );
+
