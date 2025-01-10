@@ -5,7 +5,7 @@ export default function UsersPage() {
     <div className="users-page-container">
       <HeaderAdminPage title="Gestion des Utilisateurs" />
       <div>
-        <input type="text" />
+        <input type="search" />
       </div>
     </div>
   );

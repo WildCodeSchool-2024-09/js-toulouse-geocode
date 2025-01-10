@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Import the main app component
 import App from "./App";
 import AppAdmin from "./admin/AppAdmin";
+import ShowNavProvider from "./admin/contexts/ShowNavProvider";
 import ConnexionAdminPage from "./admin/pages/ConnexionAdminPage";
 import UsersPage from "./admin/pages/UsersPage";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
@@ -88,7 +89,9 @@ if (rootElement == null) {
 createRoot(rootElement).render(
   <StrictMode>
     <ShowMenubarProvider>
-      <RouterProvider router={router} />
+      <ShowNavProvider>
+        <RouterProvider router={router} />
+      </ShowNavProvider>
     </ShowMenubarProvider>
   </StrictMode>,
 );
