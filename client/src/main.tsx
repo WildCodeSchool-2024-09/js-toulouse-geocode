@@ -68,6 +68,12 @@ if (rootElement == null) {
   throw new Error(`Your HTML Document should contain a <div id="root"></div>`);
 }
 
+window.onbeforeunload = (e) => {
+  // Turning off the event
+  e.preventDefault();
+  return "";
+};
+
 // Render the app inside the root element
 createRoot(rootElement).render(
   <StrictMode>

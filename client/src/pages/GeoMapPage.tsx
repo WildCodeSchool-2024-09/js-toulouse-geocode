@@ -17,6 +17,7 @@ import DisplayStation from "../components/DisplayStation";
 import QueryCity from "../components/QueryCity";
 import StationMarker from "../components/StationMarker";
 import { useGeoPositionContext } from "../contexts/GeoPositionContextProvider";
+import { useShowMenubar } from "../contexts/ShowMenubarProvider";
 import { useStationsLocationsContext } from "../contexts/StationsLocationsContextProvider";
 
 function GeoMapPage() {
@@ -40,6 +41,9 @@ function GeoMapPage() {
     map.setView(center, geoPositionContext.zoomLevel);
     return null;
   };
+
+  const showMenuBarContext = useShowMenubar();
+  showMenuBarContext.setShowMenubar(true);
 
   const ObserveEvents = () => {
     const map = useMap();

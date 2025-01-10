@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
 
 import "../styles/MenuBar.css";
+import { useShowMenubar } from "../contexts/ShowMenubarProvider";
 
 function MenuBar() {
+  const showMenubarContext = useShowMenubar();
+
+  if (!showMenubarContext.showMenubar) {
+    return null;
+  }
+
   return (
     <div className="footer-container">
       <footer>

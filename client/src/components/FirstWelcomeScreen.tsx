@@ -2,8 +2,12 @@ import { Link } from "react-router-dom";
 import LogoGeoCodeSVG from "/images/logo-welcome-screen.svg";
 import RightArrowSVG from "/images/right-arrow.svg";
 import "/src/styles/FirstWelcomeScreen.css";
+import { useShowMenubar } from "../contexts/ShowMenubarProvider";
 
 export default function welcomeScreen() {
+  const showMenuBarContext = useShowMenubar();
+  showMenuBarContext.setShowMenubar(false);
+
   return (
     <div className="first-welcome-screen">
       <div className="logo-upper-part">

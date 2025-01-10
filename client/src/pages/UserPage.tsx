@@ -1,4 +1,9 @@
+import { useShowMenubar } from "../contexts/ShowMenubarProvider";
+
 function UserPage() {
+  const showMenuBarContext = useShowMenubar();
+  showMenuBarContext.setShowMenubar(true);
+
   return (
     <div>
       <h1>Welcome to the User Page</h1>

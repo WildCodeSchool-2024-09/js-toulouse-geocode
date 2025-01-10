@@ -1,4 +1,9 @@
+import { useShowMenubar } from "../contexts/ShowMenubarProvider";
+
 function ContactPage() {
+  const showMenuBarContext = useShowMenubar();
+  showMenuBarContext.setShowMenubar(true);
+
   return (
     <div>
       <h1>Welcome to the Contact Page</h1>
