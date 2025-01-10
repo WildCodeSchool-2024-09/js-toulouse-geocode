@@ -1,16 +1,15 @@
 import FormConnexionAdmin from "../components/FormConnexionAdmin";
+import HeaderAdminPage from "../components/HeaderAdminPage";
 
 export default function ConnexionAdminPage() {
   return (
     <div>
-      <header>
-        <img src="" alt="logo" />
-      </header>
+      <HeaderAdminPage title="" />
       <div>
-        <main>
+        <section>
           <h1>Bienvenue</h1>
           <h2>Sur le compte administrateur</h2>
-        </main>
+        </section>
         <FormConnexionAdmin />
       </div>
     </div>
