@@ -75,7 +75,6 @@ function QueryCity() {
         .then((cityNamesList) => {
           setCities(
             cityNamesList.map((cityName: CityPropsFromAPI) => {
-              console.info(cityName);
               return {
                 name: cityName.nom,
                 key: sha256(
@@ -118,7 +117,6 @@ function QueryCity() {
     }
 
     const cityProps = JSON.parse(cityString as string) as CityProps;
-    console.info(cityString);
     event.currentTarget.textContent = cityProps.name;
     geoPositionContext.setPosition({
       Latitude: cityProps.Latitude,
@@ -137,12 +135,12 @@ function QueryCity() {
       <div className="query-city">
         <h2>Recherche par ville</h2>
         <div className="main">
-          <p>Ville:</p>
+          <p>Ville à rechercher:</p>
           <input
             type="text"
             value={inputContent ?? ""}
             onChange={handleChange}
-            placeholder="City"
+            placeholder="Nom de ville..."
           />
           <ul>
             {cities.map((item) => {

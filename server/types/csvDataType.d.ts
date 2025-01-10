@@ -19,6 +19,7 @@ export interface CsvDataType {
   source: string;
   geo_point_borne: string;
   code_insee_commune: string;
+  ville: string;
   region: string;
   departement: string;
 }
