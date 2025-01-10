@@ -75,7 +75,6 @@ function QueryCity() {
         .then((cityNamesList) => {
           setCities(
             cityNamesList.map((cityName: CityPropsFromAPI) => {
-              console.info(cityName);
               return {
                 name: cityName.nom,
                 key: sha256(
@@ -118,7 +117,6 @@ function QueryCity() {
     }
 
     const cityProps = JSON.parse(cityString as string) as CityProps;
-    console.info(cityString);
     event.currentTarget.textContent = cityProps.name;
     geoPositionContext.setPosition({
       Latitude: cityProps.Latitude,

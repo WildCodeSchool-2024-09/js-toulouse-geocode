@@ -30,12 +30,24 @@ class StationRepository {
          inner join department de on ci.department_id = de.id
          inner join region re on de.region_id = re.id
          inner join geo_coords gc on st.geo_coords_id = gc.id
-         where latitude between ? and ? and longitude between ? and ?`,
+         where gc.latitude between ? and ? and gc.longitude between ? and ?`,
       [
-        northwestLatitude,
-        southeastLatitude,
-        northwestLongitude,
-        southeastLongitude,
+        Math.min(
+          Number.parseFloat(southeastLatitude),
+          Number.parseFloat(northwestLatitude),
+        ).toFixed(6),
+        Math.max(
+          Number.parseFloat(southeastLatitude),
+          Number.parseFloat(northwestLatitude),
+        ).toFixed(6),
+        Math.min(
+          Number.parseFloat(southeastLongitude),
+          Number.parseFloat(northwestLongitude),
+        ).toFixed(6),
+        Math.max(
+          Number.parseFloat(southeastLongitude),
+          Number.parseFloat(northwestLongitude),
+        ).toFixed(6),
       ],
     );
 

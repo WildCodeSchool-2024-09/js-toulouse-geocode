@@ -10,6 +10,7 @@ import {
 
 import "leaflet/dist/leaflet.css";
 import "../styles/GeoMap.css";
+import type { LatLngLiteral } from "leaflet";
 import { useState } from "react";
 import { GeoLocationProps } from "../../../server/common/types/StationProps";
 import DisplayStation from "../components/DisplayStation";
@@ -31,10 +32,20 @@ function GeoMapPage() {
     new GeoLocationProps(),
   );
 
+  const [centerOnGeoLocation, setCenterOnGeoLocation] = useState(true);
+
+  const ChangeView = (center: LatLngLiteral) => {
+    const map = useMap();
+    console.info(`Previous position: (${center.lat}, ${center.lng})`);
+    map.setView(center, geoPositionContext.zoomLevel);
+    return null;
+  };
+
   const ObserveEvents = () => {
     const map = useMap();
 
     const detectViewChange = () => {
+      setCenterOnGeoLocation(false);
       const bounds = map.getBounds();
       const northWest = bounds.getNorthWest();
       const southEast = bounds.getSouthEast();
@@ -71,9 +82,6 @@ function GeoMapPage() {
         deltaSouthEastLatitude / deltaMapLatitude > 0.1 ||
         deltaSouthEastLongitude / deltaMapLongitude > 0.1
       ) {
-        console.info(
-          `northWest: (${northWestBoundary.latitude}, ${northWestBoundary.longitude}), southEast: (${southEastBoundary.latitude}, ${southEastBoundary.longitude})`,
-        );
         stationsLocationsContext.setNorthWestBoundary(
           new GeoLocationProps(northWest.lat, northWest.lng),
         );
@@ -106,6 +114,12 @@ function GeoMapPage() {
         zoom={geoPositionContext.zoomLevel}
         scrollWheelZoom={true}
       >
+        {centerOnGeoLocation && (
+          <ChangeView
+            lat={geoPositionContext.position.Latitude}
+            lng={geoPositionContext.position.Longitude}
+          />
+        )}
         <ObserveEvents />
         <TileLayer
           attribution='&copy; <a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>'
@@ -124,7 +138,7 @@ function GeoMapPage() {
         {stationsLocationsContext.stationlocations.map((station) => (
           <StationMarker
             key={sha256(
-              `${station.name}|${station.address}|${station.geo_coords.latitude.toFixed(6)}-${station.geo_coords.longitude.toFixed(6)}`,
+              `${station.name}|${station.address}|${station.geo_coords.latitude}-${station.geo_coords.longitude}|${station.id}`,
             )
               .words.map((x) => x.toString(16).padStart(2, "0"))
               .join("")}
