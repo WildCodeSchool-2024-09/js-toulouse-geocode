@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import LogoGeoCodeSVG from "/images/logo-welcome-screen.svg";
+import LogoGeoCodeSVG from "/images/geocode-logo.svg";
 import RightArrowSVG from "/images/right-arrow.svg";
 import "/src/styles/FirstWelcomeScreen.css";
 import { useShowMenubar } from "../contexts/ShowMenubarProvider";
