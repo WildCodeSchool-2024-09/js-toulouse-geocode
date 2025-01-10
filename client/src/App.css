@@ -30,6 +30,11 @@ body {
   font-size: 16px;
   line-height: 1.7;
   color: var(--egg-color);
+  background: linear-gradient(
+    135deg,
+    var(--blue-color) 0%,
+    var(--egg-color) 100%
+  );
 }
 
 #root {

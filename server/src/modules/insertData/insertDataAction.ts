@@ -1,5 +1,4 @@
 import type { RequestHandler } from "express";
-import { UploadedFile } from "express-fileupload";
 import { convertCsvToJson } from "../../../bin/services/csvManagement";
 import type { CsvDataType } from "../../../types/csvDataType";
 import insertDataRepository from "./insertDataRepository";
@@ -24,4 +23,4 @@ const addStations: RequestHandler = async (req, res) => {
   }
 };
 
-export default { create: addStations };
+export default { addStations };
