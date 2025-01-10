@@ -1,3 +1,4 @@
+import e from "express";
 import Papa from "papaparse";
 import type { CsvDataType } from "../../types/csvDataType";
 
@@ -12,8 +13,12 @@ const convertCsvToJson = (csvFile: string) => {
 
 const fetchData = async (lat: string, lng: string) => {
   const [response, response2] = await Promise.all([
-    fetch(`https://geo.api.gouv.fr/communes?lat=${lat}&lon=${lng}&fields=nom`),
-    fetch(`https://geo.api.gouv.fr/communes?lat=${lng}&lon=${lat}&fields=nom`),
+    fetch(
+      `https://geo.api.gouv.fr/communes?lat=${lat}&lon=${lng}&fields=nom,code,codeRegion,codeDepartement`,
+    ),
+    fetch(
+      `https://geo.api.gouv.fr/communes?lat=${lng}&lon=${lat}&fields=nom,code,codeRegion,codeDepartement`,
+    ),
   ]);
 
   const [data, data2] = await Promise.all([response.json(), response2.json()]);
@@ -66,7 +71,9 @@ const correctionData = async (elem: CsvDataType) => {
   if (
     elem.region === "" ||
     elem.departement === "" ||
-    elem.code_insee_commune === ""
+    elem.code_insee_commune === "" ||
+    elem.ville == null ||
+    elem.ville === ""
   ) {
     if (elem.geo_point_borne !== "") {
       const lat = elem.geo_point_borne.split(",")[0];
@@ -82,6 +89,7 @@ const correctionData = async (elem: CsvDataType) => {
         elem.ylatitude = correction.latitude;
         elem.xlongitude = correction.longitude;
         elem.code_insee = correction.code;
+        elem.ville = correction.ville;
       }
     } else if (elem.xlongitude !== "" && elem.ylatitude !== "") {
       const correction = await fetchData(elem.ylatitude, elem.xlongitude);
