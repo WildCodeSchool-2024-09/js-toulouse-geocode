@@ -37,7 +37,6 @@ function GeoMapPage() {
 
   const ChangeView = (center: LatLngLiteral) => {
     const map = useMap();
-    console.info(`Previous position: (${center.lat}, ${center.lng})`);
     map.setView(center, geoPositionContext.zoomLevel);
     return null;
   };
@@ -108,6 +107,7 @@ function GeoMapPage() {
 
     return null;
   };
+
   return (
     <>
       <MapContainer
@@ -150,9 +150,8 @@ function GeoMapPage() {
               station.geo_coords.latitude,
               station.geo_coords.longitude,
             ]}
-          >
-            <Popup>{station.name}</Popup>
-          </StationMarker>
+            station={station}
+          />
         ))}
       </MapContainer>
       <QueryCity />

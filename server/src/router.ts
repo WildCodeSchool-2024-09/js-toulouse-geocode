@@ -16,7 +16,9 @@ router.get("/api/items/:id", itemActions.read);
 router.post("/api/items", itemActions.add);
 
 router.post("/api/csv", csvManagementActions.addStations);
+
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
+router.get("/api/stations/:id", stationActions.read);
 /* ************************************************************************* */
 
 export default router;
