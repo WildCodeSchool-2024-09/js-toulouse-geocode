@@ -10,15 +10,18 @@ import csvManagementActions from "./modules/insertData/insertDataAction";
 // Define item-related routes
 import itemActions from "./modules/item/itemActions";
 import modifyPhotoActions from "./modules/modifyPhoto/modifyPhotoActions";
+import stationActions from "./modules/station/stationActions";
 
 router.get("/api/items", itemActions.browse);
 router.get("/api/items/:id", itemActions.read);
 router.post("/api/items", itemActions.add);
 
-router.post("/api/csv", csvManagementActions.create);
+router.post("/api/csv", csvManagementActions.addStations);
 
 router.post("/api/upload-photo", modifyPhotoActions.modifyPhoto);
 
+router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
+router.get("/api/stations/:id", stationActions.read);
 /* ************************************************************************* */
 
 export default router;

@@ -7,6 +7,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 // Import the main app component
 import App from "./App";
+import AppAdmin from "./admin/AppAdmin";
+import ShowNavProvider from "./admin/contexts/ShowNavProvider";
+import ConnexionAdminPage from "./admin/pages/ConnexionAdminPage";
+import UsersPage from "./admin/pages/UsersPage";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
 import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
@@ -56,6 +60,19 @@ const router = createBrowserRouter(
         },
       ],
     },
+    {
+      element: <AppAdmin />,
+      children: [
+        {
+          path: "/admin",
+          element: <ConnexionAdminPage />,
+        },
+        {
+          path: "/admin/users",
+          element: <UsersPage />,
+        },
+      ],
+    },
   ],
   // Try adding a new route! For example, "/about" with an About component
 );
@@ -72,7 +89,9 @@ if (rootElement == null) {
 createRoot(rootElement).render(
   <StrictMode>
     <ShowMenubarProvider>
-      <RouterProvider router={router} />
+      <ShowNavProvider>
+        <RouterProvider router={router} />
+      </ShowNavProvider>
     </ShowMenubarProvider>
   </StrictMode>,
 );
