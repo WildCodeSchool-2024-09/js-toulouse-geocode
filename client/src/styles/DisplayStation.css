@@ -150,12 +150,7 @@ main section.station-reserve > button {
   cursor: pointer;
 }
 main section.station-reserve > button:disabled {
-  background-color: var(--green-light-color);
   color: var(--chicago-color-600);
-  border: none;
-  border-radius: 1.0625rem;
-  padding: 0.5rem 1.25rem;
-  font-size: 1.25rem;
   cursor: unset;
 }
 

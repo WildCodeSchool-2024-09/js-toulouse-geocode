@@ -103,7 +103,6 @@ function GeoMapPage() {
       zoom: () => {
         detectViewChange();
       },
-      click: () => {},
     });
 
     return null;

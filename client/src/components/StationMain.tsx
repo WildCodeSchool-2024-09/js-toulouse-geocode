@@ -7,6 +7,10 @@ interface StationMainProps {
 function StationMain({ stationCollapsed }: StationMainProps) {
   const stationsLocationsContext = useStationsLocationsContext();
 
+  const containsFiveDigits = (str: string) => {
+    const regex = /\d{5}/;
+    return regex.test(str);
+  };
   return (
     <div
       className={stationCollapsed ? "station-main collapsed" : "station-main"}
@@ -20,7 +24,11 @@ function StationMain({ stationCollapsed }: StationMainProps) {
         </section>
         <section className="station-address">
           <img src="/images/address.svg" alt="adress" />
-          <p>{`${stationsLocationsContext.station.address}, ${stationsLocationsContext.station.area.postalcode} ${stationsLocationsContext.station.area.city_name}`}</p>
+          <p>
+            {containsFiveDigits(stationsLocationsContext.station.address)
+              ? stationsLocationsContext.station.address
+              : `${stationsLocationsContext.station.address}, ${stationsLocationsContext.station.area.postalcode} ${stationsLocationsContext.station.area.city_name}`}
+          </p>
         </section>
         <section className="station-pdc">
           <span>{`Type: ${stationsLocationsContext.station.pdc.type} `}</span>
