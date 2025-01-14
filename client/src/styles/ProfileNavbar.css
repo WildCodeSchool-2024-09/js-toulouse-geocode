@@ -1,0 +1,12 @@
+.profile-navbar-container {
+  width: 100%;
+  background-color: var(--keppel-color-600);
+}
+
+.profile-navbar-container > ul {
+  display: flex;
+  list-style-type: none;
+  align-items: center;
+  padding: 1rem;
+  gap: 0 1rem;
+}

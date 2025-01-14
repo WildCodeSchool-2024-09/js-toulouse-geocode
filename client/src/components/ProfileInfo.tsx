@@ -1,5 +1,8 @@
+import { useState } from "react";
 import ArticlePersonalInfo from "./ArticlePersonalInfo";
 import ProfilePhoto from "./ProfilePhoto";
+
+import "../styles/ProfileInfo.css";
 
 export default function ProfileInfo() {
   const personalInfoList = [
@@ -9,9 +12,11 @@ export default function ProfileInfo() {
     ["Code postal", "Ville"],
   ];
 
+  const [photoFile, setPhotoFile] = useState<File | string>("");
+
   return (
     <div className="profile-info-container">
-      <ProfilePhoto />
+      <ProfilePhoto photoFile={photoFile} setPhotoFile={setPhotoFile} />
       <section className="personal-infos-container">
         {personalInfoList.map((item) => (
           <ArticlePersonalInfo

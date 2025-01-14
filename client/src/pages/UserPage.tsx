@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProfileInfo from "../components/ProfileInfo";
 import ProfileNavbar from "../components/ProfileNavbar";
+import "../styles/UserPage.css";
 
 function UserPage() {
   const [activeTab, setActiveTabs] = useState<string>("profile-infos");
@@ -18,7 +19,7 @@ function UserPage() {
   };
 
   return (
-    <div>
+    <div className="user-page-container">
       <ProfileNavbar setActiveTab={setActiveTabs} />
       {renderTabContent()}
     </div>

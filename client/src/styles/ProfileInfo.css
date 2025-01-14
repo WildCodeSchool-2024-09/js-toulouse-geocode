@@ -1,0 +1,6 @@
+.profile-info-container {
+  border-radius: 4rem 4rem 0 0;
+  overflow: hidden;
+  background-color: var(--beige-color);
+  color: black;
+}

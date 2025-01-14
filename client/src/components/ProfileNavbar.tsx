@@ -1,3 +1,5 @@
+import "../styles/ProfileNavbar.css";
+
 interface ProfileNavbarProps {
   setActiveTab: (tab: string) => void;
 }
