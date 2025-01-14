@@ -1,18 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
   GeoLocationProps,
-  type StationPropsWithLocation,
+  StationProps,
 } from "../../../server/common/types/StationProps";
 
 interface StationLocationsContextProps {
-  stationlocations: Array<StationPropsWithLocation>;
+  stationlocations: Array<StationProps>;
   setStationLocations: React.Dispatch<
-    React.SetStateAction<Array<StationPropsWithLocation>>
+    React.SetStateAction<Array<StationProps>>
   >;
   northWestBoundary: GeoLocationProps;
   setNorthWestBoundary: React.Dispatch<React.SetStateAction<GeoLocationProps>>;
   southEastBoundary: GeoLocationProps;
   setSouthEastBoundary: React.Dispatch<React.SetStateAction<GeoLocationProps>>;
+  station: StationProps;
+  setStation: React.Dispatch<React.SetStateAction<StationProps>>;
 }
 
 type StationLocationsContextType = StationLocationsContextProps | null;
@@ -27,7 +29,7 @@ export function StationsLocationsContextProvider({
   children,
 }: StationsLocationsContextProviderProps) {
   const [stationLocations, setStationLocations] = useState(
-    Array<StationPropsWithLocation>(0),
+    Array<StationProps>(0),
   );
   const [northWestBoundary, setNorthWestBoundary] = useState(
     new GeoLocationProps(),
@@ -35,6 +37,7 @@ export function StationsLocationsContextProvider({
   const [southEastBoundary, setSouthEastBoundary] = useState(
     new GeoLocationProps(),
   );
+  const [station, setStation] = useState(new StationProps());
 
   const memoStationLocations = useMemo(
     () => ({
@@ -44,8 +47,10 @@ export function StationsLocationsContextProvider({
       setNorthWestBoundary: setNorthWestBoundary,
       southEastBoundary: southEastBoundary,
       setSouthEastBoundary: setSouthEastBoundary,
+      station: station,
+      setStation: setStation,
     }),
-    [stationLocations, northWestBoundary, southEastBoundary],
+    [stationLocations, northWestBoundary, southEastBoundary, station],
   );
 
   useEffect(() => {
@@ -53,7 +58,7 @@ export function StationsLocationsContextProvider({
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        setStationLocations(data as Array<StationPropsWithLocation>);
+        setStationLocations(data as Array<StationProps>);
       });
   }, [northWestBoundary, southEastBoundary]);
 

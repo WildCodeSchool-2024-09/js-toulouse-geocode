@@ -70,6 +70,7 @@ export class StationProps {
   provider_name: string;
   area: AdminstrativeAreaProps;
   geo_coords: GeoLocationProps;
+  number_pdc: number;
   pdc: PdcProps;
   access_charging: string;
   accessibility: string;
@@ -85,6 +86,7 @@ export class StationProps {
     provider_name = "",
     area = new AdminstrativeAreaProps(),
     geo_coords = new GeoLocationProps(),
+    number_pdc = -1,
     pdc = new PdcProps(),
     access_charging = "",
     accessibility = "",
@@ -99,6 +101,7 @@ export class StationProps {
     this.provider_name = provider_name;
     this.area = area;
     this.geo_coords = geo_coords;
+    this.number_pdc = number_pdc;
     this.pdc = pdc;
     this.access_charging = access_charging;
     this.accessibility = accessibility;

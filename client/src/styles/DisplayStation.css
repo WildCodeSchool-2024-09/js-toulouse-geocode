@@ -33,7 +33,7 @@ main div.display-station {
 }
 
 main div.display-station.collapsed {
-  max-height: 8.8675rem;
+  max-height: 10.43rem;
   min-height: 8.8675rem;
 }
 
@@ -66,10 +66,13 @@ main div.display-station.collapsed > div.station-main {
 main div.station-title > h2 {
   flex: 4;
   padding: 0 0 0 1.5625rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 main div.display-station.collapsed > div.station-title > h2 {
-  padding: 0 1.5625rem 0 0;
+  padding: 0 1.5625rem 1.5625rem 1.5625rem;
 }
 
 main div.station-title > img {
@@ -82,7 +85,7 @@ main div.station-title > img {
   transition: linear 0.2s;
 }
 main div.display-station.collapsed > div.station-title > img {
-  padding: 0 0 0 1.5625rem;
+  padding: 1.5625rem 0 0 1.5625rem;
 }
 
 main div.display-station.collapsed img {
@@ -101,11 +104,61 @@ main div.display-station.collapsed img {
   }
 }
 
-main div.station-info {
-  display: block;
+main article.station-info {
+  display: flex;
   background-color: var(--ghost-white-color);
   border-radius: 1.25rem;
   width: 100%;
   min-height: 100%;
   margin: 1.25rem 1.25rem 5.9875rem 1.25rem;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  color: var(--chicago-color-600);
+  padding: 1.25rem;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+}
+
+main section.station-address {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  background-color: var(--green-light-color);
+  color: white;
+  padding: 0 1.0625rem 0 1.0625rem;
+  border-radius: 1.0625rem;
+  gap: 0.5rem;
+}
+
+main section.station-reserve {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+}
+
+main section.station-reserve > button {
+  background-color: var(--green-light-color);
+  color: white;
+  border: none;
+  border-radius: 1.0625rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+main section.station-reserve > button:disabled {
+  background-color: var(--green-light-color);
+  color: var(--chicago-color-600);
+  border: none;
+  border-radius: 1.0625rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 1.25rem;
+  cursor: unset;
+}
+
+main section > span.fire-brush {
+  color: var(--fire-bush-color-400);
 }
