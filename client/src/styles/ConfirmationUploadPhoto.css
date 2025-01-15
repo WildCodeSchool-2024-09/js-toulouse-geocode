@@ -38,13 +38,13 @@
 
 .warning-upload-buttons button {
   margin-top: 2rem;
-  width: 5rem;
   border-radius: 0.8rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
 }
 
 .cancel-upload {
+  width: 5rem;
   background-color: var(--dark-red-color);
   color: var(--white-text-color);
   border: none;
@@ -54,4 +54,5 @@
   background-color: var(--beige-color);
   color: black;
   border: 1px solid black;
+  width: 5.8rem;
 }
