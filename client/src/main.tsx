@@ -10,6 +10,7 @@ import App from "./App";
 import AppAdmin from "./admin/AppAdmin";
 import ShowNavProvider from "./admin/contexts/ShowNavProvider";
 import ConnectionAdminPage from "./admin/pages/ConnectionAdminPage";
+import StationPage from "./admin/pages/StationPage";
 import UsersPage from "./admin/pages/UsersPage";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
@@ -70,6 +71,10 @@ const router = createBrowserRouter(
         {
           path: "/admin/users",
           element: <UsersPage />,
+        },
+        {
+          path: "/admin/stations",
+          element: <StationPage />,
         },
       ],
     },
