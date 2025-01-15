@@ -29,7 +29,7 @@ const modifyPhoto: RequestHandler = async (req, res) => {
   try {
     const photoFile = req.files?.photo as UploadedFile;
     if (!photoFile) {
-      res.status(400).json({ error: "Pas de " });
+      res.status(400).json({ error: "Pas de fichier à traiter" });
     }
     if (!ALLOWED_MIME_TYPES.includes(photoFile.mimetype)) {
       res.status(400).json({

@@ -37,7 +37,7 @@
   background-color: var(--beige-color);
   width: 10rem;
   color: black;
-  border: 0.08rem solid black;
+  border: 1px solid black;
   border-radius: 0.8rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
@@ -47,7 +47,7 @@
   background-color: var(--beige-color);
   width: 10rem;
   color: black;
-  border: 0.08rem solid black;
+  border: 1px solid black;
   border-radius: 0.8rem;
   padding: 0.6rem 1rem;
   cursor: pointer;

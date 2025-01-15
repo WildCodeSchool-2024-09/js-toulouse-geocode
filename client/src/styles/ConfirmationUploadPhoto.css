@@ -5,7 +5,6 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 99999;
 }
 
 .warning-upload-text {
@@ -54,5 +53,5 @@
 .confirm-upload {
   background-color: var(--beige-color);
   color: black;
-  border: 0.08rem solid black;
+  border: 1px solid black;
 }
