@@ -8,5 +8,10 @@
   list-style-type: none;
   align-items: center;
   padding: 1rem;
-  gap: 0 1rem;
+  gap: 0 1.3rem;
+  color: var(--white-text-color);
+}
+
+.active {
+  border-bottom: 1px solid var(--white-text-color);
 }

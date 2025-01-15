@@ -23,7 +23,7 @@ function UserPage() {
 
   return (
     <div className="user-page-container">
-      <ProfileNavbar setActiveTab={setActiveTabs} />
+      <ProfileNavbar activeTab={activeTab} setActiveTab={setActiveTabs} />
       {renderTabContent()}
     </div>
   );

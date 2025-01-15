@@ -19,9 +19,11 @@ a {
   --fire-bush-color-400: #eca547;
   --green-light-color: #7cd858;
   --red-color: #d63d3d;
+  --dark-red-color: #bb3434;
   --dark-color: #0c0c0c;
   --ghost-white-color: #f9f9f9;
   --white-color: #ffffff;
+  --white-text-color: #ffffff;
 }
 
 body {

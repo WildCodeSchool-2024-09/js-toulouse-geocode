@@ -1,14 +1,16 @@
+import "../styles/ArticlePersonalInfo.css";
+
 interface ArticlePersonalInfoProps {
-  test: string[];
+  infos: string[];
 }
 
 export default function ArticlePersonalInfo({
-  test,
+  infos,
 }: ArticlePersonalInfoProps) {
   return (
     <article className="name-container">
-      {test.map((item) => (
-        <p key={item}>{item}</p>
+      {infos.map((info) => (
+        <p key={info}>{info}</p>
       ))}
     </article>
   );

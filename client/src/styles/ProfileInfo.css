@@ -1,6 +1,64 @@
 .profile-info-container {
-  border-radius: 4rem 4rem 0 0;
+  border-radius: 1rem 1rem 0 0;
   overflow: hidden;
   background-color: var(--beige-color);
   color: black;
+}
+
+.personal-infos-container {
+  background-color: var(--white-color);
+  margin: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 50vh;
+}
+
+.user-profile-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .user-profile-buttons {
+    flex-direction: row;
+    justify-content: center;
+    margin: 0 auto;
+    width: 30rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+  }
+}
+
+.modify-profile-button {
+  background-color: var(--beige-color);
+  width: 10rem;
+  color: black;
+  border: 0.08rem solid black;
+  border-radius: 0.8rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+
+.disconnect-profile-button {
+  background-color: var(--beige-color);
+  width: 10rem;
+  color: black;
+  border: 0.08rem solid black;
+  border-radius: 0.8rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+
+.delete-profile-button {
+  background-color: var(--dark-red-color);
+  width: 10.08rem;
+  color: var(--white-text-color);
+  border-radius: 0.8rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  border: none;
 }

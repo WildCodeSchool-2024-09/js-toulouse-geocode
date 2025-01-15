@@ -6,6 +6,7 @@ import EmptyProfilePhoto from "/images/empty-profile-photo.png";
 import ModifyIcon from "/images/modify.svg";
 
 import "../styles/ProfilePhoto.css";
+import ConfirmationUploadPhoto from "./ConfirmationUploadPhoto";
 
 interface ProfilePhotoProps {
   photoFile: File | string;
@@ -21,6 +22,8 @@ export default function ProfilePhoto({
     photoFile,
   );
   const [initialPhotoFile] = useState<File | string>(photoFile);
+  const [showUploadConfirmation, setShowUploadConfirmation] =
+    useState<boolean>(false);
 
   const handleClickModifyPhoto = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -77,6 +80,13 @@ export default function ProfilePhoto({
 
   return (
     <section className="profile-photo-container">
+      {showUploadConfirmation && (
+        <ConfirmationUploadPhoto
+          setShowUploadConfirmation={setShowUploadConfirmation}
+          handleClickModifyPhoto={handleClickModifyPhoto}
+          setIsModifyingPhoto={setIsModifyingPhoto}
+        />
+      )}
       <img
         src={
           typeof photoFile === "string"
@@ -90,15 +100,22 @@ export default function ProfilePhoto({
         style={{ display: "none" }}
         type="file"
         accept=".jpg, .jpeg, .png, .webp"
-        onChange={handleChangePhoto}
+        onChange={(e) => {
+          handleChangePhoto(e);
+          setShowUploadConfirmation(false);
+        }}
         value={typeof valueInput === "string" ? valueInput : ""}
       />
       <div className="photo-buttons">
         <button
           type="button"
-          onClick={(e) => {
-            isModifyingPhoto ? handleUpload() : handleClickModifyPhoto(e);
-            setIsModifyingPhoto(!isModifyingPhoto);
+          onClick={() => {
+            if (isModifyingPhoto) {
+              handleUpload();
+              setIsModifyingPhoto(false);
+            } else {
+              setShowUploadConfirmation(true);
+            }
           }}
         >
           {!isModifyingPhoto ? (
@@ -114,9 +131,9 @@ export default function ProfilePhoto({
               setPhotoFile(initialPhotoFile);
             } else {
               setPhotoFile("");
-              setIsModifyingPhoto(false);
               setValueInput(undefined);
             }
+            setIsModifyingPhoto(false);
           }}
         >
           {isModifyingPhoto ? (

@@ -1,20 +1,25 @@
 import "../styles/ProfileNavbar.css";
 
 interface ProfileNavbarProps {
+  activeTab: string;
   setActiveTab: (tab: string) => void;
 }
 
-export default function ProfileNavbar({ setActiveTab }: ProfileNavbarProps) {
+export default function ProfileNavbar({
+  activeTab,
+  setActiveTab,
+}: ProfileNavbarProps) {
   return (
     <div className="profile-navbar-container">
       <ul>
         <li
           onClick={() => {
-            setActiveTab("profile-info");
+            setActiveTab("profile-infos");
           }}
           onKeyDown={() => {
-            setActiveTab("profile-info");
+            setActiveTab("profile-infos");
           }}
+          className={activeTab === "profile-infos" ? "active" : ""}
         >
           Profil
         </li>
@@ -25,6 +30,7 @@ export default function ProfileNavbar({ setActiveTab }: ProfileNavbarProps) {
           onKeyDown={() => {
             setActiveTab("vehicles");
           }}
+          className={activeTab === "vehicles" ? "active" : ""}
         >
           Véhicules(X)
         </li>
@@ -35,6 +41,7 @@ export default function ProfileNavbar({ setActiveTab }: ProfileNavbarProps) {
           onKeyDown={() => {
             setActiveTab("reservations");
           }}
+          className={activeTab === "reservations" ? "active" : ""}
         >
           Réservations
         </li>

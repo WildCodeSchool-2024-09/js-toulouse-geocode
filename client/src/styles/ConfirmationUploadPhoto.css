@@ -1,0 +1,58 @@
+.confirmation-upload-photo-container {
+  position: absolute;
+  background-color: #000000b4;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+}
+
+.warning-upload-text {
+  width: 90%;
+  background-color: var(--beige-color);
+  margin: 0 auto;
+  margin-top: 5rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.advices-text {
+  font-size: 0.7rem;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--red-color);
+}
+
+.warning-icon {
+  width: 1.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.warning-upload-buttons {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+}
+
+.warning-upload-buttons button {
+  margin-top: 2rem;
+  width: 5rem;
+  border-radius: 0.8rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+
+.cancel-upload {
+  background-color: var(--dark-red-color);
+  color: var(--white-text-color);
+  border: none;
+}
+
+.confirm-upload {
+  background-color: var(--beige-color);
+  color: black;
+  border: 0.08rem solid black;
+}
