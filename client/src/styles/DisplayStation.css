@@ -149,6 +149,7 @@ main section.station-reserve > button {
   font-size: 1.25rem;
   cursor: pointer;
 }
+
 main section.station-reserve > button:disabled {
   color: var(--chicago-color-600);
   cursor: unset;
