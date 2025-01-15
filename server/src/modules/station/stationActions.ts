@@ -20,6 +20,16 @@ const browseByGeoLocation: RequestHandler = async (req, res, next) => {
   }
 };
 
+const browse: RequestHandler = async (req, res) => {
+  try {
+    const stations = await stationRepository.readAll();
+
+    res.json(stations);
+  } catch (error) {
+    res.status(500).send("Error retrieving stations from database");
+  }
+};
+
 // The R of BREAD - Read operation
 const read: RequestHandler = async (req, res, next) => {
   try {
@@ -40,4 +50,4 @@ const read: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browseByGeoLocation, read };
+export default { browseByGeoLocation, read, browse };

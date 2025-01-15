@@ -6,7 +6,10 @@ export default function StationPage() {
   return (
     <div className="station-page-container">
       <HeaderAdminPage title="Gestion des Bornes" />
-      <ContentAdmin />
+      <ContentAdmin
+        titles={["Opérateur", "Code insee commune"]}
+        path="stations"
+      />
     </div>
   );
 }

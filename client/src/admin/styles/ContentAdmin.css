@@ -4,6 +4,8 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: fixed;
+  bottom: 0;
 }
 
 #content-admin-search-bar {
@@ -20,4 +22,21 @@
 
 .content-admin-container > section {
   width: 100%;
+  background-color: #e5e9e7;
+}
+
+.content-admin-items-container {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-admin-titles-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.content-admin-titles-container > h2 {
+  color: #525b5a;
 }

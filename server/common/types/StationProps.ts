@@ -109,3 +109,49 @@ export class StationProps {
     this.source = source;
   }
 }
+
+export class StationPropsWithIndex {
+  id: number;
+  name: string;
+  address: string;
+  sign_id: number;
+  operator_id: number;
+  provider_id: number;
+  geo_coords_id: number;
+  number_pdc: number;
+  pdc_id: number;
+  access_charging: string;
+  accessibility: string;
+  update_date_time: string;
+  source: string;
+
+  constructor(
+    id = -1,
+    name = "",
+    address = "",
+    sign_id = -1,
+    operator_id = -1,
+    provider_id = -1,
+    geo_coords_id = -1,
+    number_pdc = -1,
+    pdc_id = -1,
+    access_charging = "",
+    accessibility = "",
+    update_date_time = "",
+    source = "",
+  ) {
+    this.id = id;
+    this.name = name;
+    this.address = address;
+    this.sign_id = sign_id;
+    this.operator_id = operator_id;
+    this.provider_id = provider_id;
+    this.geo_coords_id = geo_coords_id;
+    this.number_pdc = number_pdc;
+    this.pdc_id = pdc_id;
+    this.access_charging = access_charging;
+    this.accessibility = accessibility;
+    this.update_date_time = update_date_time;
+    this.source = source;
+  }
+}
