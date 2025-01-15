@@ -6,6 +6,7 @@ const router = express.Router();
 // Define Your API Routes Here
 /* ************************************************************************* */
 
+import contactActions from "./modules/contact/contactActions";
 import csvManagementActions from "./modules/insertData/insertDataAction";
 // Define item-related routes
 import itemActions from "./modules/item/itemActions";
@@ -22,6 +23,9 @@ router.post("/api/upload-photo", modifyPhotoActions.modifyPhoto);
 
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
 router.get("/api/stations/:id", stationActions.read);
+
+router.post("/api/contacts", contactActions.validate, contactActions.add);
+
 /* ************************************************************************* */
 
 export default router;
