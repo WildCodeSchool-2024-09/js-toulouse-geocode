@@ -1,3 +1,4 @@
+import ContactForm from "../components/ContactForm";
 import { useShowMenubar } from "../contexts/ShowMenubarProvider";
 
 function ContactPage() {
@@ -5,10 +6,10 @@ function ContactPage() {
   showMenuBarContext.setShowMenubar(true);
 
   return (
-    <div>
-      <h1>Welcome to the Contact Page</h1>
-      <p>This is the contact page content.</p>
-    </div>
+    <article>
+      <h2>Contact</h2>
+      <ContactForm />
+    </article>
   );
 }
 
