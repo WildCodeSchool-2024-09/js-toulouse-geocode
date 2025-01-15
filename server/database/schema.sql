@@ -105,3 +105,10 @@ create table booking (
   foreign key(station_id) references station(id)
 );
 
+create table contact (
+  id int primary key auto_increment not null,
+  ask_type varchar(80) not null,
+  name varchar(80) not null,
+  mail varchar(80) not null,
+  message text not null
+);
