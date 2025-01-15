@@ -2,6 +2,7 @@ import { useState } from "react";
 import ProfileInfo from "../components/ProfileInfo";
 import ProfileNavbar from "../components/ProfileNavbar";
 import { useShowMenubar } from "../contexts/ShowMenubarProvider";
+import "../styles/UserPage.css";
 
 function UserPage() {
   const showMenuBarContext = useShowMenubar();
@@ -21,8 +22,8 @@ function UserPage() {
   };
 
   return (
-    <div>
-      <ProfileNavbar setActiveTab={setActiveTabs} />
+    <div className="user-page-container">
+      <ProfileNavbar activeTab={activeTab} setActiveTab={setActiveTabs} />
       {renderTabContent()}
     </div>
   );

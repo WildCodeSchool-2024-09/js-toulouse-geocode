@@ -1,0 +1,11 @@
+.user-page-container {
+  width: 100%;
+  background-color: var(--keppel-color-600);
+}
+
+@media screen and (min-width: 768px) {
+  .user-page-container {
+    padding: 0 17%;
+    margin: 0 auto;
+  }
+}
