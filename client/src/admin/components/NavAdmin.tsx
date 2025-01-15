@@ -1,3 +1,4 @@
+import { useState } from "react";
 import arrowAdminImg from "/images/arrow-admin-img.svg";
 import logoutAdminImg from "/images/logout-admin-img.svg";
 import stationAdminImg from "/images/station-admin-img.svg";
@@ -5,38 +6,63 @@ import updateAdminImg from "/images/update-admin-img.svg";
 import userAdminImg from "/images/user-admin-img.svg";
 import vehicleAdminImg from "/images/vehicle-admin-img.svg";
 import { useShowNav } from "../contexts/ShowNavProvider";
+import "../styles/NavAdmin.css";
+import { useNavigate } from "react-router-dom";
 
 export default function NavAdmin() {
+  const navigation = useNavigate();
   const { navOpen, setNavOpen } = useShowNav();
+  const [rotateArrow, setRotateArrow] = useState(true);
 
   const handleClickArrow = () => {
     setNavOpen(!navOpen);
+    setRotateArrow(!rotateArrow);
+  };
+
+  const navigateTo = (page: string) => {
+    navigation(`/admin/${page}`);
   };
 
   return (
-    <div>
+    <div
+      className={
+        rotateArrow
+          ? "nav-admin-container close close-nav-admin"
+          : "nav-admin-container open-nav-admin"
+      }
+      onClick={rotateArrow ? handleClickArrow : () => {}}
+      onKeyDown={rotateArrow ? handleClickArrow : () => {}}
+    >
       <img
         src={arrowAdminImg}
         alt="fleche de retour"
         onClick={handleClickArrow}
         onKeyDown={handleClickArrow}
+        className={`arrow-nav-admin ${rotateArrow ? "open-rotate-arrow rotated-arrow nav-admin-arrow" : "close-rotate-arrow nav-admin-arrow"}`}
       />
       {navOpen && (
-        <div>
+        <div className="nav-admin-content">
           <ul>
-            <li>
+            <li
+              onClick={() => navigateTo("users")}
+              onKeyDown={() => navigateTo("users")}
+            >
               <img src={userAdminImg} alt="utilisateur" /> Utilisateurs
             </li>
             <li>
               <img src={vehicleAdminImg} alt="vehicule" /> Vehicules
             </li>
-            <li>
+            <li
+              onClick={() => navigateTo("stations")}
+              onKeyDown={() => navigateTo("stations")}
+            >
               <img src={stationAdminImg} alt="borne" /> Bornes
             </li>
             <li>
               <img src={updateAdminImg} alt="mise à jour" /> Mise à jour
             </li>
           </ul>
+          <div className="nav-admin-line"> </div>
           <p>
             <img src={logoutAdminImg} alt="deconnexion" /> Deconnexion
           </p>

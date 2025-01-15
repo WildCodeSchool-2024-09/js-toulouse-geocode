@@ -9,7 +9,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import AppAdmin from "./admin/AppAdmin";
 import ShowNavProvider from "./admin/contexts/ShowNavProvider";
-import ConnexionAdminPage from "./admin/pages/ConnexionAdminPage";
+import ConnectionAdminPage from "./admin/pages/ConnectionAdminPage";
+import StationPage from "./admin/pages/StationPage";
 import UsersPage from "./admin/pages/UsersPage";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
@@ -65,11 +66,15 @@ const router = createBrowserRouter(
       children: [
         {
           path: "/admin",
-          element: <ConnexionAdminPage />,
+          element: <ConnectionAdminPage />,
         },
         {
           path: "/admin/users",
           element: <UsersPage />,
+        },
+        {
+          path: "/admin/stations",
+          element: <StationPage />,
         },
       ],
     },
