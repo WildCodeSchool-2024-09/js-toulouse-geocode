@@ -1,3 +1,4 @@
+import "../styles/HeaderAdminPage.css";
 import geocodeLogo from "/images/geocode-logo.svg";
 
 interface HeaderAdminPageProps {
@@ -6,8 +7,8 @@ interface HeaderAdminPageProps {
 
 export default function HeaderAdminPage({ title }: HeaderAdminPageProps) {
   return (
-    <header>
-      <img src={geocodeLogo} alt="logo" />
+    <header className="header-admin-container">
+      <img className="header-admin-geocode-logo" src={geocodeLogo} alt="logo" />
       <div className="header-admin-title">
         <h1>{title}</h1>
       </div>
