@@ -1,0 +1,57 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  border: 0.5px solid white;
+  padding: 3rem;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.201);
+  height: fit-content;
+}
+
+.form-connexion-admin-input {
+  width: 300px;
+}
+
+.form-connexion-admin-input .MuiOutlinedInput-root {
+  border-radius: 10px;
+}
+
+.form-connexion-admin-input .MuiOutlinedInput-notchedOutline {
+  border-color: white;
+  border-width: 1px;
+}
+
+.form-connexion-admin-input .MuiOutlinedInput-root:hover fieldset {
+  border-color: #526663;
+}
+
+.form-connexion-admin-input .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #526663;
+  background-color: transparent;
+}
+
+.form-connexion-admin-input .MuiInputLabel-root.Mui-focused {
+  color: #526663;
+}
+
+.form-connexion-admin-button {
+  margin: 1rem;
+  border: none;
+  border-radius: 8px;
+  width: 200px;
+  height: 40px;
+  background-color: #7cd858;
+  padding: 3px;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: white;
+}
+
+.form-connexion-admin-button:hover {
+  background-color: #2d746c;
+  transition: 0.3s;
+}
