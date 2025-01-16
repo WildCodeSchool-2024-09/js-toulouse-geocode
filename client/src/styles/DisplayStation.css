@@ -166,3 +166,43 @@ main section.station-reserve > button:disabled {
 main section > span.fire-brush {
   color: var(--fire-bush-color-400);
 }
+
+main form.station-reservation-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0.625rem;
+  padding: 1.25rem 0 0 0;
+  width: 100%;
+}
+
+main form.station-reservation-form > select {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  width: 66%;
+}
+
+main form.station-reservation-form input {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  width: 66%;
+}
+
+main section.station-reservation-validate {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+}
+
+main section.station-reservation-validate > button {
+  background-color: var(--green-light-color);
+  color: white;
+  border: none;
+  border-radius: 1.0625rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
