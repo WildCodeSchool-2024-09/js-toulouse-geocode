@@ -15,6 +15,10 @@ interface StationLocationsContextProps {
   setSouthEastBoundary: React.Dispatch<React.SetStateAction<GeoLocationProps>>;
   station: StationProps;
   setStation: React.Dispatch<React.SetStateAction<StationProps>>;
+  isReservationComponentDisplayed: boolean;
+  setIsReservationComponentDisplayed: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
 }
 
 type StationLocationsContextType = StationLocationsContextProps | null;
@@ -39,6 +43,9 @@ export function StationsLocationsContextProvider({
   );
   const [station, setStation] = useState(new StationProps());
 
+  const [isReservationComponentDisplayed, setIsReservationComponentDisplayed] =
+    useState(false);
+
   const memoStationLocations = useMemo(
     () => ({
       stationlocations: stationLocations,
@@ -49,8 +56,16 @@ export function StationsLocationsContextProvider({
       setSouthEastBoundary: setSouthEastBoundary,
       station: station,
       setStation: setStation,
+      isReservationComponentDisplayed: isReservationComponentDisplayed,
+      setIsReservationComponentDisplayed: setIsReservationComponentDisplayed,
     }),
-    [stationLocations, northWestBoundary, southEastBoundary, station],
+    [
+      stationLocations,
+      northWestBoundary,
+      southEastBoundary,
+      station,
+      isReservationComponentDisplayed,
+    ],
   );
 
   useEffect(() => {
