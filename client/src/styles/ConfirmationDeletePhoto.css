@@ -1,0 +1,19 @@
+.confirmation-delete-photo-container {
+  position: absolute;
+  background-color: #000000d7;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.warning-delete-text {
+  width: 70%;
+  background-color: var(--beige-color);
+  color: var(--red-color);
+  font-weight: 600;
+  margin: 0 auto;
+  margin-top: 5rem;
+  padding: 1rem 3rem;
+  border-radius: 1rem;
+}
