@@ -3,6 +3,7 @@ import ProfileInfo from "../components/ProfileInfo";
 import ProfileNavbar from "../components/ProfileNavbar";
 import { useShowMenubar } from "../contexts/ShowMenubarProvider";
 import "../styles/UserPage.css";
+import VehiclesInfosList from "../components/VehiclesInfosList";
 
 function UserPage() {
   const showMenuBarContext = useShowMenubar();
@@ -15,7 +16,7 @@ function UserPage() {
       case "profile-infos":
         return <ProfileInfo />;
       case "vehicles":
-        return <div>Vehicles</div>;
+        return <VehiclesInfosList />;
       case "reservations":
         return <div>Reservations</div>;
       default:
