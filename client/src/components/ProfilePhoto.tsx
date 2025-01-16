@@ -70,7 +70,7 @@ export default function ProfilePhoto({
     formData.append("photo", photoFile as Blob);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/upload-photo/1`,
+        `${import.meta.env.VITE_API_URL}/api/upload-photo/:id`,
         {
           method: "PUT",
           body: formData,
@@ -87,7 +87,7 @@ export default function ProfilePhoto({
 
   const handlePhotoDelete = () => {
     try {
-      fetch(`${import.meta.env.VITE_API_URL}/api/delete-photo/1`, {
+      fetch(`${import.meta.env.VITE_API_URL}/api/delete-photo/:id`, {
         method: "DELETE",
       });
       setPhotoFileUrl(null);

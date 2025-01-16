@@ -17,7 +17,7 @@ export default function ProfileInfo() {
   const fetchPhoto = useCallback(async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/get-photo/1`,
+        `${import.meta.env.VITE_API_URL}/api/get-photo/:id`,
       );
 
       if (!response.ok) {
