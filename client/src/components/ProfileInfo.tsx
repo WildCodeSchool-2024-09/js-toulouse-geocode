@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ArticlePersonalInfo from "./ArticlePersonalInfo";
 import ProfilePhoto from "./ProfilePhoto";
 
@@ -12,11 +12,37 @@ export default function ProfileInfo() {
     ["09120", "Varilhes"],
   ];
 
-  const [photoFile, setPhotoFile] = useState<File | string>("");
+  const [photoFileUrl, setPhotoFileUrl] = useState<string | null>(null);
+
+  const fetchPhoto = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/get-photo/1`,
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      setPhotoFileUrl(data.url);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPhoto();
+  }, [fetchPhoto]);
 
   return (
     <div className="profile-info-container">
-      <ProfilePhoto photoFile={photoFile} setPhotoFile={setPhotoFile} />
+      <ProfilePhoto
+        photoFileUrl={photoFileUrl}
+        setPhotoFileUrl={setPhotoFileUrl}
+        fetchPhoto={fetchPhoto}
+      />
       <section className="personal-infos-container">
         {personalInfoList.map((item) => (
           <ArticlePersonalInfo

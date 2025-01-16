@@ -7,22 +7,26 @@ import ModifyIcon from "/images/modify.svg";
 
 import "../styles/ProfilePhoto.css";
 import ConfirmationUploadPhoto from "./ConfirmationUploadPhoto";
+import ConfirmationDeletePhoto from "./ConfirmationDeletePhoto";
 
 interface ProfilePhotoProps {
-  photoFile: File | string;
-  setPhotoFile: React.Dispatch<React.SetStateAction<File | string>>;
+  photoFileUrl: string | null;
+  setPhotoFileUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  fetchPhoto: () => void;
 }
 
 export default function ProfilePhoto({
-  photoFile,
-  setPhotoFile,
+  photoFileUrl,
+  setPhotoFileUrl,
+  fetchPhoto,
 }: ProfilePhotoProps) {
   const [isModifyingPhoto, setIsModifyingPhoto] = useState(false);
-  const [valueInput, setValueInput] = useState<File | undefined | string>(
-    photoFile,
-  );
-  const [initialPhotoFile] = useState<File | string>(photoFile);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [initialPhotoUrl, setInitialPhotoUrl] = useState<string | null>(null);
+
   const [showUploadConfirmation, setShowUploadConfirmation] =
+    useState<boolean>(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] =
     useState<boolean>(false);
 
   const handleClickModifyPhoto = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,6 +39,8 @@ export default function ProfilePhoto({
 
   const handleUpload = () => {
     if (photoFile && typeof photoFile !== "string") {
+      handlePhotoDelete();
+      setPhotoFileUrl(URL.createObjectURL(photoFile));
       uploadPhotoFetch(photoFile);
     } else {
       console.error("Aucun fichier à uploader");
@@ -52,9 +58,10 @@ export default function ProfilePhoto({
         e.target.value = "";
         return;
       }
-
       setPhotoFile(selectedFile);
-      setValueInput(selectedFile);
+      if (selectedFile) {
+        setPhotoFileUrl(URL.createObjectURL(selectedFile));
+      }
     }
   };
 
@@ -63,16 +70,27 @@ export default function ProfilePhoto({
     formData.append("photo", photoFile as Blob);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/upload-photo`,
+        `${import.meta.env.VITE_API_URL}/api/upload-photo/1`,
         {
-          method: "POST",
+          method: "PUT",
           body: formData,
         },
       );
       if (!response.ok) {
-        setPhotoFile("");
         throw new Error("Upload failed");
       }
+      fetchPhoto();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePhotoDelete = () => {
+    try {
+      fetch(`${import.meta.env.VITE_API_URL}/api/delete-photo/1`, {
+        method: "DELETE",
+      });
+      setPhotoFileUrl(null);
     } catch (error) {
       console.error(error);
     }
@@ -87,12 +105,14 @@ export default function ProfilePhoto({
           setIsModifyingPhoto={setIsModifyingPhoto}
         />
       )}
+      {showDeleteConfirmation && (
+        <ConfirmationDeletePhoto
+          setShowDeleteConfirmation={setShowDeleteConfirmation}
+          handlePhotoDelete={handlePhotoDelete}
+        />
+      )}
       <img
-        src={
-          typeof photoFile === "string"
-            ? EmptyProfilePhoto
-            : URL.createObjectURL(photoFile)
-        }
+        src={photoFileUrl ? photoFileUrl : EmptyProfilePhoto}
         alt="default user profile"
       />
       <input
@@ -103,13 +123,14 @@ export default function ProfilePhoto({
         onChange={(e) => {
           handleChangePhoto(e);
           setShowUploadConfirmation(false);
+          e.target.value = "";
         }}
-        value={typeof valueInput === "string" ? valueInput : ""}
       />
       <div className="photo-buttons">
         <button
           type="button"
           onClick={() => {
+            setInitialPhotoUrl(photoFileUrl);
             if (isModifyingPhoto) {
               handleUpload();
               setIsModifyingPhoto(false);
@@ -121,17 +142,16 @@ export default function ProfilePhoto({
           {!isModifyingPhoto ? (
             <img src={ModifyIcon} alt="pp-modify" />
           ) : (
-            <img src={ConfirmPhotoButton} alt="pp-cancel" />
+            <img src={ConfirmPhotoButton} alt="pp-confirm" />
           )}
         </button>
         <button
           type="button"
           onClick={() => {
             if (isModifyingPhoto) {
-              setPhotoFile(initialPhotoFile);
+              setPhotoFileUrl(initialPhotoUrl);
             } else {
-              setPhotoFile("");
-              setValueInput(undefined);
+              setShowDeleteConfirmation(true);
             }
             setIsModifyingPhoto(false);
           }}
