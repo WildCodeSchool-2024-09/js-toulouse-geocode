@@ -10,32 +10,39 @@ interface StationItemAdminProps {
 
 export default function StationItemAdmin({ item }: StationItemAdminProps) {
   const [station, setStation] = useState({
+    name: item.name,
+    address: item.address,
+    sign: null,
     operator: null,
+    provider: null,
     postalcode: null,
+    geo_coords: null,
+    number_pdc: item.number_pdc,
+    outlet: null,
+    access_charging: item.access_charging,
+    accessibility: item.accessibility,
+    update_date_time: item.update_date_time,
+    source: item.source,
   });
 
   useEffect(() => {
     (async () => {
-      const [responseOperator, responsePostalcode] = await Promise.all([
-        fetch(
-          `${import.meta.env.VITE_API_URL}/api/operators/${item.operator_id}`,
-        ),
-        fetch(
+      try {
+        const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postalcode_id}`,
-        ),
-      ]);
+        );
+        const postalcode = await response.json();
 
-      const [operator, postalcode] = await Promise.all([
-        responseOperator.json(),
-        responsePostalcode.json(),
-      ]);
-
-      setStation({
-        operator: operator.name,
-        postalcode: postalcode.code,
-      });
+        setStation({
+          ...station,
+          postalcode: postalcode.code,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     })();
-  }, [item]);
+  }, [item.postalcode_id, station]);
+
   return (
     <div className="station-item-admin-container">
       <img
@@ -43,8 +50,8 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
         alt="déplier"
         className="station-item-admin-arrow-img"
       />
-      <p>{item.name}</p>
-      <p>{station.postalcode}</p>
+      <p className="station-item-admin-name">{item.name}</p>
+      <p className="station-item-admin-postalcode">{station.postalcode}</p>
       <button type="button" className="station-item-admin-modify-button">
         Modifier
       </button>

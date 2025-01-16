@@ -3,20 +3,23 @@
   min-height: 3.5rem;
   display: flex;
   background-color: #3b9186;
-  justify-content: space-between;
   align-items: center;
   border-radius: 0.5rem;
   padding: 0 2rem 0 2rem;
+  gap: 2rem;
+  height: fit-content;
 }
 
 .station-item-admin-trash-can-img {
   width: 1.7rem;
   cursor: pointer;
+  flex: 0.1;
 }
 
 .station-item-admin-arrow-img {
   width: 1.7rem;
   cursor: pointer;
+  flex: 0.1;
 }
 
 .station-item-admin-modify-button {
@@ -25,5 +28,15 @@
   border: none;
   border-radius: 1rem;
   padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  max-width: fit-content;
   cursor: pointer;
+  flex: 1.5;
+}
+
+.station-item-admin-name {
+  flex: 4;
+}
+
+.station-item-admin-postalcode {
+  flex: 1;
 }
