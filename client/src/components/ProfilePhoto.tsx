@@ -6,8 +6,8 @@ import EmptyProfilePhoto from "/images/empty-profile-photo.png";
 import ModifyIcon from "/images/modify.svg";
 
 import "../styles/ProfilePhoto.css";
-import ConfirmationUploadPhoto from "./ConfirmationUploadPhoto";
 import ConfirmationDeletePhoto from "./ConfirmationDeletePhoto";
+import ConfirmationUploadPhoto from "./ConfirmationUploadPhoto";
 
 interface ProfilePhotoProps {
   photoFileUrl: string | null;
