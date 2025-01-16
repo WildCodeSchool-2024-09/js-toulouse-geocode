@@ -10,6 +10,7 @@
   padding: 1rem 2rem 1rem 1rem;
   gap: 1rem;
   border-radius: 0 1rem 1rem 0;
+  z-index: 2;
 }
 
 .nav-admin-content {

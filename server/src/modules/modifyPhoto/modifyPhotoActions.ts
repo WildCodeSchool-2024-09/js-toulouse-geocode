@@ -25,7 +25,7 @@ async function getImageDimensions(buffer: Buffer): Promise<ImageDimensions> {
   };
 }
 
-const modifyPhoto: RequestHandler = async (req, res) => {
+const validatePhoto: RequestHandler = async (req, res, next) => {
   try {
     const photoFile = req.files?.photo as UploadedFile;
     if (!photoFile) {
@@ -60,7 +60,8 @@ const modifyPhoto: RequestHandler = async (req, res) => {
       return;
     }
 
-    res.status(200).json({ content: photoFile });
+    res.status(200);
+    next();
   } catch (error) {
     console.error("Erreur de traitement du fichier:", error);
     res.status(500).json({ error: "Erreur interne" });
@@ -68,4 +69,4 @@ const modifyPhoto: RequestHandler = async (req, res) => {
   }
 };
 
-export default { modifyPhoto };
+export default { validatePhoto };

@@ -39,8 +39,6 @@ const fetchData = async (lat: string, lng: string) => {
 
   if (correctData.length === 0) return false;
 
-  const city = correctData[0].nom;
-
   const codeRegion = correctData[0].codeRegion;
 
   const codeDepartement = correctData[0].codeDepartement;

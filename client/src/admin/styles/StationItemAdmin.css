@@ -1,0 +1,29 @@
+.station-item-admin-container {
+  width: 95%;
+  min-height: 3.5rem;
+  display: flex;
+  background-color: #3b9186;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0 2rem 0 2rem;
+}
+
+.station-item-admin-trash-can-img {
+  width: 1.7rem;
+  cursor: pointer;
+}
+
+.station-item-admin-arrow-img {
+  width: 1.7rem;
+  cursor: pointer;
+}
+
+.station-item-admin-modify-button {
+  background-color: #7dc952;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  cursor: pointer;
+}

@@ -1,5 +1,8 @@
-export interface StationItemType {
+export interface BaseItemType {
   id: number;
+}
+
+export interface StationItemType extends BaseItemType {
   name: string;
   address: string;
   sign_id: number;
@@ -13,4 +16,20 @@ export interface StationItemType {
   accessibility: string;
   update_date_time: string;
   source: string;
+}
+
+export interface UserItemType extends BaseItemType {
+  firstname: string;
+  lastname: string;
+  mail: string;
+  sex: string;
+  birthday: string;
+  postal_code_id: number;
+  number_of_vehicles: number;
+}
+
+export interface VehicleItemType extends BaseItemType {
+  model: string;
+  brand: string;
+  user_id: number;
 }

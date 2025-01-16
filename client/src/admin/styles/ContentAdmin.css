@@ -12,7 +12,7 @@
 
 #content-admin-search-bar {
   width: 15rem;
-  height: 3rem;
+  height: 2rem;
   border-radius: 1rem;
   border: 1px solid #525b5a;
   padding: 0.5rem;
@@ -25,9 +25,11 @@
 .content-admin-container > section {
   width: 100%;
   background-color: #e5e9e7;
-  height: calc(100% - 2rem);
+  height: calc(100% - 3rem);
   display: flex;
   flex-direction: column;
+  border-radius: 1rem;
+  padding: 1rem;
 }
 
 .content-admin-items-container {
@@ -38,6 +40,8 @@
   justify-content: stretch;
   min-height: 0;
   overflow-y: scroll;
+  scrollbar-color: #525b5a #e5e9e7;
+  gap: 0.7rem;
 }
 
 .content-admin-titles-container {

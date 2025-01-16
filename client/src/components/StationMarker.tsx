@@ -23,6 +23,7 @@ function StationMarker({ position, station }: StationMarkerProps) {
       eventHandlers={{
         click: () => {
           stationsLocationsContext.setStation(station);
+          stationsLocationsContext.setIsReservationComponentDisplayed(false);
         },
       }}
     />

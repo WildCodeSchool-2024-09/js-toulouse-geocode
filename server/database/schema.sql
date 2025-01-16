@@ -87,6 +87,13 @@ create table user (
   number_of_vehicles int
 );
 
+CREATE TABLE user_photos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  url VARCHAR(255) NOT NULL,
+  foreign key(user_id) references user(id)
+);
+
 create table vehicle (
   id int primary key auto_increment not null,
   model varchar(80) not null,
@@ -105,3 +112,20 @@ create table booking (
   foreign key(station_id) references station(id)
 );
 
+create table contact (
+  id int primary key auto_increment not null,
+  ask_type varchar(80) not null,
+  name varchar(80) not null,
+  mail varchar(80) not null,
+  message text not null
+);
+
+insert into region (name) values ('Ile-de-France');
+
+insert into department (name, region_id) values ('Paris', 1);
+
+insert into city (name, department_id) values ('Paris', 1);
+
+insert into postalcode (code, city_id) values ('75001', 1);
+
+insert into user (firstname, lastname, mail, sex, birthday, postal_code_id, number_of_vehicles) values ('John', 'Doe', 'john.doe@gmail.com', 'Masculin', '1990-01-01', 1, 1);insert into region (name) values ('Ile-de-France');

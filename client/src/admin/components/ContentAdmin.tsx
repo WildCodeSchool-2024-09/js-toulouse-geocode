@@ -37,7 +37,7 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
         </div>
         <div className="content-admin-items-container">
           {items.map((item: StationItemType) => (
-            <ContentAdminItem key={item.id} item={item} />
+            <ContentAdminItem key={item.id} item={item} itemType={path} />
           ))}
         </div>
       </section>

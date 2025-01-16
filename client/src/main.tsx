@@ -44,7 +44,7 @@ const router = createBrowserRouter(
           element: <GeoMapPage />,
         },
         {
-          path: "/user",
+          path: "/user/:id",
           element: <UserPage />,
         },
         {
