@@ -25,7 +25,7 @@ function MenuBar() {
             </Link>
           </li>
           <li>
-            <Link to="/user">
+            <Link to="/user/1">
               <img src="/images/user.svg" alt="user" />
             </Link>
           </li>

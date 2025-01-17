@@ -25,11 +25,22 @@ a {
   --ghost-white-color: #f9f9f9;
 }
 
+@media (orientation: landscape) {
+  :root {
+    font-size: 10px;
+  }
+}
+
+@media (orientation: portrait) {
+  body {
+    font-size: 16px;
+  }
+}
 body {
   width: 100vw;
   height: 100vh;
   font-family: "Nunito", sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.7;
   color: var(--egg-color);
   background: linear-gradient(
