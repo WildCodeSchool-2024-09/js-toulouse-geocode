@@ -2,7 +2,7 @@
   background-color: var(--beige-color);
   padding: 2rem 1.5rem;
   border-radius: 1rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 80%;
 }
 
