@@ -1,4 +1,5 @@
 import VehiclesInfosCard from "./VehiclesInfosCard";
+import "../styles/VehiclesInfosList.css";
 
 export default function VehiclesInfo() {
   const vehiclesInfos = [
@@ -33,7 +34,7 @@ export default function VehiclesInfo() {
       <article className="vehicles-infos-header">
         <h1>Mes véhicules</h1>
         <button type="button" className="add-vehicle-button">
-          Ajouter un véhicule
+          + Ajouter un véhicule
         </button>
       </article>
       <article className="grid-car-infos-cards">

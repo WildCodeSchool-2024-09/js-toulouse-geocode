@@ -46,7 +46,7 @@
 .cancel-upload {
   width: 5rem;
   background-color: var(--dark-red-color);
-  color: var(--white-text-color);
+  color: var(--ghost-white-color);
   border: none;
 }
 
