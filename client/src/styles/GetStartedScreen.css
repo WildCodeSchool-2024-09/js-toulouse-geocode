@@ -17,7 +17,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 2rem;
-  color: var(--white-color);
+  color: var(--ghost-white-color);
 }
 
 .get-started-upper-part img {
@@ -40,7 +40,7 @@
   border: none;
   padding: 0.5rem 1rem;
   font-size: 1.2rem;
-  color: var(--white-color);
+  color: var(--ghost-white-color);
   border-radius: 0.6rem;
   cursor: pointer;
 }

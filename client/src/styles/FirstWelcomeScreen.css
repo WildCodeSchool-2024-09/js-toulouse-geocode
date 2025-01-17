@@ -21,7 +21,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: var(--white-color);
+  color: var(--ghost-white-color);
   gap: 0rem;
 }
 
@@ -33,13 +33,13 @@
 .logo-description p {
   font-size: 0.6rem;
   opacity: 0.4;
-  color: var(--white-color);
+  color: var(--ghost-white-color);
 }
 
 .welcome-mid-part {
   width: fit-content;
   padding-inline: 2.5rem;
-  color: var(--white-color);
+  color: var(--ghost-white-color);
   font-size: 1.3rem;
   line-height: 2rem;
   text-align: left;
@@ -64,7 +64,7 @@
 .skip-button {
   background-color: transparent;
   border: none;
-  color: var(--white-color);
+  color: var(--ghost-white-color);
   font-size: 1.2rem;
   cursor: pointer;
 }
@@ -72,7 +72,7 @@
 .next-button {
   background-color: transparent;
   border: none;
-  color: var(--white-color);
+  color: var(--ghost-white-color);
   font-size: 1.2rem;
   display: flex;
   justify-content: center;
@@ -96,6 +96,6 @@
   display: flex;
   width: 0.5rem;
   height: 0.5rem;
-  background-color: var(--white-color);
+  background-color: var(--ghost-white-color);
   border-radius: 1rem;
 }

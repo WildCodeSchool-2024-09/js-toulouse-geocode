@@ -9,9 +9,9 @@
   align-items: center;
   padding: 1rem;
   gap: 0 1.3rem;
-  color: var(--white-text-color);
+  color: var(--ghost-white-color);
 }
 
 .active {
-  border-bottom: 1px solid var(--white-text-color);
+  border-bottom: 1px solid var(--ghost-white-color);
 }

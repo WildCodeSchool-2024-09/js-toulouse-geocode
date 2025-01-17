@@ -6,7 +6,7 @@
 }
 
 .personal-infos-container {
-  background-color: var(--white-color);
+  background-color: var(--ghost-white-color);
   margin: 1rem;
   padding: 1rem 1.5rem;
   border-radius: 1rem;
@@ -56,7 +56,7 @@
 .delete-profile-button {
   background-color: var(--dark-red-color);
   width: 10.08rem;
-  color: var(--white-text-color);
+  color: var(--ghost-white-color);
   border-radius: 0.8rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
