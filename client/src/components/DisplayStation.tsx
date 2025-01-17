@@ -18,7 +18,10 @@ function DisplayStation({
           stationCollapsed ? "display-station collapsed" : "display-station"
         }
       >
-        <StationTitle setStationCollapsed={setStationCollapsed} />
+        <StationTitle
+          stationCollapsed={stationCollapsed}
+          setStationCollapsed={setStationCollapsed}
+        />
         <StationMain stationCollapsed={stationCollapsed} />
       </div>
     </div>
