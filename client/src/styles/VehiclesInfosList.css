@@ -6,6 +6,12 @@
   height: 80%;
 }
 
+@media screen and (width > 1000px) {
+  .vehicles-info-container {
+    padding: 4rem;
+  }
+}
+
 .vehicles-infos-header {
   display: flex;
   color: var(--chicago-color-700);
@@ -20,6 +26,16 @@
   padding: 0.5rem;
   border-radius: 0.5rem;
   cursor: pointer;
+}
+
+@media screen and (width > 1000px) {
+  .vehicles-infos-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .add-vehicle-button {
+    padding: 1rem;
+  }
 }
 
 .grid-car-infos-cards {

@@ -23,7 +23,9 @@
 .model-car {
   display: flex;
   gap: 0.5rem;
+  font-size: 1rem;
 }
+
 .brand-car h2,
 .model-car h2,
 .charging-vehicle-type h2 {
@@ -48,4 +50,14 @@
   display: flex;
   gap: 0.5rem;
   justify-content: center;
+}
+
+@media screen and (width > 1000px) {
+  .vehicles-infos-card-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .vehicles-infos-card-container p {
+    font-size: 1.5rem;
+  }
 }

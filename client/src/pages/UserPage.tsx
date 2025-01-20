@@ -3,6 +3,7 @@ import ProfileInfo from "../components/ProfileInfo";
 import ProfileNavbar from "../components/ProfileNavbar";
 import { useShowMenubar } from "../contexts/ShowMenubarProvider";
 import "../styles/UserPage.css";
+import BookingsInfos from "../components/BookingsInfos";
 import VehiclesInfosList from "../components/VehiclesInfosList";
 
 function UserPage() {
@@ -18,7 +19,7 @@ function UserPage() {
       case "vehicles":
         return <VehiclesInfosList />;
       case "reservations":
-        return <div>Reservations</div>;
+        return <BookingsInfos />;
       default:
         return <ProfileInfo />;
     }

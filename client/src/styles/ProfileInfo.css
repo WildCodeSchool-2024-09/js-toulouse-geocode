@@ -13,6 +13,12 @@
   margin-bottom: 50vh;
 }
 
+@media screen and (width > 1000px) {
+  .personal-infos-container {
+    font-size: 1.5rem;
+  }
+}
+
 .user-profile-buttons {
   width: 100%;
   display: flex;
