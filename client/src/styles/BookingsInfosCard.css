@@ -1,0 +1,38 @@
+.booking-item-container {
+  background-color: var(--ghost-white-color);
+  color: var(--pastel-green-800);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.delete-booking-button {
+  width: fit-content;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-booking-button img {
+  width: 1.5rem;
+}
+
+@media screen and (width > 745px) {
+  .booking-item-container {
+    width: 80%;
+  }
+
+  .booking-item-container {
+    font-size: 1.3rem;
+  }
+
+  .delete-booking-button img {
+    width: 2.5rem;
+  }
+}

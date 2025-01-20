@@ -14,6 +14,7 @@ a {
   --chicago-color-600: #545b5a;
   --chicago-color-700: #4c5251;
   --blue-color: #21a89a;
+  --keppel-color-500: #3b9186;
   --keppel-color-600: #2d746c;
   --egg-color: #e5e9e7;
   --beige-color: #f0e6db;
@@ -23,6 +24,7 @@ a {
   --dark-red-color: #bb3434;
   --dark-color: #0c0c0c;
   --ghost-white-color: #f9f9f9;
+  --pastel-green-800: #2f551f;
 }
 
 @media (orientation: landscape) {

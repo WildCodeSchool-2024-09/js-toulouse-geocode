@@ -12,6 +12,22 @@
   color: var(--ghost-white-color);
 }
 
+@media screen and (width > 1000px) {
+  .profile-navbar-container > ul {
+    gap: 0 2rem;
+  }
+}
+
+.profile-navbar-container > ul li {
+  cursor: pointer;
+}
+
+@media screen and (width > 1000px) {
+  .profile-navbar-container > ul li {
+    font-size: 1.4rem;
+  }
+}
+
 .active {
   border-bottom: 1px solid var(--ghost-white-color);
 }
