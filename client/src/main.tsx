@@ -18,6 +18,7 @@ import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
 import { ShowMenubarProvider } from "./contexts/ShowMenubarProvider";
 import ContactPage from "./pages/ContactPage";
 import GeoMapPage from "./pages/GeoMapPage";
+import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
 
 // Import additional components for new routes
@@ -58,6 +59,10 @@ const router = createBrowserRouter(
         {
           path: "/get-started",
           element: <GetStartedScreen />,
+        },
+        {
+          path: "/register",
+          element: <RegisterPage />,
         },
       ],
     },
