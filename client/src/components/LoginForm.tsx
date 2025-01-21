@@ -10,7 +10,7 @@ export default function LoginForm() {
     event.preventDefault();
     const formData = new FormData(form);
     const response = await fetch(form.action, {
-      method: "POST",
+      method: "GET",
       body: formData,
     });
     if (response.ok) {
