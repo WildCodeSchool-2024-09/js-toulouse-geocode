@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/ModifyProfileInfos.css";
 
 interface ModifyProfileInfosProps {
   setIsModifyingProfile: (isModifyingProfile: boolean) => void;
@@ -19,8 +20,6 @@ export default function ModifyProfileInfos({
   user,
 }: ModifyProfileInfosProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [bothPasswordsEqual, setBothPasswordsEqual] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const navigate = useNavigate();
@@ -36,49 +35,6 @@ export default function ModifyProfileInfos({
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
     }
-  };
-
-  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const password = event.target.value;
-    setPasswordValid(testString(password));
-  };
-
-  const handleChangeConfirmPassword = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const password = event.target.value;
-    const confirmPasswordElement = document.getElementById(
-      "password",
-    ) as HTMLInputElement;
-    setBothPasswordsEqual(password === confirmPasswordElement?.value);
-  };
-
-  const testString = (str: string) => {
-    // Vérifie si la longueur de la chaîne est supérieure à 13
-    if (str.length <= 12) {
-      return false;
-    }
-
-    // Vérifie la présence d'au moins un des caractères spéciaux
-    const specialChars = /[!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]/;
-    if (!specialChars.test(str)) {
-      return false;
-    }
-
-    // Vérifie la présence d'au moins un chiffre
-    const digitChars = /[0-9]/;
-    if (!digitChars.test(str)) {
-      return false;
-    }
-
-    // Vérifie la présence d'au moins une minuscule et une majuscule
-    const hasLowerCase = /[a-z]/;
-    const hasUpperCase = /[A-Z]/;
-    if (!hasLowerCase.test(str) || !hasUpperCase.test(str)) {
-      return false;
-    }
-
-    return true;
   };
 
   const formatDateToISO = (date: string) => {
@@ -99,8 +55,9 @@ export default function ModifyProfileInfos({
   const [cityInput, setCityInput] = useState<string>(city);
 
   return (
-    <section style={{ position: "absolute", top: "0%", left: "0%" }}>
+    <section className="modify-profile-infos-container">
       <form
+        className="modify-profile-infos-form"
         action={`${import.meta.env.VITE_API_URL}/api/users`}
         method="put"
         onSubmit={handleSubmit}
@@ -152,8 +109,9 @@ export default function ModifyProfileInfos({
           onChange={(event) => setBirthdayInput(event.target.value)}
         />
         <label htmlFor="location">Code postal / Ville</label>
-        <div className="location-container" id="location">
+        <div className="modify-location-container" id="location">
           <input
+            className="modify-postalcode-input"
             type="text"
             placeholder="Code postal"
             name="postalcode"
@@ -161,6 +119,7 @@ export default function ModifyProfileInfos({
             onChange={(event) => setPostalcodeInput(event.target.value)}
           />
           <input
+            className="modify-city-input"
             type="text"
             placeholder="Ville"
             name="city"
@@ -168,43 +127,19 @@ export default function ModifyProfileInfos({
             onChange={(event) => setCityInput(event.target.value)}
           />
         </div>
-        <label htmlFor="password">Mot de passe *</label>
-        <input
-          type="password"
-          placeholder="Mot de passe *"
-          name="password"
-          id="password"
-          onChange={handleChangePassword}
-        />
-        {!passwordValid && (
-          <p>
-            {`Le mot de passe doit contenir au moins 12 caractères, une majuscule,
-              une minuscule, un chiffre et un caractère spécial (!"#$%&'()*+,\x5C-./:;<=>?@[\x5D^_\x60\x7B|\x7D~)`}
-          </p>
-        )}
         {errorMessage && <p>{errorMessage}</p>}
-        <label htmlFor="password-confirm">Confirmer le mot de passe *</label>
-        <input
-          type="password"
-          placeholder="Confirmer le mot de passe *"
-          name="passwordConfirm"
-          id="password-confirm"
-          onChange={handleChangeConfirmPassword}
-        />
-        <button
-          type="button"
-          className="cancel-profile-infos-modify"
-          onClick={() => setIsModifyingProfile(false)}
-        >
-          Annuler
-        </button>
-        <button
-          type="submit"
-          className="validate-profile-infos-modify"
-          disabled={!(passwordValid && bothPasswordsEqual)}
-        >
-          Valider
-        </button>
+        <div className="modify-profile-infos-buttons">
+          <button
+            type="button"
+            className="cancel-profile-infos-modify"
+            onClick={() => setIsModifyingProfile(false)}
+          >
+            Annuler
+          </button>
+          <button type="submit" className="validate-profile-infos-modify">
+            Valider
+          </button>
+        </div>
       </form>
     </section>
   );
