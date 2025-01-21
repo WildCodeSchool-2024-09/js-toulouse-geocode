@@ -15,7 +15,7 @@ function RegisterForm() {
       body: formData,
     });
     if (response.ok) {
-      navigate("/user/1");
+      navigate("/login");
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
     }
@@ -118,6 +118,7 @@ function RegisterForm() {
           id="password-confirm"
           onChange={handleChangeConfirmPassword}
         />
+        {!bothPasswordsEqual && <p>Les mots de passe ne correspondent pas</p>}
         <div className="button-container">
           <button
             type="submit"
