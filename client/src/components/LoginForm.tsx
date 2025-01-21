@@ -32,10 +32,12 @@ export default function LoginForm() {
         <label htmlFor="password-connection">Mot de passe</label>
         <input type="password" id="password-connection" name="password" />
         {errorMessage && <p>{errorMessage}</p>}
-        <button type="submit">Se connecter</button>
+        <div className="button-container">
+          <button type="submit">Se connecter</button>
+        </div>
+        <p>Pas encore inscrit ?</p>
+        <a href="/register">Créez votre compte maintenant.</a>
       </form>
-      <p>Pas encore inscrit ?</p>
-      <a href="/register">Créez votre compte maintenant.</a>
     </section>
   );
 }
