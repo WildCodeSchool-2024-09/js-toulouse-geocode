@@ -18,6 +18,7 @@ import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
 import { ShowMenubarProvider } from "./contexts/ShowMenubarProvider";
 import ContactPage from "./pages/ContactPage";
 import GeoMapPage from "./pages/GeoMapPage";
+import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
 
@@ -63,6 +64,10 @@ const router = createBrowserRouter(
         {
           path: "/register",
           element: <RegisterPage />,
+        },
+        {
+          path: "/login",
+          element: <LoginPage />,
         },
       ],
     },
