@@ -1,18 +1,35 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function RegisterForm() {
+interface ModifyProfileInfosProps {
+  setIsModifyingProfile: (isModifyingProfile: boolean) => void;
+  user: {
+    lastName: string;
+    firstName: string;
+    sex: string;
+    birthday: string;
+    email: string;
+    postalcode: string;
+    city: string;
+  };
+}
+
+export default function ModifyProfileInfos({
+  setIsModifyingProfile,
+  user,
+}: ModifyProfileInfosProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const navigate = useNavigate();
   const [passwordValid, setPasswordValid] = useState(false);
   const [bothPasswordsEqual, setBothPasswordsEqual] = useState(false);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const navigate = useNavigate();
     const form = event?.currentTarget;
     event.preventDefault();
-    const formData = new FormData(form);
+    const formDataProdileModification = new FormData(form);
     const response = await fetch(form.action, {
-      method: "POST",
-      body: formData,
+      method: "PUT",
+      body: formDataProdileModification,
     });
     if (response.ok) {
       navigate("/user/1");
@@ -64,36 +81,92 @@ function RegisterForm() {
     return true;
   };
 
+  const formatDateToISO = (date: string) => {
+    const [day, month, year] = date.split("/");
+    return `${year}-${month}-${day}`;
+  };
+
+  const { lastName, firstName, sex, birthday, email, postalcode, city } = user;
+
+  const formattedBirthday = formatDateToISO(birthday);
+
+  const [lastNameInput, setLastNameInput] = useState<string>(lastName);
+  const [firstNameInput, setFirstNameInput] = useState<string>(firstName);
+  const [sexInput, setSexInput] = useState<string>(sex);
+  const [birthdayInput, setBirthdayInput] = useState<string>(formattedBirthday);
+  const [emailInput, setEmailInput] = useState<string>(email);
+  const [postalcodeInput, setPostalcodeInput] = useState<string>(postalcode);
+  const [cityInput, setCityInput] = useState<string>(city);
+
   return (
-    <section>
+    <section style={{ position: "absolute", top: "0%", left: "0%" }}>
       <form
         action={`${import.meta.env.VITE_API_URL}/api/users`}
-        method="post"
+        method="put"
         onSubmit={handleSubmit}
       >
         <label htmlFor="last-name">Nom *</label>
-        <input type="text" placeholder="Nom *" name="lastName" id="last-name" />
+        <input
+          type="text"
+          placeholder="Nom *"
+          name="lastName"
+          id="last-name"
+          value={lastNameInput}
+          onChange={(event) => setLastNameInput(event.target.value)}
+        />
         <label htmlFor="first-name">Prénom *</label>
         <input
           type="text"
           placeholder="Prénom *"
           name="firstName"
           id="first-name"
+          value={firstNameInput}
+          onChange={(event) => setFirstNameInput(event.target.value)}
         />
         <label htmlFor="email">Email *</label>
-        <input type="email" placeholder="Email *" name="email" id="email" />
+        <input
+          type="email"
+          placeholder="Email *"
+          name="email"
+          id="email"
+          value={emailInput}
+          onChange={(event) => setEmailInput(event.target.value)}
+        />
         <label htmlFor="sex">Genre</label>
-        <select name="sex" id="sex">
+        <select
+          name="sex"
+          id="sex"
+          value={sexInput}
+          onChange={(event) => setSexInput(event.target.value)}
+        >
           <option value="masculin">Masculin</option>
           <option value="feminin">Féminin</option>
           <option value="agenre">Non-binaire</option>
         </select>
         <label htmlFor="birthday">Date de naissance</label>
-        <input type="date" name="birthday" id="birthday" />
+        <input
+          type="date"
+          name="birthday"
+          id="birthday"
+          value={birthdayInput}
+          onChange={(event) => setBirthdayInput(event.target.value)}
+        />
         <label htmlFor="location">Code postal / Ville</label>
         <div className="location-container" id="location">
-          <input type="text" placeholder="Code postal" name="postalcode" />
-          <input type="text" placeholder="Ville" name="city" />
+          <input
+            type="text"
+            placeholder="Code postal"
+            name="postalcode"
+            value={postalcodeInput}
+            onChange={(event) => setPostalcodeInput(event.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Ville"
+            name="city"
+            value={cityInput}
+            onChange={(event) => setCityInput(event.target.value)}
+          />
         </div>
         <label htmlFor="password">Mot de passe *</label>
         <input
@@ -105,8 +178,8 @@ function RegisterForm() {
         />
         {!passwordValid && (
           <p>
-            {`Le mot de passe doit contenir au moins 13 caractères, une majuscule,
-            une minuscule, un chiffre et un caractère spécial (!"#$%&'()*+,\x5C-./:;<=>?@[\x5D^_\x60\x7B|\x7D~)`}
+            {`Le mot de passe doit contenir au moins 12 caractères, une majuscule,
+              une minuscule, un chiffre et un caractère spécial (!"#$%&'()*+,\x5C-./:;<=>?@[\x5D^_\x60\x7B|\x7D~)`}
           </p>
         )}
         {errorMessage && <p>{errorMessage}</p>}
@@ -118,17 +191,21 @@ function RegisterForm() {
           id="password-confirm"
           onChange={handleChangeConfirmPassword}
         />
-        <div className="button-container">
-          <button
-            type="submit"
-            disabled={!(passwordValid && bothPasswordsEqual)}
-          >
-            Créer le compte
-          </button>
-        </div>
+        <button
+          type="button"
+          className="cancel-profile-infos-modify"
+          onClick={() => setIsModifyingProfile(false)}
+        >
+          Annuler
+        </button>
+        <button
+          type="submit"
+          className="validate-profile-infos-modify"
+          disabled={!(passwordValid && bothPasswordsEqual)}
+        >
+          Valider
+        </button>
       </form>
     </section>
   );
 }
-
-export default RegisterForm;
