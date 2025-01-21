@@ -118,6 +118,7 @@ function RegisterForm() {
           id="password-confirm"
           onChange={handleChangeConfirmPassword}
         />
+        {!bothPasswordsEqual && <p>Les mots de passe ne correspondent pas</p>}
         <div className="button-container">
           <button
             type="submit"
