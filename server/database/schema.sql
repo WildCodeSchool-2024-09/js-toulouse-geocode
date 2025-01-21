@@ -79,6 +79,7 @@ create table user (
   id int primary key auto_increment not null,
   firstname varchar(80) not null,
   lastname varchar(80) not null,
+  hashed_password varchar(255) not null,
   mail varchar(80) not null,
   sex varchar(10),
   birthday date,

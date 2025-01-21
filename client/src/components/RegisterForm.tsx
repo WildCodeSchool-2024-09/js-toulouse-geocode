@@ -15,7 +15,7 @@ function RegisterForm() {
       body: formData,
     });
     if (response.ok) {
-      navigate("/user/1");
+      navigate("/login");
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
     }
