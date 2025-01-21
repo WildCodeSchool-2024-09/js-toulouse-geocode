@@ -1,0 +1,132 @@
+main > div.register-page-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--keppel-color-600);
+  color: white;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+main > div.register-page-container > article {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: start;
+  color: white;
+  padding: 0;
+  position: fixed;
+  bottom: 0px;
+  height: 100%;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  main > div.register-page-container > article {
+    width: 66%;
+  }
+}
+
+@media (max-width: 768px) {
+  main > div.register-page-container > article {
+    width: 100%;
+  }
+}
+
+main > div.register-page-container h2 {
+  font-size: 1.5rem;
+  padding: 0.8rem;
+}
+
+main > div.register-page-container section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 1.5rem;
+  background-color: var(--beige-color);
+  border-top-left-radius: 1.5625rem;
+  border-top-right-radius: 1.5625rem;
+  height: 100%;
+  gap: 0.625rem;
+  color: var(--chicago-color-600);
+  border: black 1px solid;
+}
+
+main > div.register-page-container form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  gap: 0.625rem;
+  border: none;
+  background-color: unset;
+  padding: 1.25rem 1.8125rem 1.25rem 1.8125rem;
+  background-color: var(--ghost-white-color);
+  border-radius: 1.25rem;
+  height: 100%;
+  margin-bottom: 5.9875rem;
+  overflow: auto;
+}
+
+main > div.register-page-container form > select,
+input,
+textarea,
+div {
+  width: 100%;
+}
+
+main > div.register-page-container form input,
+select {
+  outline: none;
+  border: 1px solid var(--keppel-color-600);
+  border-radius: 0.625rem;
+  padding: 0.5rem;
+}
+
+main > div.register-page-container form > p {
+  color: var(--red-color);
+}
+
+main > div.register-page-container form button {
+  background-color: var(--blue-color);
+  color: white;
+  border: none;
+  border-radius: 1.0625rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+main > div.register-page-container form > div.button-container {
+  display: flex;
+  justify-content: end;
+  padding-top: 1.25rem;
+}
+
+main > div.register-page-container form > div.location-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.625rem;
+}
+
+main
+  > div.register-page-container
+  form
+  > div.location-container
+  > input[name="postalcode"] {
+  flex: 1;
+}
+
+main
+  > div.register-page-container
+  form
+  > div.location-container
+  > input[name="city"] {
+  flex: 4;
+}

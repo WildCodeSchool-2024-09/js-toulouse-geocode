@@ -63,10 +63,10 @@ main > div.contact-page-container form {
   flex-direction: column;
   align-items: end;
   justify-content: start;
-  gap: 0.625rem;
+  gap: 1.25rem;
   border: none;
   background-color: unset;
-  padding: 1.25rem;
+  padding: 1.25rem 1.8125rem 1.25rem 1.8125rem;
   background-color: var(--ghost-white-color);
   border-radius: 1.25rem;
   height: 100%;
@@ -77,6 +77,15 @@ main > div.contact-page-container form > select,
 input,
 textarea {
   width: 100%;
+}
+
+main > div.contact-page-container form input,
+select,
+textarea {
+  outline: none;
+  border: 1px solid var(--keppel-color-600);
+  border-radius: 0.625rem;
+  padding: 0.5rem;
 }
 
 main > div.contact-page-container form > textarea {
