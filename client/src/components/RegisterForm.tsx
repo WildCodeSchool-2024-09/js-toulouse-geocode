@@ -105,7 +105,7 @@ function RegisterForm() {
         />
         {!passwordValid && (
           <p>
-            {`Le mot de passe doit contenir au moins 12 caractères, une majuscule,
+            {`Le mot de passe doit contenir au moins 13 caractères, une majuscule,
             une minuscule, un chiffre et un caractère spécial (!"#$%&'()*+,\x5C-./:;<=>?@[\x5D^_\x60\x7B|\x7D~)`}
           </p>
         )}
@@ -118,9 +118,14 @@ function RegisterForm() {
           id="password-confirm"
           onChange={handleChangeConfirmPassword}
         />
-        <button type="submit" disabled={!(passwordValid && bothPasswordsEqual)}>
-          Créer le compte
-        </button>
+        <div className="button-container">
+          <button
+            type="submit"
+            disabled={!(passwordValid && bothPasswordsEqual)}
+          >
+            Créer le compte
+          </button>
+        </div>
       </form>
     </section>
   );
