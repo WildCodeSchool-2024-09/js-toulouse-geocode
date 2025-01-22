@@ -1,4 +1,3 @@
-import { el } from "@faker-js/faker/.";
 import databaseClient from "../../../database/client";
 
 import type { Result, Rows } from "../../../database/client";
@@ -140,6 +139,17 @@ class UserRepository {
     console.info("formattedDate", formattedDate);
 
     return formattedDate;
+  }
+
+  async readByEmailWithPassword(email: string) {
+    // Execute the SQL SELECT query to retrieve a specific user by its email
+    const [rows] = await databaseClient.query<Rows>(
+      "select * from user where mail = ?",
+      [email],
+    );
+
+    // Return the first row of the result, which represents the user
+    return rows[0] as User;
   }
 }
 
