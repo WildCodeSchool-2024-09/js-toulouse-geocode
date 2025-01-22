@@ -79,6 +79,7 @@ create table user (
   id int primary key auto_increment not null,
   firstname varchar(80) not null,
   lastname varchar(80) not null,
+  hashed_password varchar(255) not null,
   mail varchar(80) not null,
   sex varchar(10),
   birthday date,
@@ -119,13 +120,3 @@ create table contact (
   mail varchar(80) not null,
   message text not null
 );
-
-insert into region (name) values ('Ile-de-France');
-
-insert into department (name, region_id) values ('Paris', 1);
-
-insert into city (name, department_id) values ('Paris', 1);
-
-insert into postalcode (code, city_id) values ('75001', 1);
-
-insert into user (firstname, lastname, mail, sex, birthday, postal_code_id, number_of_vehicles) values ('John', 'Doe', 'john.doe@gmail.com', 'Masculin', '1990-01-01', 1, 1);insert into region (name) values ('Ile-de-France');

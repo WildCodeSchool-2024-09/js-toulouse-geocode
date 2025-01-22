@@ -6,11 +6,17 @@
 }
 
 .personal-infos-container {
-  background-color: var(--white-color);
+  background-color: var(--ghost-white-color);
   margin: 1rem;
   padding: 1rem 1.5rem;
   border-radius: 1rem;
   margin-bottom: 50vh;
+}
+
+@media screen and (width > 1000px) {
+  .personal-infos-container {
+    font-size: 1.5rem;
+  }
 }
 
 .user-profile-buttons {
@@ -28,7 +34,6 @@
     justify-content: center;
     margin: 0 auto;
     width: 30rem;
-    flex-wrap: wrap;
     margin-top: 3rem;
   }
 }
@@ -41,24 +46,45 @@
   border-radius: 0.8rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+@media screen and (width > 768px) {
+  .modify-profile-button {
+    width: auto;
+  }
 }
 
 .disconnect-profile-button {
   background-color: var(--beige-color);
-  width: 10rem;
+  min-width: 10rem;
   color: black;
   border: 1px solid black;
   border-radius: 0.8rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+@media screen and (width > 768px) {
+  .disconnect-profile-button {
+    min-width: auto;
+  }
 }
 
 .delete-profile-button {
   background-color: var(--dark-red-color);
   width: 10.08rem;
-  color: var(--white-text-color);
+  color: var(--ghost-white-color);
   border-radius: 0.8rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
   border: none;
+  white-space: nowrap;
+}
+
+@media screen and (width > 768px) {
+  .delete-profile-button {
+    width: auto;
+  }
 }

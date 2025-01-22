@@ -6,6 +6,7 @@ const router = express.Router();
 // Define Your API Routes Here
 /* ************************************************************************* */
 
+import authActions from "./modules/auth/authActions";
 import contactActions from "./modules/contact/contactActions";
 import geoCoordsActions from "./modules/geoCoords/geoCoordsActions";
 import csvManagementActions from "./modules/insertData/insertDataAction";
@@ -18,6 +19,7 @@ import postalcodeActions from "./modules/postalcode/postalcodeActions";
 import providerActions from "./modules/provider/providerActions";
 import signActions from "./modules/sign/signActions";
 import stationActions from "./modules/station/stationActions";
+import userActions from "./modules/user/userActions";
 import userPhotoActions from "./modules/userPhoto/userPhotoActions";
 
 router.get("/api/items", itemActions.browse);
@@ -32,6 +34,7 @@ router.put(
   modifyPhotoActions.validatePhoto,
   userPhotoActions.update,
 );
+
 router.delete("/api/delete-photo/:user_id", userPhotoActions.deleteAction);
 
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
@@ -39,6 +42,16 @@ router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
 router.get("/api/stations/:id", stationActions.read);
 
 router.post("/api/contacts", contactActions.validate, contactActions.add);
+
+router.post("/api/login", authActions.login);
+
+router.post("/api/users", authActions.hashPassword, userActions.add);
+router.get("/api/users/verify-email", userActions.verifyEmail);
+
+router.post("/api/login", authActions.login);
+
+router.post("/api/users", authActions.hashPassword, userActions.add);
+router.get("/api/users/verify-email", userActions.verifyEmail);
 
 router.get("/api/stations", stationActions.browse);
 

@@ -12,7 +12,9 @@ a {
 
 :root {
   --chicago-color-600: #545b5a;
+  --chicago-color-700: #4c5251;
   --blue-color: #21a89a;
+  --keppel-color-500: #3b9186;
   --keppel-color-600: #2d746c;
   --egg-color: #e5e9e7;
   --beige-color: #f0e6db;
@@ -22,15 +24,25 @@ a {
   --dark-red-color: #bb3434;
   --dark-color: #0c0c0c;
   --ghost-white-color: #f9f9f9;
-  --white-color: #ffffff;
-  --white-text-color: #ffffff;
+  --pastel-green-800: #2f551f;
 }
 
+@media (orientation: landscape) {
+  :root {
+    font-size: 10px;
+  }
+}
+
+@media (orientation: portrait) {
+  body {
+    font-size: 16px;
+  }
+}
 body {
   width: 100vw;
   height: 100vh;
   font-family: "Nunito", sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.7;
   color: var(--egg-color);
   background: linear-gradient(

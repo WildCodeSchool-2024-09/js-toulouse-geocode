@@ -8,16 +8,17 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Import the main app component
 import App from "./App";
 import AppAdmin from "./admin/AppAdmin";
-import ShowNavProvider from "./admin/contexts/ShowNavProvider";
 import ConnectionAdminPage from "./admin/pages/ConnectionAdminPage";
 import StationPage from "./admin/pages/StationPage";
 import UsersPage from "./admin/pages/UsersPage";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
 import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
-import { ShowMenubarProvider } from "./contexts/ShowMenubarProvider";
+import GlobalContext from "./contexts/GlobalContext";
 import ContactPage from "./pages/ContactPage";
 import GeoMapPage from "./pages/GeoMapPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
 
 // Import additional components for new routes
@@ -44,7 +45,7 @@ const router = createBrowserRouter(
           element: <GeoMapPage />,
         },
         {
-          path: "/user/:id",
+          path: "/user",
           element: <UserPage />,
         },
         {
@@ -58,6 +59,14 @@ const router = createBrowserRouter(
         {
           path: "/get-started",
           element: <GetStartedScreen />,
+        },
+        {
+          path: "/register",
+          element: <RegisterPage />,
+        },
+        {
+          path: "/login",
+          element: <LoginPage />,
         },
       ],
     },
@@ -93,11 +102,9 @@ if (rootElement == null) {
 // Render the app inside the root element
 createRoot(rootElement).render(
   <StrictMode>
-    <ShowMenubarProvider>
-      <ShowNavProvider>
-        <RouterProvider router={router} />
-      </ShowNavProvider>
-    </ShowMenubarProvider>
+    <GlobalContext>
+      <RouterProvider router={router} />
+    </GlobalContext>
   </StrictMode>,
 );
 

@@ -27,7 +27,7 @@
 .prev-button {
   background-color: transparent;
   border: none;
-  color: var(--white-color);
+  color: var(--ghost-white-color);
   font-size: 1.2rem;
   cursor: pointer;
 }
