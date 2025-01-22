@@ -1,16 +1,40 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { isValidEmail } from "../types/tools.ts";
+
+type cityType = {
+  nom: string;
+  code: string;
+  codeDepartement: string;
+};
 
 function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
   const [passwordValid, setPasswordValid] = useState(false);
   const [bothPasswordsEqual, setBothPasswordsEqual] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [emailExists, setEmailExists] = useState(false);
+  const [cities, setCities] = useState(Array<cityType>(0));
+
+  const cityInputElement = useRef<HTMLInputElement>(null);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const form = event?.currentTarget;
+
     event.preventDefault();
+    let response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/users/verify-email?email=${form.email.value}`,
+    );
+    console.info("response: ", response);
+    if (response.ok) {
+      setEmailExists(true);
+      return;
+    }
+
+    setEmailExists(false);
     const formData = new FormData(form);
-    const response = await fetch(form.action, {
+    response = await fetch(form.action, {
       method: "POST",
       body: formData,
     });
@@ -34,6 +58,31 @@ function RegisterForm() {
       "password",
     ) as HTMLInputElement;
     setBothPasswordsEqual(password === confirmPasswordElement?.value);
+  };
+
+  const handleChangeEmail = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const email = event.target.value;
+    setEmailValid(isValidEmail(email));
+  };
+
+  const handleChangePostalcode = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const postalcode = event.target.value;
+    fetch(
+      `https://geo.api.gouv.fr/communes?codePostal=${postalcode}&fields=nom,code,codeDepartement,codeRegion`,
+    )
+      .then((response) => response.json())
+      .then((cityResponses: cityType[]) => {
+        if (cityResponses.length !== 0) {
+          setCities(cityResponses);
+          if (cityInputElement.current) {
+            cityInputElement.current.value = "";
+          }
+        }
+      });
   };
 
   const testString = (str: string) => {
@@ -81,7 +130,14 @@ function RegisterForm() {
           id="first-name"
         />
         <label htmlFor="email">Email *</label>
-        <input type="email" placeholder="Email *" name="email" id="email" />
+        <input
+          type="email"
+          placeholder="Email *"
+          name="email"
+          id="email"
+          onChange={handleChangeEmail}
+        />
+        {!emailValid && <p>Adresse email invalide.</p>}
         <label htmlFor="sex">Genre</label>
         <select name="sex" id="sex">
           <option value="masculin">Masculin</option>
@@ -92,8 +148,25 @@ function RegisterForm() {
         <input type="date" name="birthday" id="birthday" />
         <label htmlFor="location">Code postal / Ville</label>
         <div className="location-container" id="location">
-          <input type="text" placeholder="Code postal" name="postalcode" />
-          <input type="text" placeholder="Ville" name="city" />
+          <input
+            type="text"
+            placeholder="Code postal"
+            name="postalcode"
+            onChange={handleChangePostalcode}
+          />
+          <input
+            type="text"
+            placeholder="Ville"
+            name="city"
+            list="cities"
+            defaultValue=""
+            ref={cityInputElement}
+          />
+          <datalist id="cities">
+            {cities.map((city) => (
+              <option key={city.code} value={city.nom} />
+            ))}
+          </datalist>
         </div>
         <label htmlFor="password">Mot de passe *</label>
         <input
@@ -119,6 +192,7 @@ function RegisterForm() {
           onChange={handleChangeConfirmPassword}
         />
         {!bothPasswordsEqual && <p>Les mots de passe ne correspondent pas</p>}
+        {emailExists && <p>L'email ci-dessus est déjà utilisé.</p>}
         <div className="button-container">
           <button
             type="submit"
