@@ -1,19 +1,8 @@
 import { createContext, useContext, useState } from "react";
 
-interface UserType {
-  id: number;
-  lastName: string;
-  firstName: string;
-  email: string;
-  sex: string;
-  birthday: string;
-  postalcode: string;
-  hashed_password: string;
-}
-
 interface AuthType {
   token: string;
-  user: UserType;
+  user_id: number;
 }
 
 interface AuthContextType {
