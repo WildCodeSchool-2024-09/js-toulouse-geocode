@@ -1,7 +1,11 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 import { useStationsLocationsContext } from "../contexts/StationsLocationsContextProvider";
 
 function StationDescription() {
   const stationsLocationsContext = useStationsLocationsContext();
+  const authContext = useAuth();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -22,14 +26,20 @@ function StationDescription() {
         {stationsLocationsContext.station.access_charging}
       </section>
       <section className="station-reserve">
-        <button
-          type="button"
-          onClick={() =>
-            stationsLocationsContext.setIsReservationComponentDisplayed(true)
-          }
-        >
-          Réserver
-        </button>
+        {authContext.auth ? (
+          <button
+            type="button"
+            onClick={() =>
+              stationsLocationsContext.setIsReservationComponentDisplayed(true)
+            }
+          >
+            Réserver
+          </button>
+        ) : (
+          <button type="button" onClick={() => navigate("/login")}>
+            Se connecter
+          </button>
+        )}
       </section>
     </>
   );
