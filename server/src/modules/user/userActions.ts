@@ -46,4 +46,23 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, add };
+const verifyEmail: RequestHandler = async (req, res, next) => {
+  try {
+    // Fetch a specific user from the database based on the provided email
+    const user = await userRepository.readByEmailWithPassword(
+      req.query.email as string,
+    );
+
+    if (user == null) {
+      res.sendStatus(404);
+      return;
+    }
+
+    res.sendStatus(200);
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
+  }
+};
+
+export default { browse, add, verifyEmail };

@@ -31,6 +31,7 @@ router.put(
   modifyPhotoActions.validatePhoto,
   userPhotoActions.update,
 );
+
 router.delete("/api/delete-photo/:user_id", userPhotoActions.deleteAction);
 
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
@@ -48,6 +49,7 @@ router.post("/api/login", authActions.login);
 
 router.get("/api/users/:id", userActions.browse);
 router.post("/api/users", authActions.hashPassword, userActions.add);
+router.get("/api/users/verify-email", userActions.verifyEmail);
 
 /* ************************************************************************* */
 
