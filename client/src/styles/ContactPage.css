@@ -73,15 +73,15 @@ main > div.contact-page-container form {
   margin-bottom: 5.9875rem;
 }
 
-main > div.contact-page-container form > select,
-input,
-textarea {
+div.contact-page-container form > select,
+div.contact-page-container form > input,
+div.contact-page-container form > textarea {
   width: 100%;
 }
 
-main > div.contact-page-container form input,
-select,
-textarea {
+div.contact-page-container form input,
+div.contact-page-container form select,
+div.contact-page-container form textarea {
   outline: none;
   border: 1px solid var(--keppel-color-600);
   border-radius: 0.625rem;

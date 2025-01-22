@@ -74,15 +74,15 @@ main > div.register-page-container form {
   overflow: auto;
 }
 
-main > div.register-page-container form > select,
-input,
-textarea,
-div {
+div.register-page-container form > select,
+div.register-page-container form > input,
+div.register-page-container form > textarea,
+div.register-page-container form > div {
   width: 100%;
 }
 
-main > div.register-page-container form input,
-select {
+div.register-page-container form input,
+div.register-page-container form select {
   outline: none;
   border: 1px solid var(--keppel-color-600);
   border-radius: 0.625rem;
