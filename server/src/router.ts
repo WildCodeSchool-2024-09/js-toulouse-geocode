@@ -35,6 +35,8 @@ router.get("/api/stations/:id", stationActions.read);
 
 router.post("/api/contacts", contactActions.validate, contactActions.add);
 
+router.post("/api/login", authActions.login);
+
 router.post("/api/users", authActions.hashPassword, userActions.add);
 
 /* ************************************************************************* */
