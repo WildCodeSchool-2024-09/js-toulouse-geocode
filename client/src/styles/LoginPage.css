@@ -89,8 +89,8 @@ select {
   padding: 0.5rem;
 }
 
-main > div.login-page-container form > p {
-  color: #4c5251;
+.p-not-register {
+  margin-top: 1rem;
 }
 
 main > div.login-page-container form > a {
@@ -138,4 +138,9 @@ main
   > div.location-container
   > input[name="city"] {
   flex: 4;
+}
+
+.login-form-error-message {
+  color: var(--red-color);
+  font-size: 0.875rem;
 }
