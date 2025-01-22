@@ -13,6 +13,7 @@ type User = {
   birthday: string;
   postalcode: string;
   hashed_password: string;
+  city: string;
 };
 
 type Location = Partial<
@@ -26,7 +27,7 @@ class UserRepository {
     const elementLocation: Location = {
       region: location.region,
       departement: location.departement,
-      ville: location.city,
+      ville: user.city,
       code_insee: user.postalcode,
     };
 
@@ -51,7 +52,7 @@ class UserRepository {
 
     // Execute the SQL INSERT query to add a new user to the "user" table
     const [result] = await databaseClient.query<Result>(
-      `insert into user 
+      `insert into user
       (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, number_of_vehicles)
       values
       (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -151,6 +152,17 @@ class UserRepository {
     // Return the first row of the result, which represents the user
     return rows[0] as User;
   }
+
+  async readUser(id: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "select * from user where id = ?",
+      [id],
+    );
+
+    return rows[0];
+  }
+
+  // The R of CRUD - Read operation
 }
 
 export default new UserRepository();

@@ -7,11 +7,14 @@ const router = express.Router();
 /* ************************************************************************* */
 
 import authActions from "./modules/auth/authActions";
+import cityActions from "./modules/city/cityActions";
 import contactActions from "./modules/contact/contactActions";
+import departementActions from "./modules/department/departementActions";
 import csvManagementActions from "./modules/insertData/insertDataAction";
 // Define item-related routes
 import itemActions from "./modules/item/itemActions";
 import modifyPhotoActions from "./modules/modifyPhoto/modifyPhotoActions";
+import postalCodeActions from "./modules/postalCode/postalCodeActions";
 import stationActions from "./modules/station/stationActions";
 import userActions from "./modules/user/userActions";
 import userPhotoActions from "./modules/userPhoto/userPhotoActions";
@@ -33,10 +36,17 @@ router.delete("/api/delete-photo/:user_id", userPhotoActions.deleteAction);
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
 router.get("/api/stations/:id", stationActions.read);
 
+router.get("api/departement/:id", departementActions.browse);
+
+router.get("/api/postalcode/:id", postalCodeActions.read);
+
+router.get("/api/city/:id", cityActions.read);
+
 router.post("/api/contacts", contactActions.validate, contactActions.add);
 
 router.post("/api/login", authActions.login);
 
+router.get("/api/users/:id", userActions.browse);
 router.post("/api/users", authActions.hashPassword, userActions.add);
 
 /* ************************************************************************* */

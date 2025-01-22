@@ -1,5 +1,24 @@
+import { log } from "node:console";
 import type { RequestHandler } from "express";
 import userRepository from "./userRepository";
+
+// The B of BREAD - Browse (Read) operation
+
+const browse: RequestHandler = async (req, res, next) => {
+  try {
+    const id = Number.parseInt(req.params.id);
+
+    const user = await userRepository.readUser(id);
+
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
 // The A of BREAD - Add (Create) operation
 const add: RequestHandler = async (req, res, next) => {
@@ -13,6 +32,7 @@ const add: RequestHandler = async (req, res, next) => {
       birthday: req.body.birthday,
       postalcode: req.body.postalcode,
       hashed_password: req.body.hashed_password,
+      city: req.body.city,
     };
 
     // Create the user
@@ -26,4 +46,4 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { add };
+export default { browse, add };

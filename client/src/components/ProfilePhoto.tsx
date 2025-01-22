@@ -6,6 +6,7 @@ import EmptyProfilePhoto from "/images/empty-profile-photo.png";
 import ModifyIcon from "/images/modify.svg";
 
 import "../styles/ProfilePhoto.css";
+import { useAuth } from "../contexts/AuthProvider";
 import ConfirmationDeletePhoto from "./ConfirmationDeletePhoto";
 import ConfirmationUploadPhoto from "./ConfirmationUploadPhoto";
 
@@ -20,6 +21,7 @@ export default function ProfilePhoto({
   setPhotoFileUrl,
   fetchPhoto,
 }: ProfilePhotoProps) {
+  const { auth } = useAuth();
   const [isModifyingPhoto, setIsModifyingPhoto] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [initialPhotoUrl, setInitialPhotoUrl] = useState<string | null>(null);
@@ -39,7 +41,9 @@ export default function ProfilePhoto({
 
   const handleUpload = () => {
     if (photoFile && typeof photoFile !== "string") {
-      handlePhotoDelete();
+      if (photoFile !== null) {
+        handlePhotoDelete();
+      }
       setPhotoFileUrl(URL.createObjectURL(photoFile));
       uploadPhotoFetch(photoFile);
     } else {
@@ -70,7 +74,7 @@ export default function ProfilePhoto({
     formData.append("photo", photoFile as Blob);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/upload-photo/:id`,
+        `${import.meta.env.VITE_API_URL}/api/upload-photo/${auth?.user_id}`,
         {
           method: "PUT",
           body: formData,
@@ -87,9 +91,12 @@ export default function ProfilePhoto({
 
   const handlePhotoDelete = () => {
     try {
-      fetch(`${import.meta.env.VITE_API_URL}/api/delete-photo/:id`, {
-        method: "DELETE",
-      });
+      fetch(
+        `${import.meta.env.VITE_API_URL}/api/delete-photo/${auth?.user_id}`,
+        {
+          method: "DELETE",
+        },
+      );
       setPhotoFileUrl(null);
     } catch (error) {
       console.error(error);

@@ -3,25 +3,75 @@ import ArticlePersonalInfo from "./ArticlePersonalInfo";
 import ProfilePhoto from "./ProfilePhoto";
 
 import "../styles/ProfileInfo.css";
+import { useAuth } from "../contexts/AuthProvider";
 import ModifyProfileInfos from "./ModifyProfileInfos";
 
 export default function ProfileInfo() {
-  const user = {
-    lastName: "Righi",
-    firstName: "Cédric",
-    sex: "Masculin",
-    birthday: "27/03/2004",
-    email: "cedric.righi@gmail.com",
-    postalcode: "09120",
-    city: "Varilhes",
-  };
+  interface User {
+    lastName: string;
+    firstName: string;
+    sex: string;
+    birthday: string;
+    email: string;
+    postalcode: string;
+    city: string;
+  }
 
-  const userArr = [
-    [user.lastName, user.firstName],
-    [user.sex, user.birthday],
-    [user.email],
-    [user.postalcode, user.city],
-  ];
+  const [user, setUser] = useState<User | null>(null);
+  const { auth } = useAuth();
+  const [userArr, setUserArr] = useState<string[][]>([]);
+
+  useEffect(() => {
+    const getProfileInfos = async () => {
+      try {
+        const userResponse = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        const userData = await userResponse.json();
+
+        const postalcodeResponse = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/postalcode/${
+            userData.postal_code_id
+          }`,
+        );
+
+        const postalcodeData = await postalcodeResponse.json();
+
+        const cityResponse = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/city/${postalcodeData.city_id}`,
+        );
+
+        const cityData = await cityResponse.json();
+
+        const birthdayDate = new Date(userData.birthday);
+
+        const birthdayCorrectFormat = `${birthdayDate.getDate() < 10 ? `0${birthdayDate.getDate()}` : birthdayDate.getDate()}/${birthdayDate.getMonth() + 1 < 10 ? `0${birthdayDate.getMonth() + 1}` : birthdayDate.getMonth()}/${birthdayDate.getFullYear()}`;
+
+        setUserArr(
+          userData
+            ? [
+                [userData.lastname ?? "", userData.firstname ?? ""],
+                [userData.sex ?? "", birthdayCorrectFormat ?? ""],
+                [userData.mail ?? ""],
+                [postalcodeData.code ?? "", cityData.name ?? ""],
+              ]
+            : [],
+        );
+
+        () => setUser(userData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getProfileInfos();
+  }, [auth]);
 
   const [photoFileUrl, setPhotoFileUrl] = useState<string | null>(null);
   const [isModifyingProfile, setIsModifyingProfile] = useState(false);
@@ -29,7 +79,7 @@ export default function ProfileInfo() {
   const fetchPhoto = useCallback(async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/get-photo/:id`,
+        `${import.meta.env.VITE_API_URL}/api/get-photo/${auth?.user_id}`,
       );
 
       if (!response.ok) {
@@ -42,7 +92,7 @@ export default function ProfileInfo() {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     fetchPhoto();
@@ -77,7 +127,7 @@ export default function ProfileInfo() {
           </div>
         </section>
       </div>
-      {isModifyingProfile && (
+      {isModifyingProfile && user && (
         <ModifyProfileInfos
           setIsModifyingProfile={setIsModifyingProfile}
           user={user}
