@@ -1,5 +1,6 @@
 import { log } from "node:console";
 import type { RequestHandler } from "express";
+import insertDataRepository from "../insertData/insertDataRepository";
 import userRepository from "./userRepository";
 
 // The B of BREAD - Browse (Read) operation
@@ -65,4 +66,27 @@ const verifyEmail: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, add, verifyEmail };
+const updateUserInfos: RequestHandler = async (req, res, next) => {
+  try {
+    const user = {
+      id: Number.parseInt(req.params.id),
+      lastname: req.body.lastname,
+      firstname: req.body.firstname,
+      hashed_password: req.body.hashed_password,
+      mail: req.body.mail,
+      sex: req.body.sex,
+      birthday: req.body.birthday,
+      postal_code: req.body.postalcode,
+      number_of_vehicle: req.body.number_of_vehicle,
+    };
+
+    // const newPostalcodeId = await insertDataRepository.insertPostalCode(user.postal_code);
+
+    const updatedId = await userRepository.updateProfileInfos(user);
+    res.status(200).json({ updatedId });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { browse, add, verifyEmail, updateUserInfos };

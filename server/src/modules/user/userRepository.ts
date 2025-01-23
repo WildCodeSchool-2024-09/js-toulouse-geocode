@@ -16,6 +16,18 @@ type User = {
   city: string;
 };
 
+type UserInfos = {
+  id: number;
+  birthday: string;
+  firstname: string;
+  hashed_password: string;
+  lastname: string;
+  mail: string;
+  number_of_vehicle: number;
+  postal_code: number;
+  sex: string;
+};
+
 type Location = Partial<
   Pick<CsvDataType, "region" | "departement" | "ville" | "code_insee">
 >;
@@ -162,7 +174,22 @@ class UserRepository {
     return rows[0];
   }
 
-  // The R of CRUD - Read operation
+  // The U of CRUD - Update operation
+  async updateProfileInfos(user: UserInfos) {
+    const [result] = await databaseClient.query<Result>(
+      "update user set firstname = ?, lastname = ?, mail = ?, sex = ?, birthday = ?, postal_code_id = ? where id = ?",
+      [
+        user.firstname,
+        user.lastname,
+        user.mail,
+        user.sex,
+        user.birthday,
+        user.postal_code,
+        user.id,
+      ],
+    );
+    return result;
+  }
 }
 
 export default new UserRepository();

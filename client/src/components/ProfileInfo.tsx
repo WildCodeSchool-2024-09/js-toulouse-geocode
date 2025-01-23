@@ -8,73 +8,74 @@ import ModifyProfileInfos from "./ModifyProfileInfos";
 
 export default function ProfileInfo() {
   interface User {
-    lastName: string;
-    firstName: string;
-    sex: string;
     birthday: string;
-    email: string;
-    postalcode: string;
-    city: string;
+    firstname: string;
+    hashed_password: string;
+    id: number;
+    lastname: string;
+    mail: string;
+    number_of_vehicle: number;
+    postal_code_id: number;
+    sex: string;
   }
 
-  const [user, setUser] = useState<User | null>(null);
   const { auth } = useAuth();
   const [userArr, setUserArr] = useState<string[][]>([]);
-
-  useEffect(() => {
-    const getProfileInfos = async () => {
-      try {
-        const userResponse = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        );
-        const userData = await userResponse.json();
-
-        const postalcodeResponse = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/postalcode/${
-            userData.postal_code_id
-          }`,
-        );
-
-        const postalcodeData = await postalcodeResponse.json();
-
-        const cityResponse = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/city/${postalcodeData.city_id}`,
-        );
-
-        const cityData = await cityResponse.json();
-
-        const birthdayDate = new Date(userData.birthday);
-
-        const birthdayCorrectFormat = `${birthdayDate.getDate() < 10 ? `0${birthdayDate.getDate()}` : birthdayDate.getDate()}/${birthdayDate.getMonth() + 1 < 10 ? `0${birthdayDate.getMonth() + 1}` : birthdayDate.getMonth()}/${birthdayDate.getFullYear()}`;
-
-        setUserArr(
-          userData
-            ? [
-                [userData.lastname ?? "", userData.firstname ?? ""],
-                [userData.sex ?? "", birthdayCorrectFormat ?? ""],
-                [userData.mail ?? ""],
-                [postalcodeData.code ?? "", cityData.name ?? ""],
-              ]
-            : [],
-        );
-
-        () => setUser(userData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getProfileInfos();
-  }, [auth]);
-
+  const [user, setUser] = useState<User | null>(null);
   const [photoFileUrl, setPhotoFileUrl] = useState<string | null>(null);
   const [isModifyingProfile, setIsModifyingProfile] = useState(false);
+
+  const getProfileInfos = useCallback(async () => {
+    try {
+      const userResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const userData = await userResponse.json();
+
+      const postalcodeResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/postalcode/${
+          userData.postal_code_id
+        }`,
+      );
+
+      const postalcodeData = await postalcodeResponse.json();
+
+      const cityResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/city/${postalcodeData.city_id}`,
+      );
+
+      const cityData = await cityResponse.json();
+
+      const birthdayDate = new Date(userData.birthday);
+
+      const birthdayCorrectFormat = `${birthdayDate.getDate() < 10 ? `0${birthdayDate.getDate()}` : birthdayDate.getDate()}/${birthdayDate.getMonth() + 1 < 10 ? `0${birthdayDate.getMonth() + 1}` : birthdayDate.getMonth()}/${birthdayDate.getFullYear()}`;
+
+      setUserArr(
+        userData
+          ? [
+              [userData.lastname ?? "", userData.firstname ?? ""],
+              [userData.sex ?? "", birthdayCorrectFormat ?? ""],
+              [userData.mail ?? ""],
+              [postalcodeData.code ?? "", cityData.name ?? ""],
+            ]
+          : [],
+      );
+
+      setUser(userData);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [auth?.user_id]);
+
+  useEffect(() => {
+    getProfileInfos();
+  }, [getProfileInfos]);
 
   const fetchPhoto = useCallback(async () => {
     try {
@@ -131,6 +132,8 @@ export default function ProfileInfo() {
         <ModifyProfileInfos
           setIsModifyingProfile={setIsModifyingProfile}
           user={user}
+          city={userArr[3][1]}
+          getUser={getProfileInfos}
         />
       )}
     </>

@@ -1,72 +1,80 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../styles/ModifyProfileInfos.css";
+import { useAuth } from "../contexts/AuthProvider";
 
 interface ModifyProfileInfosProps {
   setIsModifyingProfile: (isModifyingProfile: boolean) => void;
   user: {
-    lastName: string;
-    firstName: string;
-    sex: string;
     birthday: string;
-    email: string;
-    postalcode: string;
-    city: string;
+    firstname: string;
+    hashed_password: string;
+    id: number;
+    lastname: string;
+    mail: string;
+    number_of_vehicle: number;
+    postal_code_id: number;
+    sex: string;
   };
+  city: string;
+  getUser: () => void;
 }
 
 export default function ModifyProfileInfos({
   setIsModifyingProfile,
   user,
+  city,
+  getUser,
 }: ModifyProfileInfosProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { auth } = useAuth();
+  const { lastname, firstname, sex, birthday, mail, postal_code_id } = user;
+
+  const [lastNameInput, setLastNameInput] = useState<string>(lastname);
+  const [firstNameInput, setFirstNameInput] = useState<string>(firstname);
+  const [sexInput, setSexInput] = useState<string>(sex);
+
+  const [emailInput, setEmailInput] = useState<string>(mail);
+  const [postalcodeInput, setPostalcodeInput] = useState<string>(
+    postal_code_id.toString(),
+  );
+  const [cityInput, setCityInput] = useState<string>(city);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    const navigate = useNavigate();
-    const form = event?.currentTarget;
     event.preventDefault();
-    const formDataProdileModification = new FormData(form);
-    const response = await fetch(form.action, {
-      method: "PUT",
-      body: formDataProdileModification,
-    });
+    const form = event?.currentTarget;
+    const formDataProfileModification = new FormData(form);
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+      {
+        method: "PUT",
+        body: formDataProfileModification,
+      },
+    );
     if (response.ok) {
-      navigate("/user/1");
+      setIsModifyingProfile(false);
+      getUser();
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
     }
   };
 
   const formatDateToISO = (date: string) => {
-    const [day, month, year] = date.split("/");
-    return `${year}-${month}-${day}`;
+    const newDate = new Date(date);
+    const formattedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart(2, "0")}-${String(newDate.getDate()).padStart(2, "0")}`;
+    return formattedDate;
   };
-
-  const { lastName, firstName, sex, birthday, email, postalcode, city } = user;
-
   const formattedBirthday = formatDateToISO(birthday);
-
-  const [lastNameInput, setLastNameInput] = useState<string>(lastName);
-  const [firstNameInput, setFirstNameInput] = useState<string>(firstName);
-  const [sexInput, setSexInput] = useState<string>(sex);
-  const [birthdayInput, setBirthdayInput] = useState<string>(formattedBirthday);
-  const [emailInput, setEmailInput] = useState<string>(email);
-  const [postalcodeInput, setPostalcodeInput] = useState<string>(postalcode);
-  const [cityInput, setCityInput] = useState<string>(city);
+  const [_, setBirthdayInput] = useState<string>(formattedBirthday);
 
   return (
     <section className="modify-profile-infos-container">
-      <form
-        className="modify-profile-infos-form"
-        action={`${import.meta.env.VITE_API_URL}/api/users`}
-        method="put"
-        onSubmit={handleSubmit}
-      >
+      <form className="modify-profile-infos-form" onSubmit={handleSubmit}>
         <label htmlFor="last-name">Nom *</label>
         <input
           type="text"
           placeholder="Nom *"
-          name="lastName"
+          name="lastname"
           id="last-name"
           value={lastNameInput}
           onChange={(event) => setLastNameInput(event.target.value)}
@@ -75,7 +83,7 @@ export default function ModifyProfileInfos({
         <input
           type="text"
           placeholder="Prénom *"
-          name="firstName"
+          name="firstname"
           id="first-name"
           value={firstNameInput}
           onChange={(event) => setFirstNameInput(event.target.value)}
@@ -84,7 +92,7 @@ export default function ModifyProfileInfos({
         <input
           type="email"
           placeholder="Email *"
-          name="email"
+          name="mail"
           id="email"
           value={emailInput}
           onChange={(event) => setEmailInput(event.target.value)}
@@ -105,7 +113,7 @@ export default function ModifyProfileInfos({
           type="date"
           name="birthday"
           id="birthday"
-          value={birthdayInput}
+          value={formatDateToISO(user.birthday)}
           onChange={(event) => setBirthdayInput(event.target.value)}
         />
         <label htmlFor="location">Code postal / Ville</label>
