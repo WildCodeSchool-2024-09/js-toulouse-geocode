@@ -8,6 +8,7 @@ const router = express.Router();
 
 import authActions from "./modules/auth/authActions";
 import cityActions from "./modules/city/cityActions";
+import codeInseeActions from "./modules/codeInsee/codeInseeActions";
 import contactActions from "./modules/contact/contactActions";
 import departementActions from "./modules/department/departementActions";
 import csvManagementActions from "./modules/insertData/insertDataAction";
@@ -40,6 +41,8 @@ router.get("/api/stations/:id", stationActions.read);
 router.get("api/departement/:id", departementActions.browse);
 
 router.get("/api/postalcode/:id", postalCodeActions.read);
+
+router.get("/api/inseecode/:id", codeInseeActions.browse);
 
 router.get("/api/city/:id", cityActions.read);
 

@@ -10,6 +10,15 @@ class postalCodeRepository {
 
     return rows[0];
   }
+
+  async readPostalCodeIdByPostalCode(postalcode: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT id FROM postalcode WHERE code = ?",
+      [postalcode],
+    );
+
+    return rows[0];
+  }
 }
 
 export default new postalCodeRepository();

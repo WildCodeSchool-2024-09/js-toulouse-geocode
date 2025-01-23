@@ -4,6 +4,7 @@ import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
 import type { CsvDataType } from "../../../types/csvDataType";
 import insertDataRepository from "../insertData/insertDataRepository";
+import postalCodeRepository from "../postalCode/postalCodeRepository";
 
 type User = {
   id: number;
@@ -15,7 +16,6 @@ type User = {
   postalcode: string;
   city: string;
   hashed_password: string;
-  city: string;
 };
 
 type UserInfos = {
@@ -27,6 +27,7 @@ type UserInfos = {
   mail: string;
   number_of_vehicle: number;
   postal_code: number;
+  insee_code_id: number;
   sex: string;
 };
 
@@ -160,15 +161,20 @@ class UserRepository {
 
   // The U of CRUD - Update operation
   async updateProfileInfos(user: UserInfos) {
+    const postalCodeId = await insertDataRepository.verifyPostalCode(
+      user.postal_code,
+    );
+
     const [result] = await databaseClient.query<Result>(
-      "update user set firstname = ?, lastname = ?, mail = ?, sex = ?, birthday = ?, postal_code_id = ? where id = ?",
+      "update user set firstname = ?, lastname = ?, mail = ?, sex = ?, birthday = ?, postal_code_id = ?, insee_code_id = ? where id = ?",
       [
         user.firstname,
         user.lastname,
         user.mail,
         user.sex,
         user.birthday,
-        user.postal_code,
+        postalCodeId,
+        user.insee_code_id,
         user.id,
       ],
     );

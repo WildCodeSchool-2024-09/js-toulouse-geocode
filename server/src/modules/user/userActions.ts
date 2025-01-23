@@ -1,4 +1,3 @@
-import { log } from "node:console";
 import type { RequestHandler } from "express";
 import insertDataRepository from "../insertData/insertDataRepository";
 import userRepository from "./userRepository";
@@ -34,7 +33,6 @@ const add: RequestHandler = async (req, res, next) => {
       postalcode: req.body.postalcode,
       city: req.body.city,
       hashed_password: req.body.hashed_password,
-      city: req.body.city,
     };
 
     // Create the user
@@ -78,10 +76,9 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
       sex: req.body.sex,
       birthday: req.body.birthday,
       postal_code: req.body.postalcode,
+      insee_code_id: req.body.insee_code_id,
       number_of_vehicle: req.body.number_of_vehicle,
     };
-
-    // const newPostalcodeId = await insertDataRepository.insertPostalCode(user.postal_code);
 
     const updatedId = await userRepository.updateProfileInfos(user);
     res.status(200).json({ updatedId });

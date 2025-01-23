@@ -102,11 +102,7 @@ class InsertDataRepository {
     }
   }
 
-  async verifyPostalCode(
-    postalCode: number,
-    code_insee_commune: number,
-    city: string,
-  ) {
+  async verifyPostalCode(postalCode: number) {
     try {
       const [row] = await databaseClient.query<Rows>(
         "SELECT * FROM postalcode WHERE code = ?",
@@ -116,14 +112,16 @@ class InsertDataRepository {
       if (row[0]) return row[0].id;
 
       const [result] = await databaseClient.query<Result>(
-        "INSERT INTO postalcode (code, city_id) VALUES (?, ?)",
-        [code_insee_commune, postalCode],
+        "INSERT INTO postalcode (code) VALUES (?)",
+        [postalCode],
       );
       return result.insertId;
     } catch (error) {
       console.error(error);
     }
   }
+
+  async verifyInseeCode(inseeCode: number) {}
 
   async insertSign(elem: CsvDataType) {
     try {

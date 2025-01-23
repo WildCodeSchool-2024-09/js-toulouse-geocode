@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "../styles/ModifyProfileInfos.css";
 import { useAuth } from "../contexts/AuthProvider";
+
+interface cityType {
+  nom: string;
+  code: string;
+  codeDepartement: string;
+}
 
 interface ModifyProfileInfosProps {
   setIsModifyingProfile: (isModifyingProfile: boolean) => void;
@@ -13,10 +19,12 @@ interface ModifyProfileInfosProps {
     mail: string;
     number_of_vehicle: number;
     postal_code_id: number;
+    insee_code_id: number;
     sex: string;
   };
   city: string;
   getUser: () => void;
+  postalcode: number | null;
 }
 
 export default function ModifyProfileInfos({
@@ -24,24 +32,25 @@ export default function ModifyProfileInfos({
   user,
   city,
   getUser,
+  postalcode,
 }: ModifyProfileInfosProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { auth } = useAuth();
-  const { lastname, firstname, sex, birthday, mail, postal_code_id } = user;
+  const { lastname, firstname, sex, birthday, mail, insee_code_id } = user;
 
   const [lastNameInput, setLastNameInput] = useState<string>(lastname);
   const [firstNameInput, setFirstNameInput] = useState<string>(firstname);
   const [sexInput, setSexInput] = useState<string>(sex);
-
+  const [cityInput, setCityInput] = useState<string>(city);
   const [emailInput, setEmailInput] = useState<string>(mail);
   const [postalcodeInput, setPostalcodeInput] = useState<string>(
-    postal_code_id.toString(),
+    postalcode ? postalcode.toString() : "",
   );
-  const [cityInput, setCityInput] = useState<string>(city);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event?.currentTarget;
+
     const formDataProfileModification = new FormData(form);
 
     const response = await fetch(
@@ -59,13 +68,44 @@ export default function ModifyProfileInfos({
     }
   };
 
+  const [cities, setCities] = useState(Array<cityType>(0));
+  const cityInputElement = useRef<HTMLInputElement>(null);
+
+  const handleChangePostalcode = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const postalcode = event.target.value;
+    fetch(
+      `https://geo.api.gouv.fr/communes?nom=${city}&codePostal=${postalcode}&fields=nom,code,codeDepartement,codeRegion`,
+    )
+      .then((response) => response.json())
+      .then((cityResponses: cityType[]) => {
+        if (cityResponses.length !== 0) {
+          setCities(cityResponses);
+          if (cityInputElement.current) {
+            cityInputElement.current.value = "";
+          }
+        }
+      });
+  };
+
   const formatDateToISO = (date: string) => {
-    const newDate = new Date(date);
-    const formattedDate = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart(2, "0")}-${String(newDate.getDate()).padStart(2, "0")}`;
+    const newDate = date.split("T")[0];
+
+    if (!newDate.includes("/")) {
+      return newDate;
+    }
+    const [day, month, year] = newDate.split("/");
+
+    const formattedDate = `${year}-${month}-${day}`;
+    console.info("formattedDate", formattedDate);
+
     return formattedDate;
   };
+
   const formattedBirthday = formatDateToISO(birthday);
-  const [_, setBirthdayInput] = useState<string>(formattedBirthday);
+
+  const [birthdayInput, setBirthdayInput] = useState<string>(formattedBirthday);
 
   return (
     <section className="modify-profile-infos-container">
@@ -113,7 +153,7 @@ export default function ModifyProfileInfos({
           type="date"
           name="birthday"
           id="birthday"
-          value={formatDateToISO(user.birthday)}
+          value={formatDateToISO(birthdayInput)}
           onChange={(event) => setBirthdayInput(event.target.value)}
         />
         <label htmlFor="location">Code postal / Ville</label>
@@ -124,16 +164,29 @@ export default function ModifyProfileInfos({
             placeholder="Code postal"
             name="postalcode"
             value={postalcodeInput}
-            onChange={(event) => setPostalcodeInput(event.target.value)}
+            onChange={(event) => {
+              setPostalcodeInput(event.target.value);
+              handleChangePostalcode(event);
+              if (cityInputElement.current) {
+                cityInputElement.current.value = "";
+              }
+            }}
           />
+          <input type="hidden" name="insee_code_id" value={insee_code_id} />
           <input
-            className="modify-city-input"
             type="text"
             placeholder="Ville"
             name="city"
-            value={cityInput}
+            list="cities"
+            defaultValue={cityInput}
+            ref={cityInputElement}
             onChange={(event) => setCityInput(event.target.value)}
           />
+          <datalist id="cities">
+            {cities.map((city) => (
+              <option key={city.code} value={city.nom} />
+            ))}
+          </datalist>
         </div>
         {errorMessage && <p>{errorMessage}</p>}
         <div className="modify-profile-infos-buttons">
