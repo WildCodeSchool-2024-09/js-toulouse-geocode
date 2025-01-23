@@ -1,19 +1,19 @@
 .connection-admin-container {
   display: flex;
   flex-direction: column;
-  gap: 7rem;
+  gap: 11.2rem;
 }
 
 .connection-admin-main-container {
   display: flex;
   justify-content: center;
-  gap: 5rem;
+  gap: 8rem;
 }
 
 .connection-admin-main-container > section > h1 {
-  font-size: 5rem;
+  font-size: 8rem;
 }
 
 .connection-admin-main-container > section > h2 {
-  font-size: 2rem;
+  font-size: 3.2rem;
 }

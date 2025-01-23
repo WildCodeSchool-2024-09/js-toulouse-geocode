@@ -1,3 +1,4 @@
+import ShowNavProvider from "../admin/contexts/ShowNavProvider";
 import AuthProvider from "./AuthProvider";
 import { GeoPositionContextProvider } from "./GeoPositionContextProvider";
 import { ShowMenubarProvider } from "./ShowMenubarProvider";
@@ -10,9 +11,11 @@ export default function GlobalContext({
     <AuthProvider>
       <GeoPositionContextProvider>
         <ShowMenubarProvider>
-          <StationsLocationsContextProvider>
-            {children}
-          </StationsLocationsContextProvider>
+          <ShowNavProvider>
+            <StationsLocationsContextProvider>
+              {children}
+            </StationsLocationsContextProvider>
+          </ShowNavProvider>
         </ShowMenubarProvider>
       </GeoPositionContextProvider>
     </AuthProvider>
