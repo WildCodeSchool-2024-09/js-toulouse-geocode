@@ -4,7 +4,6 @@ import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
 import type { CsvDataType } from "../../../types/csvDataType";
 import insertDataRepository from "../insertData/insertDataRepository";
-import postalCodeRepository from "../postalCode/postalCodeRepository";
 
 type User = {
   id: number;

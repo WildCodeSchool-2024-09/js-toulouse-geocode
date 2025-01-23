@@ -75,14 +75,14 @@ main > div.login-page-container form {
 }
 
 main > div.login-page-container form > select,
-input,
-textarea,
-div {
+main > div.login-page-container form > input,
+main > div.login-page-container form > textarea,
+main > div.login-page-container form > div {
   width: 100%;
 }
 
 main > div.login-page-container form input,
-select {
+main > div.login-page-container form select {
   outline: none;
   border: 1px solid var(--keppel-color-600);
   border-radius: 0.625rem;

@@ -1,14 +1,14 @@
 import type { RowDataPacket } from "mysql2";
 import databaseClient from "../../../database/client";
 
-import type { Result, Rows } from "../../../database/client";
+import type { Rows } from "../../../database/client";
 
 import {
   AdminstrativeAreaProps,
   GeoLocationProps,
   PdcProps,
   StationProps,
-  StationPropsWithLocation,
+  type StationPropsWithIndex,
 } from "../../../common/types/StationProps";
 
 const selectStatement = `select 
@@ -74,6 +74,12 @@ class StationRepository {
 
     // Return the array of items
     return rows.map(transform);
+  }
+
+  async readAll() {
+    const [rows] = await databaseClient.query<Rows>("select * from station");
+
+    return rows as StationPropsWithIndex[];
   }
 
   async read(itemId: number) {
