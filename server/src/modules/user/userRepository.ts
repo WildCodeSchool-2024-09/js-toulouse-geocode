@@ -19,7 +19,12 @@ type User = {
 type Location = Partial<
   Pick<
     ExtendedCsvDataType,
-    "region" | "departement" | "ville" | "code_insee" | "code_postal"
+    | "region"
+    | "departement"
+    | "ville"
+    | "code_insee_commune"
+    | "code_insee"
+    | "code_postal"
   >
 >;
 class UserRepository {
@@ -31,6 +36,7 @@ class UserRepository {
       region: location.region,
       departement: location.departement,
       ville: location.city,
+      code_insee_commune: location.inseecode,
       code_insee: location.inseecode,
       code_postal: user.postalcode,
     };
