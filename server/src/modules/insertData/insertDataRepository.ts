@@ -1,4 +1,7 @@
-import { correctionData } from "../../../bin/services/csvManagement";
+import {
+  type ExtendedCsvDataType,
+  correctionData,
+} from "../../../bin/services/csvManagement";
 import type { Result, Rows } from "../../../database/client";
 import databaseClient from "../../../database/client";
 import type { CsvDataType } from "../../../types/csvDataType";
@@ -61,18 +64,37 @@ class InsertDataRepository {
     }
   }
 
-  async insertPostalCode(elem: CsvDataType, cityId: number) {
+  async insertPostalCode(elem: ExtendedCsvDataType) {
     try {
       const [row] = await databaseClient.query<Rows>(
         "SELECT * FROM postalcode WHERE code = ?",
-        [elem.code_insee],
+        [elem.code_postal],
       );
 
       if (row[0]) return row[0].id;
 
       const [result] = await databaseClient.query<Result>(
-        "INSERT INTO postalcode (code, city_id) VALUES (?, ?)",
-        [elem.code_insee, cityId],
+        "INSERT INTO postalcode (code) VALUES (?)",
+        [elem.code_postal],
+      );
+      return result.insertId;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async insertInseeCode(elem: ExtendedCsvDataType, cityId: number) {
+    try {
+      const [row] = await databaseClient.query<Rows>(
+        "SELECT * FROM insee_code WHERE code = ?",
+        [elem.code_insee_commune],
+      );
+
+      if (row[0]) return row[0].id;
+
+      const [result] = await databaseClient.query<Result>(
+        "INSERT INTO insee_code (code, city_id) VALUES (?, ?)",
+        [elem.code_insee_commune, cityId],
       );
       return result.insertId;
     } catch (error) {
@@ -181,13 +203,14 @@ class InsertDataRepository {
     signId: number,
     operatorId: number,
     providerId: number,
+    inseeCodeId: number,
     postalcodeId: number,
     geoCoordsId: number,
     pdcId: number,
   ) {
     try {
       const [result] = await databaseClient.query<Result>(
-        "INSERT INTO station (name, address, sign_id, operator_id, provider_id, postalcode_id, geo_coords_id, number_pdc, pdc_id, access_charging, accessibility, update_date_time, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO station (name, address, sign_id, operator_id, provider_id, postalcode_id, insee_code_id, geo_coords_id, number_pdc, pdc_id, access_charging, accessibility, update_date_time, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           elem.n_station,
           elem.ad_station,
@@ -195,6 +218,7 @@ class InsertDataRepository {
           operatorId,
           providerId,
           postalcodeId,
+          inseeCodeId,
           geoCoordsId,
           elem.nbre_pdc,
           pdcId,
@@ -224,7 +248,8 @@ class InsertDataRepository {
           regionId,
         );
         const cityId = await this.insertCity(correctData, departmentId);
-        const postalcodeId = await this.insertPostalCode(correctData, cityId);
+        const postalcodeId = await this.insertPostalCode(correctData);
+        const inseeCodeId = await this.insertInseeCode(correctData, cityId);
         const signId = await this.insertSign(correctData);
         const operatorId = await this.insertOperator(correctData);
         const providerId = await this.insertProvider(correctData);
@@ -236,6 +261,7 @@ class InsertDataRepository {
           signId,
           operatorId,
           providerId,
+          inseeCodeId,
           postalcodeId,
           geoCoordsId,
           pdcId,
