@@ -102,7 +102,11 @@ class InsertDataRepository {
     }
   }
 
-  async verifyPostalCode(postalCode: number, code_insee_commune: number) {
+  async verifyPostalCode(
+    postalCode: number,
+    code_insee_commune: number,
+    city: string,
+  ) {
     try {
       const [row] = await databaseClient.query<Rows>(
         "SELECT * FROM postalcode WHERE code = ?",
