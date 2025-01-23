@@ -1,3 +1,4 @@
+import type { ExtendedCsvDataType } from "../../../bin/services/csvManagement";
 import databaseClient from "../../../database/client";
 
 import type { Result, Rows } from "../../../database/client";
@@ -16,7 +17,15 @@ type User = {
 };
 
 type Location = Partial<
-  Pick<CsvDataType, "region" | "departement" | "ville" | "code_insee">
+  Pick<
+    ExtendedCsvDataType,
+    | "region"
+    | "departement"
+    | "ville"
+    | "code_insee_commune"
+    | "code_insee"
+    | "code_postal"
+  >
 >;
 class UserRepository {
   // The C of CRUD - Create operation
@@ -27,7 +36,9 @@ class UserRepository {
       region: location.region,
       departement: location.departement,
       ville: location.city,
-      code_insee: user.postalcode,
+      code_insee_commune: location.inseecode,
+      code_insee: location.inseecode,
+      code_postal: user.postalcode,
     };
 
     const region_id = await insertDataRepository.insertRegion(
@@ -44,17 +55,21 @@ class UserRepository {
       departement_id,
     );
 
-    const postal_code_id = await insertDataRepository.insertPostalCode(
-      elementLocation as CsvDataType,
+    const insee_code_id = await insertDataRepository.insertInseeCode(
+      elementLocation as ExtendedCsvDataType,
       city_id,
+    );
+
+    const postal_code_id = await insertDataRepository.insertPostalCode(
+      elementLocation as ExtendedCsvDataType,
     );
 
     // Execute the SQL INSERT query to add a new user to the "user" table
     const [result] = await databaseClient.query<Result>(
       `insert into user 
-      (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, number_of_vehicles)
+      (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles)
       values
-      (?, ?, ?, ?, ?, ?, ?, ?)`,
+      (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         user.firstName,
         user.lastName,
@@ -63,6 +78,7 @@ class UserRepository {
         user.sex,
         this.convertDateFormat(user.birthday),
         postal_code_id,
+        insee_code_id,
         0,
       ],
     );
@@ -72,56 +88,23 @@ class UserRepository {
   }
 
   async fetchLocation(postalcode: string) {
-    let response = await fetch(
-      `https://geo.api.gouv.fr/communes?codePostal=${postalcode}&fields=nom,code,codeDepartement,codeRegion`,
+    const response = await fetch(
+      `https://geo.api.gouv.fr/communes?codePostal=${postalcode}&fields=nom,code,departement,region`,
     );
 
-    const cityResponseArray = (await response.json()) as Array<{
-      nom: string;
-      code: string;
-      codeDepartement: string;
-    }>;
+    const cityResponseArray = await response.json();
 
     if (cityResponseArray.length === 0) {
       throw new Error("No city found for this postal code");
     }
-    const cityResponse = cityResponseArray[0];
 
-    response = await fetch(
-      `https://geo.api.gouv.fr/departements?code=${cityResponse.codeDepartement}&fields=nom,code,codeRegion`,
-    );
-
-    const departementResponseArray = (await response.json()) as Array<{
-      nom: string;
-      code: string;
-      codeRegion: string;
-    }>;
-
-    if (departementResponseArray.length === 0) {
-      throw new Error("No departement found for this city");
-    }
-
-    const departementResponse = departementResponseArray[0];
-    response = await fetch(
-      `https://geo.api.gouv.fr/regions?code=${departementResponse.codeRegion}&fields=nom,code`,
-    );
-
-    const regionResponseArray = (await response.json()) as Array<{
-      nom: string;
-      code: string;
-    }>;
-
-    if (regionResponseArray.length === 0) {
-      throw new Error("No region found for this departement");
-    }
-
-    const regionResponse = regionResponseArray[0];
     return {
-      city: cityResponse.nom,
-      departement: departementResponse.nom,
-      codeDepartement: departementResponse.code,
-      region: regionResponse.nom,
-      codeRegion: regionResponse.code,
+      city: cityResponseArray[0].nom,
+      inseecode: cityResponseArray[0].code,
+      departement: cityResponseArray[0].departement.nom,
+      codeDepartement: cityResponseArray[0].departement.code,
+      region: cityResponseArray[0].region.nom,
+      codeRegion: cityResponseArray[0].region.code,
     };
   }
 

@@ -12,54 +12,179 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
   const [station, setStation] = useState({
     name: item.name,
     address: item.address,
-    sign: null,
-    operator: null,
-    provider: null,
-    postalcode: null,
+    sign: null as string | null,
+    operator: null as string | null,
+    provider: null as string | null,
+    postalcode: null as string | null,
     geo_coords: null,
-    number_pdc: item.number_pdc,
-    outlet: null,
+    number_outlet: item.number_pdc,
+    outlet: null as {
+      id: number;
+      name: string;
+      power_max: number;
+      type: string;
+    } | null,
     access_charging: item.access_charging,
     accessibility: item.accessibility,
     update_date_time: item.update_date_time,
     source: item.source,
   });
 
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleClickArrow = () => {
+    setIsVisible(!isVisible);
+  };
+
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postalcode_id}`,
-        );
-        const postalcode = await response.json();
+        const [
+          responseProvider,
+          responseSign,
+          responseOperator,
+          responsePostalcode,
+          responseOutlet,
+        ] = await Promise.all([
+          fetch(
+            `${import.meta.env.VITE_API_URL}/api/providers/${item.provider_id}`,
+          ),
+          fetch(`${import.meta.env.VITE_API_URL}/api/signs/${item.sign_id}`),
+          fetch(
+            `${import.meta.env.VITE_API_URL}/api/operators/${item.operator_id}`,
+          ),
+          fetch(
+            `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postalcode_id}`,
+          ),
+          fetch(`${import.meta.env.VITE_API_URL}/api/outlets/${item.pdc_id}`),
+        ]);
+
+        const [
+          dataProvider,
+          dataSign,
+          dataOperator,
+          dataPostalcode,
+          dataOutlet,
+        ] = await Promise.all([
+          responseProvider.json(),
+          responseSign.json(),
+          responseOperator.json(),
+          responsePostalcode.json(),
+          responseOutlet.json(),
+        ]);
 
         setStation({
           ...station,
-          postalcode: postalcode.code,
+          postalcode: dataPostalcode.code,
+          sign: dataSign.name,
+          provider: dataProvider.name,
+          operator: dataOperator.name,
+          outlet: dataOutlet,
         });
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [item.postalcode_id, station]);
+  }, [
+    item.provider_id,
+    item.sign_id,
+    item.operator_id,
+    item.postalcode_id,
+    item.pdc_id,
+    station,
+  ]);
 
   return (
-    <div className="station-item-admin-container">
-      <img
-        src={arrowImg}
-        alt="déplier"
-        className="station-item-admin-arrow-img"
-      />
-      <p className="station-item-admin-name">{item.name}</p>
-      <p className="station-item-admin-postalcode">{station.postalcode}</p>
-      <button type="button" className="station-item-admin-modify-button">
-        Modifier
-      </button>
-      <img
-        src={trashCanImg}
-        alt="supprimer"
-        className="station-item-admin-trash-can-img"
-      />
+    <div className="station-item-admin">
+      <div
+        className={`station-item-admin-container ${isVisible ? "is-visible" : ""}`}
+      >
+        <img
+          src={arrowImg}
+          alt="déplier"
+          className={`station-item-admin-arrow-img ${isVisible ? "is-visible" : ""}`}
+          onClick={handleClickArrow}
+          onKeyDown={handleClickArrow}
+        />
+        <p className="station-item-admin-name">{item.name}</p>
+        <p className="station-item-admin-postalcode">{station.postalcode}</p>
+        <button
+          type="button"
+          className={`station-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
+        >
+          Modifier
+        </button>
+        <img
+          src={trashCanImg}
+          alt="supprimer"
+          className={`station-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
+        />
+      </div>
+      {isVisible && (
+        <div className="station-item-admin-full-info">
+          <p>
+            Aménageur:
+            <br />
+            <p className="station-item-admin-full-info-value">
+              {station.provider}
+            </p>
+          </p>
+          <p>
+            Enseigne:
+            <br />
+            <p className="station-item-admin-full-info-value">{station.sign}</p>
+          </p>
+          <p>
+            Nombre PDC:
+            <br />
+            <p className="station-item-admin-full-info-value">
+              {station.number_outlet}
+            </p>
+          </p>
+          <p>
+            Opérateur:
+            <br />
+            <p className="station-item-admin-full-info-value">
+              {station.operator}
+            </p>
+          </p>
+          <p>
+            Identifiant station:
+            <br />
+            <p className="station-item-admin-full-info-value">
+              {station.outlet?.name}
+            </p>
+          </p>
+          <p>
+            Puissance max:
+            <br />
+            <p className="station-item-admin-full-info-value">
+              {station.outlet?.power_max}
+            </p>
+          </p>
+          <p>
+            Adresse station:
+            <br />
+            <p className="station-item-admin-full-info-value">
+              {station.address}
+            </p>
+          </p>
+          <p>
+            Type de prise:
+            <br />
+            <p className="station-item-admin-full-info-value">
+              {station.outlet?.type}
+            </p>
+          </p>
+          <p>
+            Acces recharge:
+            <br />
+            <p className="station-item-admin-full-info-value">
+              {station.access_charging}
+            </p>
+          </p>
+        </div>
+      )}
     </div>
   );
 }
