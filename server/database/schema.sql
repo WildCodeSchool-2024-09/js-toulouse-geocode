@@ -34,6 +34,11 @@ create table city (
 
 create table postalcode (
   id int primary key auto_increment not null,
+  code varchar(5) not null
+);
+
+create table insee_code (
+  id int primary key auto_increment not null,
   code varchar(5) not null,
   city_id int,
   foreign key(city_id) references city(id)
@@ -64,6 +69,8 @@ create table station (
   foreign key(provider_id) references provider(id),
   postalcode_id int,
   foreign key(postalcode_id) references postalcode(id),
+  insee_code_id int,
+  foreign key(insee_code_id) references insee_code(id),
   geo_coords_id int,
   foreign key(geo_coords_id) references geo_coords(id),
   number_pdc int,
@@ -85,6 +92,8 @@ create table user (
   birthday date,
   postal_code_id int,
   foreign key(postal_code_id) references postalcode(id),
+  insee_code_id int,
+  foreign key(insee_code_id) references insee_code(id),
   number_of_vehicles int
 );
 
