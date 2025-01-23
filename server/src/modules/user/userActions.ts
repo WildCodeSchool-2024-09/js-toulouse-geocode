@@ -32,6 +32,7 @@ const add: RequestHandler = async (req, res, next) => {
       sex: req.body.sex,
       birthday: req.body.birthday,
       postalcode: req.body.postalcode,
+      city: req.body.city,
       hashed_password: req.body.hashed_password,
       city: req.body.city,
     };

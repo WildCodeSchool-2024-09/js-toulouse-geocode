@@ -13,6 +13,7 @@ type User = {
   sex: string;
   birthday: string;
   postalcode: string;
+  city: string;
   hashed_password: string;
   city: string;
 };
@@ -44,7 +45,7 @@ class UserRepository {
   // The C of CRUD - Create operation
 
   async create(user: Omit<User, "id">) {
-    const location = await this.fetchLocation(user.postalcode);
+    const location = await this.fetchLocation(user.city);
     const elementLocation: Location = {
       region: location.region,
       departement: location.departement,
@@ -100,9 +101,9 @@ class UserRepository {
     return result.insertId;
   }
 
-  async fetchLocation(postalcode: string) {
+  async fetchLocation(city: string) {
     const response = await fetch(
-      `https://geo.api.gouv.fr/communes?codePostal=${postalcode}&fields=nom,code,departement,region`,
+      `https://geo.api.gouv.fr/communes?nom=${city}&fields=nom,code,departement,region`,
     );
 
     const cityResponseArray = await response.json();
