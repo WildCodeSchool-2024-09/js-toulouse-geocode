@@ -49,9 +49,35 @@ export default function ModifyProfileInfos({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = event?.currentTarget;
+    const form = event.currentTarget;
+
+    const postalcodeForm = (
+      form.elements.namedItem("postalcode") as HTMLInputElement
+    )?.value;
+
+    const cityNameForm = (form.elements.namedItem("city") as HTMLInputElement)
+      .value;
+
+    // Appel à l'API pour obtenir les codes INSEE et départementaux
+    const codeInseeDepartementRegionResponse = await fetch(
+      `https://geo.api.gouv.fr/communes?nom=${cityNameForm}&codePostal=${postalcodeForm}&fields=nom,code,departement,region`,
+    );
+
+    const codeInseeDepartementRegionData =
+      await codeInseeDepartementRegionResponse.json();
+
+    const department = codeInseeDepartementRegionData[0].departement.nom;
+
+    const region = codeInseeDepartementRegionData[0].region.nom;
 
     const formDataProfileModification = new FormData(form);
+    formDataProfileModification.append(
+      "insee_code_id",
+      codeInseeDepartementRegionData[0].code[0],
+    );
+    formDataProfileModification.append("city", cityNameForm);
+    formDataProfileModification.append("departement", department);
+    formDataProfileModification.append("region", region);
 
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
@@ -76,7 +102,7 @@ export default function ModifyProfileInfos({
   ) => {
     const postalcode = event.target.value;
     fetch(
-      `https://geo.api.gouv.fr/communes?nom=${city}&codePostal=${postalcode}&fields=nom,code,codeDepartement,codeRegion`,
+      `https://geo.api.gouv.fr/communes?codePostal=${postalcode}&fields=nom,code,codeDepartement,codeRegion`,
     )
       .then((response) => response.json())
       .then((cityResponses: cityType[]) => {
@@ -89,18 +115,15 @@ export default function ModifyProfileInfos({
       });
   };
 
-  const formatDateToISO = (date: string) => {
-    const newDate = date.split("T")[0];
+  const formatDateToISO = (date: string): string => {
+    const parsedDate = new Date(date);
 
-    if (!newDate.includes("/")) {
-      return newDate;
-    }
-    const [day, month, year] = newDate.split("/");
+    // Extraction des valeurs de la date locale.
+    const year = parsedDate.getFullYear();
+    const month = (parsedDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = parsedDate.getDate().toString().padStart(2, "0");
 
-    const formattedDate = `${year}-${month}-${day}`;
-    console.info("formattedDate", formattedDate);
-
-    return formattedDate;
+    return `${year}-${month}-${day}`;
   };
 
   const formattedBirthday = formatDateToISO(birthday);

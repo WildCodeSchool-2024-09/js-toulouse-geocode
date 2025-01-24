@@ -28,6 +28,9 @@ type UserInfos = {
   postal_code: number;
   insee_code_id: number;
   sex: string;
+  city: string;
+  departement: string;
+  region: string;
 };
 
 type Location = Partial<
@@ -127,13 +130,9 @@ class UserRepository {
       return dateString;
     }
 
-    // Split the input date string into an array [day, month, year]
-    console.info("dateString", dateString);
     const [day, month, year] = dateString.split("/");
 
-    // Format the date to YYYY-mm-dd
     const formattedDate = `${year}-${month}-${day}`;
-    console.info("formattedDate", formattedDate);
 
     return formattedDate;
   }
@@ -164,6 +163,16 @@ class UserRepository {
       user.postal_code,
     );
 
+    const userCity = user.city;
+
+    // Utiliser insertDataRepository pour pouvoir compléter le user
+    const inseeCodeId = await insertDataRepository.insertLocationFromInseeCode(
+      user.insee_code_id,
+      userCity,
+      user.departement,
+      user.region,
+    );
+
     const [result] = await databaseClient.query<Result>(
       "update user set firstname = ?, lastname = ?, mail = ?, sex = ?, birthday = ?, postal_code_id = ?, insee_code_id = ? where id = ?",
       [
@@ -173,7 +182,7 @@ class UserRepository {
         user.sex,
         user.birthday,
         postalCodeId,
-        user.insee_code_id,
+        inseeCodeId,
         user.id,
       ],
     );

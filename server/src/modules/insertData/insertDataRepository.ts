@@ -292,6 +292,120 @@ class InsertDataRepository {
       console.error(error);
     }
   }
+
+  async insertLocationFromInseeCode(
+    inseeCode: number,
+    city: string,
+    department: string,
+    region: string,
+  ) {
+    try {
+      // console.log(inseeCode, city, department, region); // Removed for linter compliance
+      console.info(inseeCode, city, department, region); // Use console.info for debugging information
+
+      // 1. Vérifier si le code INSEE existe déjà
+      const [inseeRow] = await databaseClient.query<Rows>(
+        "SELECT * FROM insee_code WHERE code = ?",
+        [inseeCode],
+      );
+
+      if (inseeRow[0]) {
+        // console.log(`Code INSEE ${inseeCode} déjà existant avec l'id ${inseeRow[0].id}.`); // Removed for linter compliance
+        console.info(
+          `Code INSEE ${inseeCode} déjà existant avec l'id ${inseeRow[0].id}.`,
+        ); // Use console.info for debugging information
+        return inseeRow[0].id;
+      }
+
+      // 2. Vérifier si la ville existe déjà
+      const [cityRow] = await databaseClient.query<Rows>(
+        "SELECT * FROM city WHERE name = ?",
+        [city],
+      );
+
+      let cityId: number;
+
+      if (cityRow[0]) {
+        cityId = cityRow[0].id;
+        // console.log(`Ville "${city}" déjà existante avec l'id ${cityId}.`); // Removed for linter compliance
+        console.info(`Ville "${city}" déjà existante avec l'id ${cityId}.`); // Use console.info for debugging information
+      } else {
+        // 3. Vérifier si le département existe déjà
+        const [departmentRow] = await databaseClient.query<Rows>(
+          "SELECT * FROM department WHERE name = ?",
+          [department],
+        );
+
+        let departmentId: number;
+
+        if (departmentRow[0]) {
+          departmentId = departmentRow[0].id;
+          // console.log(`Département "${department}" déjà existant avec l'id ${departmentId}.`); // Removed for linter compliance
+          console.info(
+            `Département "${department}" déjà existant avec l'id ${departmentId}.`,
+          ); // Use console.info for debugging information
+        } else {
+          // 4. Vérifier si la région existe déjà
+          const [regionRow] = await databaseClient.query<Rows>(
+            "SELECT * FROM region WHERE name = ?",
+            [region],
+          );
+
+          let regionId: number;
+
+          if (regionRow[0]) {
+            regionId = regionRow[0].id;
+            // console.log(`Région "${region}" déjà existante avec l'id ${regionId}.`); // Removed for linter compliance
+            console.info(
+              `Région "${region}" déjà existante avec l'id ${regionId}.`,
+            ); // Use console.info for debugging information
+          } else {
+            // Insérer une nouvelle région
+            const [regionResult] = await databaseClient.query<Result>(
+              "INSERT INTO region (name) VALUES (?)",
+              [region],
+            );
+            regionId = regionResult.insertId;
+            // console.log(`Région "${region}" insérée avec l'id ${regionId}.`); // Removed for linter compliance
+            console.info(`Région "${region}" insérée avec l'id ${regionId}.`); // Use console.info for debugging information
+          }
+
+          // Insérer un nouveau département
+          const [departmentResult] = await databaseClient.query<Result>(
+            "INSERT INTO department (name, region_id) VALUES (?, ?)",
+            [department, regionId],
+          );
+          departmentId = departmentResult.insertId;
+          // console.log(`Département "${department}" inséré avec l'id ${departmentId}.`); // Removed for linter compliance
+          console.info(
+            `Département "${department}" inséré avec l'id ${departmentId}.`,
+          ); // Use console.info for debugging information
+        }
+
+        // Insérer une nouvelle ville
+        const [cityResult] = await databaseClient.query<Result>(
+          "INSERT INTO city (name, department_id) VALUES (?, ?)",
+          [city, departmentId],
+        );
+        cityId = cityResult.insertId;
+        console.info(`Ville "${city}" insérée avec l'id ${cityId}.`);
+      }
+
+      // 5. Insérer le code INSEE avec l'id de la ville
+      const [inseeResult] = await databaseClient.query<Result>(
+        "INSERT INTO insee_code (code, city_id) VALUES (?, ?)",
+        [inseeCode, cityId],
+      );
+      console.info(
+        `Code INSEE ${inseeCode} inséré avec l'id ${inseeResult.insertId}.`,
+      );
+
+      return inseeResult.insertId;
+    } catch (error) {
+      console.error("Erreur dans insertLocationFromInseeCode :", error);
+      throw error;
+    }
+  }
 }
 
 export default new InsertDataRepository();

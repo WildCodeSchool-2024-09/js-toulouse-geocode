@@ -1,3 +1,4 @@
+import { de } from "@faker-js/faker/.";
 import type { RequestHandler } from "express";
 import insertDataRepository from "../insertData/insertDataRepository";
 import userRepository from "./userRepository";
@@ -78,7 +79,12 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
       postal_code: req.body.postalcode,
       insee_code_id: req.body.insee_code_id,
       number_of_vehicle: req.body.number_of_vehicle,
+      city: req.body.city,
+      departement: req.body.departement,
+      region: req.body.region,
     };
+
+    console.info(user.insee_code_id);
 
     const updatedId = await userRepository.updateProfileInfos(user);
     res.status(200).json({ updatedId });
