@@ -77,14 +77,14 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
       sex: req.body.sex,
       birthday: req.body.birthday,
       postal_code: req.body.postalcode,
-      insee_code_id: req.body.insee_code_id,
+      insee_code: req.body.insee_code,
       number_of_vehicle: req.body.number_of_vehicle,
       city: req.body.city,
       departement: req.body.departement,
       region: req.body.region,
     };
 
-    console.info(user.insee_code_id);
+    console.info("Insee ", req.body.city);
 
     const updatedId = await userRepository.updateProfileInfos(user);
     res.status(200).json({ updatedId });

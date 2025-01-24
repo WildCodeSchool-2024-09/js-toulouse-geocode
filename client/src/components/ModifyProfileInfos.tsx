@@ -66,15 +66,14 @@ export default function ModifyProfileInfos({
     const codeInseeDepartementRegionData =
       await codeInseeDepartementRegionResponse.json();
 
+    const inseeCode = codeInseeDepartementRegionData[0].code;
+
     const department = codeInseeDepartementRegionData[0].departement.nom;
 
     const region = codeInseeDepartementRegionData[0].region.nom;
 
     const formDataProfileModification = new FormData(form);
-    formDataProfileModification.append(
-      "insee_code_id",
-      codeInseeDepartementRegionData[0].code[0],
-    );
+    formDataProfileModification.append("insee_code", inseeCode);
     formDataProfileModification.append("city", cityNameForm);
     formDataProfileModification.append("departement", department);
     formDataProfileModification.append("region", region);

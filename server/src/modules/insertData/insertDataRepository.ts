@@ -310,10 +310,9 @@ class InsertDataRepository {
       );
 
       if (inseeRow[0]) {
-        // console.log(`Code INSEE ${inseeCode} déjà existant avec l'id ${inseeRow[0].id}.`); // Removed for linter compliance
         console.info(
           `Code INSEE ${inseeCode} déjà existant avec l'id ${inseeRow[0].id}.`,
-        ); // Use console.info for debugging information
+        );
         return inseeRow[0].id;
       }
 
@@ -327,8 +326,7 @@ class InsertDataRepository {
 
       if (cityRow[0]) {
         cityId = cityRow[0].id;
-        // console.log(`Ville "${city}" déjà existante avec l'id ${cityId}.`); // Removed for linter compliance
-        console.info(`Ville "${city}" déjà existante avec l'id ${cityId}.`); // Use console.info for debugging information
+        console.info(`Ville "${city}" déjà existante avec l'id ${cityId}.`);
       } else {
         // 3. Vérifier si le département existe déjà
         const [departmentRow] = await databaseClient.query<Rows>(

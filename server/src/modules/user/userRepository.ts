@@ -26,7 +26,7 @@ type UserInfos = {
   mail: string;
   number_of_vehicle: number;
   postal_code: number;
-  insee_code_id: number;
+  insee_code: number;
   sex: string;
   city: string;
   departement: string;
@@ -163,11 +163,11 @@ class UserRepository {
       user.postal_code,
     );
 
-    const userCity = user.city;
+    const userCity = user.city[0];
 
     // Utiliser insertDataRepository pour pouvoir compléter le user
     const inseeCodeId = await insertDataRepository.insertLocationFromInseeCode(
-      user.insee_code_id,
+      user.insee_code,
       userCity,
       user.departement,
       user.region,
