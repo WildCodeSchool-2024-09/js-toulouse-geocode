@@ -116,6 +116,8 @@ function UserModification({
                 name="lastName"
                 value={user?.lastName}
               />
+            </div>
+            <div className="group">
               <label htmlFor="firstName">Prénom</label>
               <input
                 type="text"
@@ -123,6 +125,8 @@ function UserModification({
                 name="firstName"
                 value={user?.firstName}
               />
+            </div>
+            <div className="group">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -132,12 +136,16 @@ function UserModification({
                 value={user?.email}
               />
               {!emailValid && <p>Adresse email invalide.</p>}{" "}
+            </div>
+            <div className="group">
               <label htmlFor="sex">Genre</label>
               <select name="sex" id="sex" value={user?.sex}>
                 <option value="masculin">Masculin</option>
                 <option value="feminin">Féminin</option>
                 <option value="agenre">Non-binaire</option>
               </select>
+            </div>
+            <div className="group">
               <label htmlFor="birthday">Date de naissance</label>
               <input
                 type="date"
@@ -145,6 +153,8 @@ function UserModification({
                 id="birthday"
                 value={user?.birthday}
               />
+            </div>
+            <div className="group">
               <label htmlFor="location">Code postal</label>
               <input
                 type="text"
@@ -153,6 +163,8 @@ function UserModification({
                 onChange={handleChangePostalcode}
                 value={user?.postalcode}
               />
+            </div>
+            <div className="group">
               <label htmlFor="location">Ville</label>
               <input
                 type="text"
@@ -168,6 +180,8 @@ function UserModification({
                   <option key={city.code} value={city.nom} />
                 ))}
               </datalist>
+            </div>
+            <div className="group">
               <label htmlFor="vehicles">Nombre de véhicule</label>
               <input
                 type="number"
@@ -176,9 +190,11 @@ function UserModification({
                 value={user?.nb_vehicles}
               />
             </div>
-            <button type="submit">Sauvegarder</button>
-            {errorMessage && <p>{errorMessage}</p>}
-            {emailExists && <p>L'email ci-dessus est déjà utilisé.</p>}
+            <div className="submit">
+              <button type="submit">Sauvegarder</button>
+              {errorMessage && <p>{errorMessage}</p>}
+              {emailExists && <p>L'email ci-dessus est déjà utilisé.</p>}
+            </div>
           </form>
         </section>
       </article>
