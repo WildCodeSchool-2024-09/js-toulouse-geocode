@@ -1,115 +1,142 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import "../styles/ModifyProfileInfos.css";
+import { useAuth } from "../contexts/AuthProvider";
+
+interface cityType {
+  nom: string;
+  code: string;
+  codeDepartement: string;
+}
 
 interface ModifyProfileInfosProps {
   setIsModifyingProfile: (isModifyingProfile: boolean) => void;
   user: {
-    lastName: string;
-    firstName: string;
-    sex: string;
     birthday: string;
-    email: string;
-    postalcode: string;
-    city: string;
+    firstname: string;
+    hashed_password: string;
+    id: number;
+    lastname: string;
+    mail: string;
+    number_of_vehicle: number;
+    postal_code_id: number;
+    insee_code_id: number;
+    sex: string;
   };
+  city: string;
+  getUser: () => void;
+  postalcode: number | null;
 }
 
 export default function ModifyProfileInfos({
   setIsModifyingProfile,
   user,
+  city,
+  getUser,
+  postalcode,
 }: ModifyProfileInfosProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [bothPasswordsEqual, setBothPasswordsEqual] = useState(false);
+  const { auth } = useAuth();
+  const { lastname, firstname, sex, birthday, mail, insee_code_id } = user;
+
+  const [lastNameInput, setLastNameInput] = useState<string>(lastname);
+  const [firstNameInput, setFirstNameInput] = useState<string>(firstname);
+  const [sexInput, setSexInput] = useState<string>(sex);
+  const [cityInput, setCityInput] = useState<string>(city);
+  const [emailInput, setEmailInput] = useState<string>(mail);
+  const [postalcodeInput, setPostalcodeInput] = useState<string>(
+    postalcode ? postalcode.toString() : "",
+  );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    const navigate = useNavigate();
-    const form = event?.currentTarget;
     event.preventDefault();
-    const formDataProdileModification = new FormData(form);
-    const response = await fetch(form.action, {
-      method: "PUT",
-      body: formDataProdileModification,
-    });
+    const form = event.currentTarget;
+
+    const postalcodeForm = (
+      form.elements.namedItem("postalcode") as HTMLInputElement
+    )?.value;
+
+    const cityNameForm = (form.elements.namedItem("city") as HTMLInputElement)
+      .value;
+
+    // Appel à l'API pour obtenir les codes INSEE et départementaux
+    const codeInseeDepartementRegionResponse = await fetch(
+      `https://geo.api.gouv.fr/communes?nom=${cityNameForm}&codePostal=${postalcodeForm}&fields=nom,code,departement,region`,
+    );
+
+    const codeInseeDepartementRegionData =
+      await codeInseeDepartementRegionResponse.json();
+
+    const inseeCode = codeInseeDepartementRegionData[0].code;
+
+    const department = codeInseeDepartementRegionData[0].departement.nom;
+
+    const region = codeInseeDepartementRegionData[0].region.nom;
+
+    const formDataProfileModification = new FormData(form);
+    formDataProfileModification.append("insee_code", inseeCode);
+    formDataProfileModification.append("city", cityNameForm);
+    formDataProfileModification.append("departement", department);
+    formDataProfileModification.append("region", region);
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+      {
+        method: "PUT",
+        body: formDataProfileModification,
+      },
+    );
     if (response.ok) {
-      navigate("/user/1");
+      setIsModifyingProfile(false);
+      getUser();
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
     }
   };
 
-  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const password = event.target.value;
-    setPasswordValid(testString(password));
-  };
+  const [cities, setCities] = useState(Array<cityType>(0));
+  const cityInputElement = useRef<HTMLInputElement>(null);
 
-  const handleChangeConfirmPassword = (
+  const handleChangePostalcode = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const password = event.target.value;
-    const confirmPasswordElement = document.getElementById(
-      "password",
-    ) as HTMLInputElement;
-    setBothPasswordsEqual(password === confirmPasswordElement?.value);
+    const postalcode = event.target.value;
+    fetch(
+      `https://geo.api.gouv.fr/communes?codePostal=${postalcode}&fields=nom,code,codeDepartement,codeRegion`,
+    )
+      .then((response) => response.json())
+      .then((cityResponses: cityType[]) => {
+        if (cityResponses.length !== 0) {
+          setCities(cityResponses);
+          if (cityInputElement.current) {
+            cityInputElement.current.value = "";
+          }
+        }
+      });
   };
 
-  const testString = (str: string) => {
-    // Vérifie si la longueur de la chaîne est supérieure à 13
-    if (str.length <= 12) {
-      return false;
-    }
+  const formatDateToISO = (date: string): string => {
+    const parsedDate = new Date(date);
 
-    // Vérifie la présence d'au moins un des caractères spéciaux
-    const specialChars = /[!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]/;
-    if (!specialChars.test(str)) {
-      return false;
-    }
+    // Extraction des valeurs de la date locale.
+    const year = parsedDate.getFullYear();
+    const month = (parsedDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = parsedDate.getDate().toString().padStart(2, "0");
 
-    // Vérifie la présence d'au moins un chiffre
-    const digitChars = /[0-9]/;
-    if (!digitChars.test(str)) {
-      return false;
-    }
-
-    // Vérifie la présence d'au moins une minuscule et une majuscule
-    const hasLowerCase = /[a-z]/;
-    const hasUpperCase = /[A-Z]/;
-    if (!hasLowerCase.test(str) || !hasUpperCase.test(str)) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const formatDateToISO = (date: string) => {
-    const [day, month, year] = date.split("/");
     return `${year}-${month}-${day}`;
   };
 
-  const { lastName, firstName, sex, birthday, email, postalcode, city } = user;
-
   const formattedBirthday = formatDateToISO(birthday);
 
-  const [lastNameInput, setLastNameInput] = useState<string>(lastName);
-  const [firstNameInput, setFirstNameInput] = useState<string>(firstName);
-  const [sexInput, setSexInput] = useState<string>(sex);
   const [birthdayInput, setBirthdayInput] = useState<string>(formattedBirthday);
-  const [emailInput, setEmailInput] = useState<string>(email);
-  const [postalcodeInput, setPostalcodeInput] = useState<string>(postalcode);
-  const [cityInput, setCityInput] = useState<string>(city);
 
   return (
-    <section style={{ position: "absolute", top: "0%", left: "0%" }}>
-      <form
-        action={`${import.meta.env.VITE_API_URL}/api/users`}
-        method="put"
-        onSubmit={handleSubmit}
-      >
+    <section className="modify-profile-infos-container">
+      <form className="modify-profile-infos-form" onSubmit={handleSubmit}>
         <label htmlFor="last-name">Nom *</label>
         <input
           type="text"
           placeholder="Nom *"
-          name="lastName"
+          name="lastname"
           id="last-name"
           value={lastNameInput}
           onChange={(event) => setLastNameInput(event.target.value)}
@@ -118,7 +145,7 @@ export default function ModifyProfileInfos({
         <input
           type="text"
           placeholder="Prénom *"
-          name="firstName"
+          name="firstname"
           id="first-name"
           value={firstNameInput}
           onChange={(event) => setFirstNameInput(event.target.value)}
@@ -127,7 +154,7 @@ export default function ModifyProfileInfos({
         <input
           type="email"
           placeholder="Email *"
-          name="email"
+          name="mail"
           id="email"
           value={emailInput}
           onChange={(event) => setEmailInput(event.target.value)}
@@ -148,63 +175,54 @@ export default function ModifyProfileInfos({
           type="date"
           name="birthday"
           id="birthday"
-          value={birthdayInput}
+          value={formatDateToISO(birthdayInput)}
           onChange={(event) => setBirthdayInput(event.target.value)}
         />
         <label htmlFor="location">Code postal / Ville</label>
-        <div className="location-container" id="location">
+        <div className="modify-location-container" id="location">
           <input
+            className="modify-postalcode-input"
             type="text"
             placeholder="Code postal"
             name="postalcode"
             value={postalcodeInput}
-            onChange={(event) => setPostalcodeInput(event.target.value)}
+            onChange={(event) => {
+              setPostalcodeInput(event.target.value);
+              handleChangePostalcode(event);
+              if (cityInputElement.current) {
+                cityInputElement.current.value = "";
+              }
+            }}
           />
+          <input type="hidden" name="insee_code_id" value={insee_code_id} />
           <input
             type="text"
             placeholder="Ville"
             name="city"
-            value={cityInput}
+            list="cities"
+            defaultValue={cityInput}
+            ref={cityInputElement}
             onChange={(event) => setCityInput(event.target.value)}
           />
+          <datalist id="cities">
+            {cities.map((city) => (
+              <option key={city.code} value={city.nom} />
+            ))}
+          </datalist>
         </div>
-        <label htmlFor="password">Mot de passe *</label>
-        <input
-          type="password"
-          placeholder="Mot de passe *"
-          name="password"
-          id="password"
-          onChange={handleChangePassword}
-        />
-        {!passwordValid && (
-          <p>
-            {`Le mot de passe doit contenir au moins 12 caractères, une majuscule,
-              une minuscule, un chiffre et un caractère spécial (!"#$%&'()*+,\x5C-./:;<=>?@[\x5D^_\x60\x7B|\x7D~)`}
-          </p>
-        )}
         {errorMessage && <p>{errorMessage}</p>}
-        <label htmlFor="password-confirm">Confirmer le mot de passe *</label>
-        <input
-          type="password"
-          placeholder="Confirmer le mot de passe *"
-          name="passwordConfirm"
-          id="password-confirm"
-          onChange={handleChangeConfirmPassword}
-        />
-        <button
-          type="button"
-          className="cancel-profile-infos-modify"
-          onClick={() => setIsModifyingProfile(false)}
-        >
-          Annuler
-        </button>
-        <button
-          type="submit"
-          className="validate-profile-infos-modify"
-          disabled={!(passwordValid && bothPasswordsEqual)}
-        >
-          Valider
-        </button>
+        <div className="modify-profile-infos-buttons">
+          <button
+            type="button"
+            className="cancel-profile-infos-modify"
+            onClick={() => setIsModifyingProfile(false)}
+          >
+            Annuler
+          </button>
+          <button type="submit" className="validate-profile-infos-modify">
+            Valider
+          </button>
+        </div>
       </form>
     </section>
   );

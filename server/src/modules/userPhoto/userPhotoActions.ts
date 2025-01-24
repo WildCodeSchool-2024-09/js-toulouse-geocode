@@ -6,10 +6,15 @@ import UserPhotoRepository from "./userPhotoRepository";
 const browse: RequestHandler = async (req, res) => {
   try {
     const { user_id } = req.params;
+
     const result = await UserPhotoRepository.readPhoto(
       Number.parseInt(user_id),
     );
 
+    if (result.length === 0) {
+      res.status(200).json({ error: "No photo found" });
+      return;
+    }
     res.status(200).json({ url: result[0].url });
   } catch (error) {
     console.error(error);

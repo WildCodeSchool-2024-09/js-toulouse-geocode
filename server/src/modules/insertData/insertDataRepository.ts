@@ -102,6 +102,27 @@ class InsertDataRepository {
     }
   }
 
+  async verifyPostalCode(postalCode: number) {
+    try {
+      const [row] = await databaseClient.query<Rows>(
+        "SELECT * FROM postalcode WHERE code = ?",
+        [postalCode],
+      );
+
+      if (row[0]) return row[0].id;
+
+      const [result] = await databaseClient.query<Result>(
+        "INSERT INTO postalcode (code) VALUES (?)",
+        [postalCode],
+      );
+      return result.insertId;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async verifyInseeCode(inseeCode: number) {}
+
   async insertSign(elem: CsvDataType) {
     try {
       const [row] = await databaseClient.query<Rows>(
@@ -269,6 +290,85 @@ class InsertDataRepository {
       }
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async insertLocationFromInseeCode(
+    inseeCode: number,
+    city: string,
+    department: string,
+    region: string,
+  ) {
+    try {
+      const [inseeRow] = await databaseClient.query<Rows>(
+        "SELECT * FROM insee_code WHERE code = ?",
+        [inseeCode],
+      );
+
+      if (inseeRow[0]) {
+        return inseeRow[0].id;
+      }
+
+      const [cityRow] = await databaseClient.query<Rows>(
+        "SELECT * FROM city WHERE name = ?",
+        [city],
+      );
+
+      let cityId: number;
+
+      if (cityRow[0]) {
+        cityId = cityRow[0].id;
+      } else {
+        const [departmentRow] = await databaseClient.query<Rows>(
+          "SELECT * FROM department WHERE name = ?",
+          [department],
+        );
+
+        let departmentId: number;
+
+        if (departmentRow[0]) {
+          departmentId = departmentRow[0].id;
+        } else {
+          const [regionRow] = await databaseClient.query<Rows>(
+            "SELECT * FROM region WHERE name = ?",
+            [region],
+          );
+
+          let regionId: number;
+
+          if (regionRow[0]) {
+            regionId = regionRow[0].id;
+          } else {
+            const [regionResult] = await databaseClient.query<Result>(
+              "INSERT INTO region (name) VALUES (?)",
+              [region],
+            );
+            regionId = regionResult.insertId;
+          }
+
+          const [departmentResult] = await databaseClient.query<Result>(
+            "INSERT INTO department (name, region_id) VALUES (?, ?)",
+            [department, regionId],
+          );
+          departmentId = departmentResult.insertId;
+        }
+
+        const [cityResult] = await databaseClient.query<Result>(
+          "INSERT INTO city (name, department_id) VALUES (?, ?)",
+          [city, departmentId],
+        );
+        cityId = cityResult.insertId;
+      }
+
+      const [inseeResult] = await databaseClient.query<Result>(
+        "INSERT INTO insee_code (code, city_id) VALUES (?, ?)",
+        [inseeCode, cityId],
+      );
+
+      return inseeResult.insertId;
+    } catch (error) {
+      console.error("Erreur dans insertLocationFromInseeCode :", error);
+      throw error;
     }
   }
 }

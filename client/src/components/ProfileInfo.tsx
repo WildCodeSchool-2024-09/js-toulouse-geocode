@@ -3,33 +3,94 @@ import ArticlePersonalInfo from "./ArticlePersonalInfo";
 import ProfilePhoto from "./ProfilePhoto";
 
 import "../styles/ProfileInfo.css";
+import { useAuth } from "../contexts/AuthProvider";
 import ModifyProfileInfos from "./ModifyProfileInfos";
 
 export default function ProfileInfo() {
-  const user = {
-    lastName: "Righi",
-    firstName: "Cédric",
-    sex: "Masculin",
-    birthday: "27/03/2004",
-    email: "cedric.righi@gmail.com",
-    postalcode: "09120",
-    city: "Varilhes",
-  };
+  interface User {
+    birthday: string;
+    firstname: string;
+    hashed_password: string;
+    id: number;
+    lastname: string;
+    mail: string;
+    number_of_vehicle: number;
+    postal_code_id: number;
+    insee_code_id: number;
+    sex: string;
+  }
 
-  const userArr = [
-    [user.lastName, user.firstName],
-    [user.sex, user.birthday],
-    [user.email],
-    [user.postalcode, user.city],
-  ];
-
+  const { auth } = useAuth();
+  const [userArr, setUserArr] = useState<string[][]>([]);
+  const [user, setUser] = useState<User | null>(null);
   const [photoFileUrl, setPhotoFileUrl] = useState<string | null>(null);
   const [isModifyingProfile, setIsModifyingProfile] = useState(false);
+  const [postalcode, setPostalcode] = useState<number | null>(null);
+
+  const getProfileInfos = useCallback(async () => {
+    try {
+      const userResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const userData = await userResponse.json();
+
+      const postalcodeResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/postalcode/${
+          userData.postal_code_id
+        }`,
+      );
+
+      const postalcodeData = await postalcodeResponse.json();
+
+      const inseeCodeResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/inseecode/${userData.insee_code_id}`,
+      );
+
+      const inseeCodeData = await inseeCodeResponse.json();
+
+      const cityResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/city/${inseeCodeData.city_id}`,
+      );
+
+      const cityData = await cityResponse.json();
+
+      setPostalcode(postalcodeData.code);
+
+      const birthdayDate = new Date(userData.birthday);
+
+      const birthdayCorrectFormat = `${birthdayDate.getDate() < 10 ? `0${birthdayDate.getDate()}` : birthdayDate.getDate()}/${birthdayDate.getMonth() < 10 ? `0${birthdayDate.getMonth()}` : birthdayDate.getMonth()}/${birthdayDate.getFullYear()}`;
+
+      setUserArr(
+        userData
+          ? [
+              [userData.lastname ?? "", userData.firstname ?? ""],
+              [userData.sex ?? "", birthdayCorrectFormat ?? ""],
+              [userData.mail ?? ""],
+              [postalcodeData.code ?? "", cityData.name ?? ""],
+            ]
+          : [],
+      );
+
+      setUser(userData);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [auth?.user_id]);
+
+  useEffect(() => {
+    getProfileInfos();
+  }, [getProfileInfos]);
 
   const fetchPhoto = useCallback(async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/get-photo/:id`,
+        `${import.meta.env.VITE_API_URL}/api/get-photo/${auth?.user_id}`,
       );
 
       if (!response.ok) {
@@ -42,7 +103,7 @@ export default function ProfileInfo() {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     fetchPhoto();
@@ -77,10 +138,13 @@ export default function ProfileInfo() {
           </div>
         </section>
       </div>
-      {isModifyingProfile && (
+      {isModifyingProfile && user && (
         <ModifyProfileInfos
           setIsModifyingProfile={setIsModifyingProfile}
           user={user}
+          city={userArr[3][1]}
+          getUser={getProfileInfos}
+          postalcode={postalcode}
         />
       )}
     </>

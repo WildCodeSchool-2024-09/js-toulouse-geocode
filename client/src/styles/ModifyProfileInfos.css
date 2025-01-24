@@ -1,0 +1,75 @@
+.modify-profile-infos-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.791);
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 7rem;
+}
+
+.modify-profile-infos-form {
+  background-color: var(--beige-color);
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 5%;
+  padding: 1rem 2rem;
+  padding-top: 2rem;
+  gap: 0.5rem;
+}
+
+.modify-profile-infos-form label {
+  color: black;
+}
+
+.modify-profile-infos-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--chicago-color-600);
+}
+
+.modify-profile-infos-password-error {
+  color: var(--red-color);
+  font-size: 0.7rem;
+}
+
+.cancel-profile-infos-modify {
+  background-color: var(--red-color);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.modify-location-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modify-city-input {
+  width: 60%;
+}
+
+.modify-postalcode-input {
+  width: 33%;
+}
+
+.validate-profile-infos-modify {
+  background-color: var(--green-light-color);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+.modify-profile-infos-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  margin-top: 1rem;
+}

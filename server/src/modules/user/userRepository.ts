@@ -17,6 +17,22 @@ type User = {
   hashed_password: string;
 };
 
+type UserInfos = {
+  id: number;
+  birthday: string;
+  firstname: string;
+  hashed_password: string;
+  lastname: string;
+  mail: string;
+  number_of_vehicle: number;
+  postal_code: number;
+  insee_code: number;
+  sex: string;
+  city: string;
+  departement: string;
+  region: string;
+};
+
 type Location = Partial<
   Pick<
     ExtendedCsvDataType,
@@ -36,7 +52,7 @@ class UserRepository {
     const elementLocation: Location = {
       region: location.region,
       departement: location.departement,
-      ville: location.city,
+      ville: user.city,
       code_insee_commune: location.inseecode,
       code_insee: location.inseecode,
       code_postal: user.postalcode,
@@ -114,13 +130,9 @@ class UserRepository {
       return dateString;
     }
 
-    // Split the input date string into an array [day, month, year]
-    console.info("dateString", dateString);
     const [day, month, year] = dateString.split("/");
 
-    // Format the date to YYYY-mm-dd
     const formattedDate = `${year}-${month}-${day}`;
-    console.info("formattedDate", formattedDate);
 
     return formattedDate;
   }
@@ -134,6 +146,47 @@ class UserRepository {
 
     // Return the first row of the result, which represents the user
     return rows[0] as User;
+  }
+
+  async readUser(id: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "select * from user where id = ?",
+      [id],
+    );
+
+    return rows[0];
+  }
+
+  // The U of CRUD - Update operation
+  async updateProfileInfos(user: UserInfos) {
+    const postalCodeId = await insertDataRepository.verifyPostalCode(
+      user.postal_code,
+    );
+
+    const userCity = user.city[0];
+
+    // Utiliser insertDataRepository pour pouvoir compléter le user
+    const inseeCodeId = await insertDataRepository.insertLocationFromInseeCode(
+      user.insee_code,
+      userCity,
+      user.departement,
+      user.region,
+    );
+
+    const [result] = await databaseClient.query<Result>(
+      "update user set firstname = ?, lastname = ?, mail = ?, sex = ?, birthday = ?, postal_code_id = ?, insee_code_id = ? where id = ?",
+      [
+        user.firstname,
+        user.lastname,
+        user.mail,
+        user.sex,
+        user.birthday,
+        postalCodeId,
+        inseeCodeId,
+        user.id,
+      ],
+    );
+    return result;
   }
 }
 
