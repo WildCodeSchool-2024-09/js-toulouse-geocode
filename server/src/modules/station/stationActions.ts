@@ -21,8 +21,13 @@ const browseByGeoLocation: RequestHandler = async (req, res, next) => {
 };
 
 const browse: RequestHandler = async (req, res) => {
+  const { limit, offset, search } = req.query;
   try {
-    const stations = await stationRepository.readAll();
+    const stations = await stationRepository.readAll(
+      Number(limit),
+      Number(offset),
+      search as string,
+    );
 
     res.json(stations);
   } catch (error) {
