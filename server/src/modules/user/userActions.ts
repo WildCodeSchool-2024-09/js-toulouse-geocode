@@ -113,7 +113,7 @@ const deleteUser: RequestHandler = async (req, res, next) => {
 
     const deletedId = await userRepository.delete(id);
 
-    res.status(200).json({ deletedId });
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }
