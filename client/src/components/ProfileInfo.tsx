@@ -4,6 +4,7 @@ import ProfilePhoto from "./ProfilePhoto";
 
 import "../styles/ProfileInfo.css";
 import { useAuth } from "../contexts/AuthProvider";
+import ConfirmationDeleteProfile from "./ConfirmationDeleteProfile";
 import ModifyProfileInfos from "./ModifyProfileInfos";
 
 export default function ProfileInfo() {
@@ -25,59 +26,42 @@ export default function ProfileInfo() {
   const [user, setUser] = useState<User | null>(null);
   const [photoFileUrl, setPhotoFileUrl] = useState<string | null>(null);
   const [isModifyingProfile, setIsModifyingProfile] = useState(false);
+  const [isDeletingProfile, setIsDeletingProfile] = useState(false);
   const [postalcode, setPostalcode] = useState<number | null>(null);
 
   const getProfileInfos = useCallback(async () => {
     try {
       const userResponse = await fetch(
         `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
       );
       const userData = await userResponse.json();
 
-      const postalcodeResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/postalcodes/${
-          userData.postal_code_id
-        }`,
-      );
-
-      const postalcodeData = await postalcodeResponse.json();
-
-      const inseeCodeResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
-      );
-
-      const inseeCodeData = await inseeCodeResponse.json();
+      const [postalcodeData, inseeCodeData] = await Promise.all([
+        fetch(
+          `${import.meta.env.VITE_API_URL}/api/postalcodes/${userData.postal_code_id}`,
+        ).then((res) => res.json()),
+        fetch(
+          `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
+        ).then((res) => res.json()),
+      ]);
 
       const cityResponse = await fetch(
         `${import.meta.env.VITE_API_URL}/api/cities/${inseeCodeData.city_id}`,
       );
-
       const cityData = await cityResponse.json();
 
       setPostalcode(postalcodeData.code);
+      setUser(userData);
 
       const birthdayDate = new Date(userData.birthday);
+      const birthdayCorrectFormat = `${birthdayDate.getDate().toString().padStart(2, "0")}/${(birthdayDate.getMonth() + 1).toString().padStart(2, "0")}/${birthdayDate.getFullYear()}`;
 
-      const birthdayCorrectFormat = `${birthdayDate.getDate() < 10 ? `0${birthdayDate.getDate()}` : birthdayDate.getDate()}/${birthdayDate.getMonth() < 10 ? `0${birthdayDate.getMonth()}` : birthdayDate.getMonth()}/${birthdayDate.getFullYear()}`;
-
-      setUserArr(
-        userData
-          ? [
-              [userData.lastname ?? "", userData.firstname ?? ""],
-              [userData.sex ?? "", birthdayCorrectFormat ?? ""],
-              [userData.mail ?? ""],
-              [postalcodeData.code ?? "", cityData.name ?? ""],
-            ]
-          : [],
-      );
-
-      setUser(userData);
+      setUserArr([
+        [userData.lastname ?? "", userData.firstname ?? ""],
+        [userData.sex ?? "", birthdayCorrectFormat ?? ""],
+        [userData.mail ?? ""],
+        [postalcodeData.code ?? "", cityData.name ?? ""],
+      ]);
     } catch (error) {
       console.error(error);
     }
@@ -132,7 +116,11 @@ export default function ProfileInfo() {
             <button type="button" className="disconnect-profile-button">
               Se déconnecter
             </button>
-            <button type="button" className="delete-profile-button">
+            <button
+              type="button"
+              className="delete-profile-button"
+              onClick={() => setIsDeletingProfile(true)}
+            >
               Supprimer le profil
             </button>
           </div>
@@ -145,6 +133,11 @@ export default function ProfileInfo() {
           city={userArr[3][1]}
           getUser={getProfileInfos}
           postalcode={postalcode}
+        />
+      )}
+      {isDeletingProfile && user && (
+        <ConfirmationDeleteProfile
+          setIsDeletingProfile={setIsDeletingProfile}
         />
       )}
     </>
