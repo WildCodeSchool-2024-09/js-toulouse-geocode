@@ -107,4 +107,16 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read, add, verifyEmail, updateUserInfos };
+const deleteUser: RequestHandler = async (req, res, next) => {
+  try {
+    const id = Number.parseInt(req.params.id);
+
+    const deletedId = await userRepository.delete(id);
+
+    res.status(200).json({ deletedId });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { browse, read, add, verifyEmail, updateUserInfos, deleteUser };
