@@ -111,7 +111,7 @@ const deleteUser: RequestHandler = async (req, res, next) => {
   try {
     const id = Number.parseInt(req.params.id);
 
-    const deletedId = await userRepository.delete(id);
+    await userRepository.delete(id);
 
     res.sendStatus(204);
   } catch (error) {
