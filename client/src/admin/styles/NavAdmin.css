@@ -34,6 +34,14 @@
   padding: 0.8rem;
   border-radius: 0.96rem;
   cursor: pointer;
+  color: #525b5a;
+}
+
+.nav-admin-link {
+  color: #525b5a;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 .nav-admin-content > ul > li:hover {
