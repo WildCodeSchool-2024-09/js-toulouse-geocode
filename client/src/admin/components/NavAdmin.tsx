@@ -7,20 +7,15 @@ import userAdminImg from "/images/user-admin-img.svg";
 import vehicleAdminImg from "/images/vehicle-admin-img.svg";
 import { useShowNav } from "../contexts/ShowNavProvider";
 import "../styles/NavAdmin.css";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function NavAdmin() {
-  const navigation = useNavigate();
   const { navOpen, setNavOpen } = useShowNav();
   const [rotateArrow, setRotateArrow] = useState(true);
 
   const handleClickArrow = () => {
     setNavOpen(!navOpen);
     setRotateArrow(!rotateArrow);
-  };
-
-  const navigateTo = (page: string) => {
-    navigation(`/admin/${page}`);
   };
 
   return (
@@ -43,27 +38,18 @@ export default function NavAdmin() {
       {navOpen && (
         <div className="nav-admin-content">
           <ul>
-            <li
-              onClick={() => navigateTo("users")}
-              onKeyDown={() => navigateTo("users")}
-            >
+            <Link to={"/admin/users"} className="nav-admin-link">
               <img src={userAdminImg} alt="utilisateur" /> Utilisateurs
-            </li>
-            <li
-              onClick={() => navigateTo("vehicles")}
-              onKeyDown={() => navigateTo("vehicles")}
-            >
-              <img src={vehicleAdminImg} alt="vehicule" /> Vehicules
-            </li>
-            <li
-              onClick={() => navigateTo("stations")}
-              onKeyDown={() => navigateTo("stations")}
-            >
+            </Link>
+            <Link to={"/admin/vehicles"} className="nav-admin-link">
+              <img src={vehicleAdminImg} alt="vehicule" /> Véhicules
+            </Link>
+            <Link to={"/admin/stations"} className="nav-admin-link">
               <img src={stationAdminImg} alt="borne" /> Bornes
-            </li>
-            <li>
+            </Link>
+            <Link to={"/"} className="nav-admin-link">
               <img src={updateAdminImg} alt="mise à jour" /> Mise à jour
-            </li>
+            </Link>
           </ul>
           <div className="nav-admin-line"> </div>
           <p>

@@ -67,7 +67,7 @@
 }
 
 .vehicle-item-admin-model {
-  flex: 4;
+  flex: 2;
 }
 
 .vehicle-item-admin-owner {
@@ -87,7 +87,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(1, 1fr);
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .vehicle-item-admin-full-info-value {

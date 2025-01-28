@@ -67,7 +67,7 @@
 }
 
 .user-item-admin-name {
-  flex: 4;
+  flex: 2;
 }
 
 .user-item-admin-postalcode {
@@ -87,7 +87,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .user-item-admin-full-info-value {
