@@ -66,6 +66,11 @@ export default function ModifyProfileInfos({
     const codeInseeDepartementRegionData =
       await codeInseeDepartementRegionResponse.json();
 
+    if (codeInseeDepartementRegionData.length === 0) {
+      setErrorMessage("Veuillez entrer une ville valide.");
+      return;
+    }
+
     const inseeCode = codeInseeDepartementRegionData[0].code;
 
     const department = codeInseeDepartementRegionData[0].departement.nom;
