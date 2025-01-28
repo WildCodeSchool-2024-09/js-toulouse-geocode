@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useModifyModal } from "../contexts/ShowModifyModalProvider";
 
 type cityType = {
   nom: string;
@@ -20,13 +21,10 @@ type User = {
 
 interface UserModificationProps {
   userId: number;
-  setDisplayUserModification: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function UserModification({
-  userId,
-  setDisplayUserModification,
-}: UserModificationProps) {
+function UserModification({ userId }: UserModificationProps) {
+  const { setDisplayUserModification } = useModifyModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [emailValid, setEmailValid] = useState(false);

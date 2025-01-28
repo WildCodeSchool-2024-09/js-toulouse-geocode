@@ -5,7 +5,22 @@ import userRepository from "./userRepository";
 
 // The B of BREAD - Browse (Read) operation
 
-const browse: RequestHandler = async (req, res, next) => {
+const browse: RequestHandler = async (req, res) => {
+  const { limit, offset, search } = req.query;
+  try {
+    const users = await userRepository.readAll(
+      Number(limit),
+      Number(offset),
+      search as string,
+    );
+
+    res.json(users);
+  } catch (error) {
+    res.status(500).send("Error retrieving stations from database");
+  }
+};
+
+const read: RequestHandler = async (req, res, next) => {
   try {
     const id = Number.parseInt(req.params.id);
 
@@ -93,4 +108,4 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, add, verifyEmail, updateUserInfos };
+export default { browse, read, add, verifyEmail, updateUserInfos };
