@@ -54,3 +54,31 @@
   color: #525b5a;
   font-size: 20px;
 }
+
+.content-admin-pagination {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-admin-pagination.start {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content-admin-pagination.end {
+  width: 95%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.content-admin-pagination-button {
+  background-color: #7dc952;
+  color: white;
+  border: none;
+  border-radius: 1.6rem;
+  padding: 0.8rem 2.4rem 0.8rem 2.4rem;
+  max-width: fit-content;
+  cursor: pointer;
+}
