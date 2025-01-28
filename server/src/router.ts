@@ -10,7 +10,6 @@ import authActions from "./modules/auth/authActions";
 import cityActions from "./modules/city/cityActions";
 import codeInseeActions from "./modules/codeInsee/codeInseeActions";
 import contactActions from "./modules/contact/contactActions";
-import departementActions from "./modules/department/departementActions";
 import geoCoordsActions from "./modules/geoCoords/geoCoordsActions";
 import csvManagementActions from "./modules/insertData/insertDataAction";
 // Define item-related routes
@@ -50,6 +49,7 @@ router.get("/api/users/:id", userActions.read);
 router.post("/api/users", authActions.hashPassword, userActions.add);
 router.put("/api/users/:id", userActions.updateUserInfos);
 router.get("/api/users/verify-email", userActions.verifyEmail);
+router.delete("/api/users/:id", userActions.deleteUser);
 
 router.get("/api/inseecodes/:id", codeInseeActions.read);
 
