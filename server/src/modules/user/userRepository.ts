@@ -148,6 +148,29 @@ class UserRepository {
     return rows[0] as User;
   }
 
+  async readAll(limit: number, offset: number, search: string) {
+    let query = "select * from user";
+    const params: (string | number)[] = [];
+
+    if (search) {
+      query += " where concat(lastname, firstname) like concat('%', ?, '%')";
+      params.push(search);
+    }
+
+    if (!Number.isNaN(limit)) {
+      if (!Number.isNaN(offset)) {
+        query += " limit ?, ?";
+        params.push(offset, limit);
+      } else {
+        query += " limit ?";
+        params.push(limit);
+      }
+    }
+
+    const [rows] = await databaseClient.query<Rows>(query, params);
+    return rows;
+  }
+
   async readUser(id: number) {
     const [rows] = await databaseClient.query<Rows>(
       "select * from user where id = ?",

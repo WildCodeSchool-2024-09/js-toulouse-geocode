@@ -106,7 +106,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
           onClick={handleClickArrow}
           onKeyDown={handleClickArrow}
         />
-        <p className="station-item-admin-name">{item.name}</p>
+        <p className="station-item-admin-name">{station.name}</p>
         <p className="station-item-admin-postalcode">{station.postalcode}</p>
         <button
           type="button"

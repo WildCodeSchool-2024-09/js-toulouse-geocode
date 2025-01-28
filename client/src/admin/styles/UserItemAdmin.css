@@ -1,0 +1,103 @@
+.user-item-admin-container {
+  width: 95%;
+  min-height: 5.6rem;
+  display: flex;
+  background-color: #3b9186;
+  align-items: center;
+  border-radius: 0.8rem;
+  padding: 0 3.2rem 0 3.2rem;
+  gap: 3.2rem;
+  height: fit-content;
+  font-size: 16px;
+  z-index: 2;
+  position: relative;
+}
+
+.user-item-admin-container.is-visible {
+  background-color: #eeb65b;
+  color: #525b5a;
+}
+
+.user-item-admin-trash-can-img {
+  width: 2.72rem;
+  cursor: pointer;
+  flex: 0.16;
+}
+
+.user-item-admin-trash-can-img.is-visible {
+  filter: brightness(0) saturate(100%) invert(34%) sepia(10%) saturate(316%)
+    hue-rotate(124deg) brightness(96%) contrast(89%);
+}
+
+.user-item-admin-arrow-img {
+  width: 1.7rem;
+  cursor: pointer;
+  flex: 0.16;
+}
+
+.user-item-admin-arrow-img.is-visible {
+  filter: brightness(0) saturate(100%) invert(34%) sepia(10%) saturate(316%)
+    hue-rotate(124deg) brightness(96%) contrast(89%);
+  transform: rotate(180deg);
+}
+
+.user-item-admin-modify-button {
+  background-color: #7dc952;
+  color: white;
+  border: none;
+  border-radius: 1.6rem;
+  padding: 0.8rem 2.4rem 0.8rem 2.4rem;
+  max-width: fit-content;
+  cursor: pointer;
+  flex: 1.5;
+}
+
+.user-item-admin-modify-button.is-visible {
+  background-color: #525b5a;
+  color: #e5e9e7;
+}
+
+.user-item-admin-modify-button.is-visible:hover {
+  background-color: #727f7d;
+}
+
+.user-item-admin-modify-button:hover {
+  background-color: #7ec952a2;
+  transition: 0.3s;
+}
+
+.user-item-admin-name {
+  flex: 4;
+}
+
+.user-item-admin-postalcode {
+  flex: 1;
+}
+
+.user-item-admin-full-info {
+  height: fit-content;
+  width: 95%;
+  background-color: bisque;
+  margin-top: -6px;
+  z-index: 1;
+  position: relative;
+  padding: 1.5rem 0 1rem 3rem;
+  border-radius: 0 0 0.8rem 0.8rem;
+  color: #525b5a;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.user-item-admin-full-info-value {
+  color: black;
+  font-size: 1.5rem;
+}
+
+.user-item-admin {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

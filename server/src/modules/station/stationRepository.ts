@@ -8,6 +8,7 @@ import {
   GeoLocationProps,
   PdcProps,
   StationProps,
+  type StationPropsWithIndex,
 } from "../../../common/types/StationProps";
 
 const selectStatement = `select 
@@ -75,6 +76,12 @@ class StationRepository {
     return rows.map(transform);
   }
 
+  // async readAll() {
+  //   const [rows] = await databaseClient.query<Rows>("select * from station");
+
+  //   return rows as StationPropsWithIndex[];
+  // }
+
   async readAll(limit: number, offset: number, search: string) {
     let query = "select * from station";
     const params: (string | number)[] = [];
@@ -93,8 +100,8 @@ class StationRepository {
         params.push(limit);
       }
     }
-
     const [rows] = await databaseClient.query<Rows>(query, params);
+
     return rows;
   }
 
