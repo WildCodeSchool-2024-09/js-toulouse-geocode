@@ -1,21 +1,16 @@
 import "../styles/UsersPage.css";
-import { useState } from "react";
-/*import ContentAdmin from "../components/ContentAdmin";*/
+import ContentAdmin from "../components/ContentAdmin";
 import HeaderAdminPage from "../components/HeaderAdminPage";
 import UserModification from "../components/UserModification";
+import { useModifyModal } from "../contexts/ShowModifyModalProvider";
 
 export default function UsersPage() {
-  const [displayUserModification, setDisplayUserModification] = useState(true);
+  const { displayUserModification } = useModifyModal();
   return (
     <div className="users-page-container">
       <HeaderAdminPage title="Gestion des Utilisateurs" />
-      {/* <ContentAdmin /> */}
-      {displayUserModification && (
-        <UserModification
-          userId={1}
-          setDisplayUserModification={setDisplayUserModification}
-        />
-      )}
+      <ContentAdmin titles={["Nom", "Prénom"]} path="users" />
+      {displayUserModification && <UserModification userId={1} />}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import codeInseeRepository from "./codeInseeRepository";
 
-const browse: RequestHandler = async (req, res, next) => {
+const read: RequestHandler = async (req, res, next) => {
   try {
     const id = Number.parseInt(req.params.id);
 
@@ -17,4 +17,4 @@ const browse: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse };
+export default { read };

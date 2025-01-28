@@ -25,6 +25,7 @@ export interface UserItemType extends BaseItemType {
   sex: string;
   birthday: string;
   postal_code_id: number;
+  insee_code_id: number;
   number_of_vehicles: number;
 }
 

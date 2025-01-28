@@ -40,23 +40,23 @@ router.put(
 
 router.delete("/api/delete-photo/:user_id", userPhotoActions.deleteAction);
 
+router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
+router.get("/api/stations", stationActions.browse);
+router.get("/api/stations/:id", stationActions.read);
+
+router.get("/api/users", userActions.browse);
+router.get("/api/users/:id", userActions.read);
+router.post("/api/users", authActions.hashPassword, userActions.add);
+router.put("/api/users/:id", userActions.updateUserInfos);
+router.get("/api/users/verify-email", userActions.verifyEmail);
+
+router.get("/api/inseecodes/:id", codeInseeActions.read);
+
+router.get("/api/cities/:id", cityActions.read);
+
 router.post("/api/contacts", contactActions.validate, contactActions.add);
 
 router.post("/api/login", authActions.login);
-
-router.get("/api/users/:id", userActions.browse);
-router.post("/api/users", authActions.hashPassword, userActions.add);
-router.get("/api/users/verify-email", userActions.verifyEmail);
-router.put("/api/users/:id", userActions.updateUserInfos);
-
-router.post("/api/login", authActions.login);
-
-router.post("/api/users", authActions.hashPassword, userActions.add);
-router.get("/api/users/verify-email", userActions.verifyEmail);
-
-router.get("/api/stations", stationActions.browse);
-router.get("/api/stations/:id", stationActions.read);
-router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
 
 router.get("/api/signs/:id", signActions.read);
 
@@ -69,12 +69,6 @@ router.get("/api/postalcodes/:id", postalcodeActions.read);
 router.get("/api/geocoords/:id", geoCoordsActions.read);
 
 router.get("/api/outlets/:id", outletActions.read);
-
-router.get("api/departement/:id", departementActions.browse);
-
-router.get("/api/inseecode/:id", codeInseeActions.browse);
-
-router.get("/api/city/:id", cityActions.read);
 /* ************************************************************************* */
 
 export default router;

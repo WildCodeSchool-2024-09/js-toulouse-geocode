@@ -41,7 +41,7 @@ export default function ProfileInfo() {
       const userData = await userResponse.json();
 
       const postalcodeResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/postalcode/${
+        `${import.meta.env.VITE_API_URL}/api/postalcodes/${
           userData.postal_code_id
         }`,
       );
@@ -49,13 +49,13 @@ export default function ProfileInfo() {
       const postalcodeData = await postalcodeResponse.json();
 
       const inseeCodeResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/inseecode/${userData.insee_code_id}`,
+        `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
       );
 
       const inseeCodeData = await inseeCodeResponse.json();
 
       const cityResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/city/${inseeCodeData.city_id}`,
+        `${import.meta.env.VITE_API_URL}/api/cities/${inseeCodeData.city_id}`,
       );
 
       const cityData = await cityResponse.json();
