@@ -64,7 +64,7 @@ export default function ProfileInfo() {
 
       const birthdayDate = new Date(userData.birthday);
 
-      const birthdayCorrectFormat = `${birthdayDate.getDate() < 10 ? `0${birthdayDate.getDate()}` : birthdayDate.getDate()}/${birthdayDate.getMonth() < 10 ? `0${birthdayDate.getMonth()}` : birthdayDate.getMonth()}/${birthdayDate.getFullYear()}`;
+      const birthdayCorrectFormat = `${birthdayDate.getDate().toString().padStart(2, "0")}/${(birthdayDate.getMonth() + 1).toString().padStart(2, "0")}/${birthdayDate.getFullYear()}`;
 
       setUserArr(
         userData

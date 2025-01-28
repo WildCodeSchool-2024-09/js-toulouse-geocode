@@ -22,9 +22,8 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     city: null,
   });
 
-  const { setDisplayUserModification } = useModifyModal();
+  const { setDisplayUserModification, setUserId } = useModifyModal();
   const [isVisible, setIsVisible] = useState(false);
-
   const handleClickArrow = () => {
     setIsVisible(!isVisible);
   };
@@ -81,7 +80,11 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
         <button
           type="button"
           className={`user-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
-          onClick={() => setDisplayUserModification(true)}
+          onClick={() => {
+            setDisplayUserModification(true);
+            console.info(item.id);
+            setUserId(item.id);
+          }}
         >
           Modifier
         </button>

@@ -1,22 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useModifyModal } from "../contexts/ShowModifyModalProvider";
 
 type cityType = {
   nom: string;
   code: string;
   codeDepartement: string;
-};
-
-type User = {
-  id: number;
-  lastName: string;
-  firstName: string;
-  email: string;
-  sex: string;
-  birthday: string;
-  postalcode: string;
-  city: string;
-  nb_vehicles: number;
 };
 
 interface UserModificationProps {
@@ -30,13 +18,22 @@ function UserModification({ userId }: UserModificationProps) {
   const [emailValid, setEmailValid] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
   const [cities, setCities] = useState(Array<cityType>(0));
-  const [user, setUser] = useState<User | null>(null);
+
+  const [lastNameInput, setLastNameInput] = useState<string>("");
+  const [firstNameInput, setFirstNameInput] = useState<string>("");
+  const [sexInput, setSexInput] = useState<string>("");
+  const [cityInput, setCityInput] = useState<string>("");
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [initialEmailInput, setInitialEmailInput] = useState<string>("");
+  const [postalcodeInput, setPostalcodeInput] = useState<string>("");
+  const [birthdayInput, setBirthdayInput] = useState<string>("");
+  const [nbVehiclesInput, setNbVehiclesInput] = useState<number>(0);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const form = event?.currentTarget;
 
     event.preventDefault();
-    if (user && form.email.value !== user.email) {
+    if (form.email.value !== initialEmailInput) {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/users/verify-email?email=${form.email.value}`,
       );
@@ -45,10 +42,38 @@ function UserModification({ userId }: UserModificationProps) {
         return;
       }
     }
+
+    let response = await fetch(
+      `https://geo.api.gouv.fr/communes?codePostal=${form.postalcode.value}&nom=${form.city.value}&fields=nom,code,departement,region`,
+    );
+    if (!response.ok) {
+      setErrorMessage(
+        "Veuillez entrer une ville valide en fonction du code postal.",
+      );
+      return;
+    }
+
+    const dataReceived = await response.json();
+    if (dataReceived.length === 0) {
+      setErrorMessage(
+        "Veuillez entrer une ville valide en fonction du code postal.",
+      );
+      return;
+    }
+
+    const inseeCode = dataReceived[0].code;
+    const department = dataReceived[0].departement.nom;
+    const region = dataReceived[0].region.nom;
+
     setEmailExists(false);
     const formData = new FormData(form);
-    const response = await fetch(form.action, {
-      method: "POST",
+    formData.append("insee_code", inseeCode);
+    formData.append("departement", department);
+    formData.append("region", region);
+
+    console.info("form Data: ", JSON.stringify(formData));
+    response = await fetch(form.action, {
+      method: "PUT",
       body: formData,
     });
     if (response.ok) {
@@ -62,17 +87,45 @@ function UserModification({ userId }: UserModificationProps) {
     setDisplayUserModification(false);
   };
 
+  const isEmailValid = (email: string): boolean =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   const handleChangeEmail = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const email = event.target.value;
-    setEmailValid(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    setEmailValid(isEmailValid(email));
+    setEmailInput(email);
+  };
+
+  const handleChangeFirstName = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setFirstNameInput(event.target.value);
+  };
+  const handleChangeLastName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLastNameInput(event.target.value);
+  };
+  const handleChangeSex = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSexInput(event.target.value);
+  };
+  const handleChangeBirthday = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBirthdayInput(event.target.value);
+  };
+  const handleChangeCity = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCityInput(event.target.value);
+  };
+  const handleChangeNbVehicles = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setNbVehiclesInput(Number(event.target.value));
   };
 
   const handleChangePostalcode = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const postalcode = event.target.value;
+    setPostalcodeInput(postalcode);
     fetch(
       `https://geo.api.gouv.fr/communes?codePostal=${postalcode}&fields=nom,code,codeDepartement,codeRegion`,
     )
@@ -87,9 +140,55 @@ function UserModification({ userId }: UserModificationProps) {
       });
   };
 
-  fetch(`${import.meta.env.VITE_API_URL}/api/users/${userId}`)
-    .then((response) => response.json())
-    .then((user) => setUser(user));
+  const formatDateToISO = (date: string): string => {
+    const parsedDate = new Date(date);
+
+    // Extraction des valeurs de la date locale.
+    const year = parsedDate.getFullYear();
+    const month = (parsedDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = parsedDate.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const fetchUserInfos = () => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/users/${userId}`)
+      .then((response) => response.json())
+      .then((userData) => {
+        fetch(
+          `${import.meta.env.VITE_API_URL}/api/postalcodes/${
+            userData.postal_code_id
+          }`,
+        )
+          .then((postalcodeResponse) => postalcodeResponse.json())
+          .then((postalcodeData) => {
+            fetch(
+              `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
+            )
+              .then((inseeCodeResponse) => inseeCodeResponse.json())
+              .then((inseeCodeData) => {
+                fetch(
+                  `${import.meta.env.VITE_API_URL}/api/cities/${inseeCodeData.city_id}`,
+                )
+                  .then((cityResponse) => cityResponse.json())
+                  .then((cityData) => {
+                    setEmailValid(isEmailValid(userData.mail));
+                    setFirstNameInput(userData.firstname);
+                    setLastNameInput(userData.lastname);
+                    setSexInput(userData.sex);
+                    setCityInput(cityData.name);
+                    setEmailInput(userData.mail);
+                    setInitialEmailInput(userData.mail);
+                    setPostalcodeInput(postalcodeData.code);
+                    setBirthdayInput(formatDateToISO(userData.birthday));
+                    setNbVehiclesInput(userData.number_of_vehicles);
+                  });
+              });
+          });
+      });
+  };
+
+  useEffect(fetchUserInfos, []);
 
   return (
     <div className="user-modification-container">
@@ -111,8 +210,9 @@ function UserModification({ userId }: UserModificationProps) {
               <input
                 type="text"
                 id="lastName"
-                name="lastName"
-                value={user?.lastName}
+                name="lastname"
+                value={lastNameInput}
+                onChange={handleChangeLastName}
               />
             </div>
             <div className="group">
@@ -120,8 +220,9 @@ function UserModification({ userId }: UserModificationProps) {
               <input
                 type="text"
                 id="firstName"
-                name="firstName"
-                value={user?.firstName}
+                name="firstname"
+                value={firstNameInput}
+                onChange={handleChangeFirstName}
               />
             </div>
             <div className="group">
@@ -129,15 +230,20 @@ function UserModification({ userId }: UserModificationProps) {
               <input
                 type="email"
                 id="email"
-                name="email"
+                name="mail"
                 onChange={handleChangeEmail}
-                value={user?.email}
+                value={emailInput}
               />
               {!emailValid && <p>Adresse email invalide.</p>}{" "}
             </div>
             <div className="group">
               <label htmlFor="sex">Genre</label>
-              <select name="sex" id="sex" value={user?.sex}>
+              <select
+                name="sex"
+                id="sex"
+                value={sexInput}
+                onChange={handleChangeSex}
+              >
                 <option value="masculin">Masculin</option>
                 <option value="feminin">Féminin</option>
                 <option value="agenre">Non-binaire</option>
@@ -149,7 +255,8 @@ function UserModification({ userId }: UserModificationProps) {
                 type="date"
                 name="birthday"
                 id="birthday"
-                value={user?.birthday}
+                value={birthdayInput}
+                onChange={handleChangeBirthday}
               />
             </div>
             <div className="group">
@@ -159,7 +266,7 @@ function UserModification({ userId }: UserModificationProps) {
                 placeholder="Code postal"
                 name="postalcode"
                 onChange={handleChangePostalcode}
-                value={user?.postalcode}
+                value={postalcodeInput}
               />
             </div>
             <div className="group">
@@ -171,7 +278,8 @@ function UserModification({ userId }: UserModificationProps) {
                 list="cities"
                 defaultValue=""
                 ref={cityInputElement}
-                value={user?.city}
+                value={cityInput}
+                onChange={handleChangeCity}
               />
               <datalist id="cities">
                 {cities.map((city) => (
@@ -185,7 +293,8 @@ function UserModification({ userId }: UserModificationProps) {
                 type="number"
                 name="vehicles"
                 id="vehicles"
-                value={user?.nb_vehicles}
+                value={nbVehiclesInput}
+                onChange={handleChangeNbVehicles}
               />
             </div>
             <div className="submit">

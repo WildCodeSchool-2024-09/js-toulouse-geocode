@@ -21,7 +21,6 @@ type UserInfos = {
   id: number;
   birthday: string;
   firstname: string;
-  hashed_password: string;
   lastname: string;
   mail: string;
   number_of_vehicle: number;
@@ -31,6 +30,19 @@ type UserInfos = {
   city: string;
   departement: string;
   region: string;
+};
+
+type UserDB = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  hashed_password: string;
+  mail: string;
+  sex: string;
+  birthday: string;
+  postal_code_id: number;
+  insee_code_id: number;
+  number_of_vehicles: number;
 };
 
 type Location = Partial<
@@ -140,16 +152,32 @@ class UserRepository {
   async readByEmailWithPassword(email: string) {
     // Execute the SQL SELECT query to retrieve a specific user by its email
     const [rows] = await databaseClient.query<Rows>(
-      "select * from user where mail = ?",
+      `select id, firstname,
+       lastname,
+       hashed_password,
+       mail,
+       sex,
+       birthday,
+       postal_code_id,
+       insee_code_id,
+       number_of_vehicles
+       from user where mail = ?`,
       [email],
     );
 
     // Return the first row of the result, which represents the user
-    return rows[0] as User;
+    return rows[0] as UserDB;
   }
 
   async readAll(limit: number, offset: number, search: string) {
-    let query = "select * from user";
+    let query = `select id, firstname,
+       lastname,
+       mail,
+       sex,
+       birthday,
+       postal_code_id,
+       insee_code_id,
+       number_of_vehicles from user`;
     const params: (string | number)[] = [];
 
     if (search) {
@@ -168,16 +196,23 @@ class UserRepository {
     }
 
     const [rows] = await databaseClient.query<Rows>(query, params);
-    return rows;
+    return rows as Omit<UserDB, "hashed_password">[];
   }
 
   async readUser(id: number) {
     const [rows] = await databaseClient.query<Rows>(
-      "select * from user where id = ?",
+      `select id, firstname,
+       lastname,
+       mail,
+       sex,
+       birthday,
+       postal_code_id,
+       insee_code_id,
+       number_of_vehicles from user where id = ?`,
       [id],
     );
 
-    return rows[0];
+    return rows[0] as Omit<UserDB, "hashed_password">;
   }
 
   // The U of CRUD - Update operation
