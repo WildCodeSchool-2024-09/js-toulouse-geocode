@@ -49,7 +49,10 @@ export default function NavAdmin() {
             >
               <img src={userAdminImg} alt="utilisateur" /> Utilisateurs
             </li>
-            <li>
+            <li
+              onClick={() => navigateTo("vehicles")}
+              onKeyDown={() => navigateTo("vehicles")}
+            >
               <img src={vehicleAdminImg} alt="vehicule" /> Vehicules
             </li>
             <li

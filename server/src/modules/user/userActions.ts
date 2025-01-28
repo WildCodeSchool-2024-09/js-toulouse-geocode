@@ -1,4 +1,3 @@
-import { de } from "@faker-js/faker/.";
 import type { RequestHandler } from "express";
 import insertDataRepository from "../insertData/insertDataRepository";
 import userRepository from "./userRepository";

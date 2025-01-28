@@ -11,6 +11,7 @@ import AppAdmin from "./admin/AppAdmin";
 import ConnectionAdminPage from "./admin/pages/ConnectionAdminPage";
 import StationPage from "./admin/pages/StationPage";
 import UsersPage from "./admin/pages/UsersPage";
+import VehiclePage from "./admin/pages/VehiclePage";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
 import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
@@ -84,6 +85,10 @@ const router = createBrowserRouter(
         {
           path: "/admin/stations",
           element: <StationPage />,
+        },
+        {
+          path: "/admin/vehicles",
+          element: <VehiclePage />,
         },
       ],
     },

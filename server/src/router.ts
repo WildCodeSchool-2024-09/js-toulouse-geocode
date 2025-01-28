@@ -24,6 +24,7 @@ import signActions from "./modules/sign/signActions";
 import stationActions from "./modules/station/stationActions";
 import userActions from "./modules/user/userActions";
 import userPhotoActions from "./modules/userPhoto/userPhotoActions";
+import vehicleActions from "./modules/vehicle/vehicleActions";
 
 router.get("/api/items", itemActions.browse);
 router.get("/api/items/:id", itemActions.read);
@@ -69,6 +70,8 @@ router.get("/api/postalcodes/:id", postalcodeActions.read);
 router.get("/api/geocoords/:id", geoCoordsActions.read);
 
 router.get("/api/outlets/:id", outletActions.read);
+
+router.get("/api/vehicles", vehicleActions.browse);
 /* ************************************************************************* */
 
 export default router;
