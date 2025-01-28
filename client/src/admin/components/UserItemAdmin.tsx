@@ -93,40 +93,34 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
       </div>
       {isVisible && (
         <div className="user-item-admin-full-info">
-          <p>
-            Email:
-            <br />
+          <article>
+            <p>Email:</p>
             <p className="user-item-admin-full-info-value">{user.mail}</p>
-          </p>
-          <p>
-            Sexe:
-            <br />
+          </article>
+          <article>
+            <p>Sexe:</p>
             <p className="user-item-admin-full-info-value">{user.sex}</p>
-          </p>
-          <p>
-            Ville de résidence:
-            <br />
+          </article>
+          <article>
+            <p>Ville de résidence:</p>
             <p className="user-item-admin-full-info-value">{user.city}</p>
-          </p>
-          <p>
-            Date de naissance:
-            <br />
+          </article>
+          <article>
+            <p>Date de naissance:</p>
             <p className="user-item-admin-full-info-value">{user.birthday}</p>
-          </p>
-          <p>
-            Code postal:
-            <br />
+          </article>
+          <article>
+            <p>Code postal:</p>
             <p className="user-item-admin-full-info-value">
               {user.postal_code}
             </p>
-          </p>
-          <p>
-            Nombre de vehicules:
-            <br />
+          </article>
+          <article>
+            <p>Nombre de vehicules:</p>
             <p className="user-item-admin-full-info-value">
               {user.number_of_vehicle}
             </p>
-          </p>
+          </article>
         </div>
       )}
     </div>

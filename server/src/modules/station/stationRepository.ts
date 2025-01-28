@@ -76,12 +76,6 @@ class StationRepository {
     return rows.map(transform);
   }
 
-  // async readAll() {
-  //   const [rows] = await databaseClient.query<Rows>("select * from station");
-
-  //   return rows as StationPropsWithIndex[];
-  // }
-
   async readAll(limit: number, offset: number, search: string) {
     let query = "select * from station";
     const params: (string | number)[] = [];
