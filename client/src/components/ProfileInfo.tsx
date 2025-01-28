@@ -41,7 +41,7 @@ export default function ProfileInfo() {
           `${import.meta.env.VITE_API_URL}/api/postalcodes/${userData.postal_code_id}`,
         ).then((res) => res.json()),
         fetch(
-          `${import.meta.env.VITE_API_URL}/api/inseecode/${userData.insee_code_id}`,
+          `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
         ).then((res) => res.json()),
       ]);
 
