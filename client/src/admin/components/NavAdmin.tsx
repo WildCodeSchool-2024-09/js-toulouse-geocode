@@ -38,18 +38,26 @@ export default function NavAdmin() {
       {navOpen && (
         <div className="nav-admin-content">
           <ul>
-            <Link to={"/admin/users"} className="nav-admin-link">
-              <img src={userAdminImg} alt="utilisateur" /> Utilisateurs
-            </Link>
-            <Link to={"/admin/vehicles"} className="nav-admin-link">
-              <img src={vehicleAdminImg} alt="vehicule" /> Véhicules
-            </Link>
-            <Link to={"/admin/stations"} className="nav-admin-link">
-              <img src={stationAdminImg} alt="borne" /> Bornes
-            </Link>
-            <Link to={"/"} className="nav-admin-link">
-              <img src={updateAdminImg} alt="mise à jour" /> Mise à jour
-            </Link>
+            <li>
+              <Link to={"/admin/users"} className="nav-admin-link">
+                <img src={userAdminImg} alt="utilisateur" /> Utilisateurs
+              </Link>
+            </li>
+            <li>
+              <Link to={"/admin/vehicles"} className="nav-admin-link">
+                <img src={vehicleAdminImg} alt="vehicule" /> Véhicules
+              </Link>
+            </li>
+            <li>
+              <Link to={"/admin/stations"} className="nav-admin-link">
+                <img src={stationAdminImg} alt="borne" /> Bornes
+              </Link>
+            </li>
+            <li>
+              <Link to={"/"} className="nav-admin-link">
+                <img src={updateAdminImg} alt="mise à jour" /> Mise à jour
+              </Link>
+            </li>
           </ul>
           <div className="nav-admin-line"> </div>
           <p>

@@ -25,7 +25,7 @@
   gap: 1.6rem;
 }
 
-.nav-admin-link {
+.nav-admin-content > ul > li {
   display: flex;
   align-items: center;
   gap: 1.6rem;
@@ -35,6 +35,13 @@
   border-radius: 0.96rem;
   cursor: pointer;
   color: #525b5a;
+}
+
+.nav-admin-link {
+  color: #525b5a;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 .nav-admin-content > ul > li:hover {
