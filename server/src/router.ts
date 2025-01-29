@@ -45,11 +45,10 @@ router.get("/api/stations", stationActions.browse);
 router.get("/api/stations/:id", stationActions.read);
 
 router.get("/api/users", userActions.browse);
+router.get("/api/users/verify-email", userActions.verifyEmail);
 router.get("/api/users/:id", userActions.read);
 router.post("/api/users", authActions.hashPassword, userActions.add);
 router.put("/api/users/:id", userActions.updateUserInfos);
-router.get("/api/users/verify-email", userActions.verifyEmail);
-router.delete("/api/users/:id", userActions.deleteUser);
 
 router.get("/api/inseecodes/:id", codeInseeActions.read);
 

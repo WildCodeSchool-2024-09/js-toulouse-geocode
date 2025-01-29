@@ -26,9 +26,34 @@ function RegisterForm() {
     let response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/users/verify-email?email=${form.email.value}`,
     );
-    console.info("response: ", response);
     if (response.ok) {
       setEmailExists(true);
+      return;
+    }
+
+    const cityElement = document.getElementById("city") as HTMLInputElement;
+    if (!cityElement) {
+      return;
+    }
+
+    const postalcodeElement = document.getElementById(
+      "postalcode",
+    ) as HTMLInputElement;
+    if (!postalcodeElement) {
+      return;
+    }
+
+    response = await fetch(
+      `https://geo.api.gouv.fr/communes?codePostal=${postalcodeElement.value}&nom=${cityElement.value}&fields=nom,code,codeDepartement,codeRegion`,
+    );
+    if (!response.ok) {
+      setErrorMessage("Veuillez entrer une ville valide.");
+      return;
+    }
+
+    const dataReceived = await response.json();
+    if (dataReceived.length === 0) {
+      setErrorMessage("Veuillez entrer une ville valide.");
       return;
     }
 
@@ -151,12 +176,14 @@ function RegisterForm() {
           <input
             type="text"
             placeholder="Code postal"
+            id="postalcode"
             name="postalcode"
             onChange={handleChangePostalcode}
           />
           <input
             type="text"
             placeholder="Ville"
+            id="city"
             name="city"
             list="cities"
             defaultValue=""
