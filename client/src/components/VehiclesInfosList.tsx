@@ -57,7 +57,9 @@ export default function VehiclesInfo() {
           ))}
         </article>
       </section>
-      {isAddingVehicle && <AddUserVehicle />}
+      {isAddingVehicle && (
+        <AddUserVehicle setIsAddingVehicle={setIsAddingVehicle} />
+      )}
     </>
   );
 }

@@ -1,6 +1,12 @@
 import closeCrossSvg from "/images/close.svg";
 
-export default function AddUserVehicle() {
+interface AddUserVehicleProps {
+  setIsAddingVehicle: (value: boolean) => void;
+}
+
+export default function AddUserVehicle({
+  setIsAddingVehicle,
+}: AddUserVehicleProps) {
   return (
     <section
       className="modal-user-vehicle-add"
@@ -8,7 +14,16 @@ export default function AddUserVehicle() {
     >
       <div className="add-vehicle-header">
         <h2>Ajouter un véhicule</h2>
-        <img src={closeCrossSvg} alt="" />
+        <img
+          src={closeCrossSvg}
+          alt=""
+          onClick={() => setIsAddingVehicle(false)}
+          onKeyUp={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              setIsAddingVehicle(false);
+            }
+          }}
+        />
       </div>
       <form action="">
         <label htmlFor="vehicle-brand">Marque</label>
