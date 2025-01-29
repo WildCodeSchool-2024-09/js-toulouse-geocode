@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { useModal } from "../contexts/ShowModalProvider";
 import type { cityType } from "../types/itemType";
 
 interface StationModificationProps {
-  stationId: number;
+  stationId: number | null;
 }
 
 function StationModification({ stationId }: StationModificationProps) {
+  const { setDisplayStationModification } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [operatorName, setOperatorName] = useState("");
   const [signName, setSignName] = useState("");
@@ -30,7 +32,9 @@ function StationModification({ stationId }: StationModificationProps) {
     event.preventDefault();
   };
 
-  const handleClose = () => {};
+  const handleClose = () => {
+    setDisplayStationModification(false);
+  };
 
   const handleChangeOperator = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOperatorName(event.target.value);
@@ -132,6 +136,9 @@ function StationModification({ stationId }: StationModificationProps) {
 
   const fetchUserInfos = () => {
     // Fetch user infos
+    if (stationId == null) {
+      return;
+    }
   };
 
   useEffect(fetchUserInfos, []);
