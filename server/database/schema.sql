@@ -110,16 +110,16 @@ create table vehicle (
   brand varchar(80) not null, 
   type varchar(80) not null,
   user_id int,
-  foreign key(user_id) references user(id)
+  foreign key(user_id) references user(id) on delete cascade
 );
 
 create table booking (
   id int primary key auto_increment not null,
   date datetime,
   vehicle_id int,
-  foreign key(vehicle_id) references vehicle(id),
+  foreign key(vehicle_id) references vehicle(id) on delete cascade,
   station_id int,
-  foreign key(station_id) references station(id)
+  foreign key(station_id) references station(id) on delete cascade
 );
 
 create table contact (
@@ -129,3 +129,24 @@ create table contact (
   mail varchar(80) not null,
   message text not null
 );
+
+-- insert into user (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles) values ('John', 'Doe', 'password', 'john@gmail.com', 'M', '1990-01-01', 1, 1, 3);
+-- insert into user (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles) values ('Jane', 'Doe', 'password', 'jane@gmail.com', 'F', '1990-01-01', 2, 2, 2);
+-- insert into user (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles) values ('Alice', 'Smith', 'password', 'alice@gmail.com', 'F', '1990-01-01', 3, 3, 1);
+-- insert into user (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles) values ('Bob', 'Smith', 'password', 'bob@gmail.com', 'M', '1990-01-01', 4, 4, 2);
+-- insert into user (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles) values ('Charlie', 'Brown', 'password', 'charlie@gmail.com', 'M', '1990-01-01', 5, 5, 1);
+-- insert into vehicle (model, brand, type, user_id) values ('Zoe', 'Renault', 'Electric', 1);
+-- insert into vehicle (model, brand, type, user_id) values ('Model S', 'Tesla', 'Electric', 1);
+-- insert into vehicle (model, brand, type, user_id) values ('Model 3', 'Tesla', 'Electric', 1);
+-- insert into vehicle (model, brand, type, user_id) values ('Model X', 'Tesla', 'Electric', 2);
+-- insert into vehicle (model, brand, type, user_id) values ('Model Y', 'Tesla', 'Electric', 2);
+-- insert into vehicle (model, brand, type, user_id) values ('i3', 'BMW', 'Electric', 2);
+-- insert into vehicle (model, brand, type, user_id) values ('i8', 'BMW', 'Electric', 3);
+-- insert into vehicle (model, brand, type, user_id) values ('Leaf', 'Nissan', 'Electric', 3);
+-- insert into vehicle (model, brand, type, user_id) values ('e-tron', 'Audi', 'Electric', 3);
+-- insert into vehicle (model, brand, type, user_id) values ('e-up', 'Volkswagen', 'Electric', 4);
+-- insert into vehicle (model, brand, type, user_id) values ('e-Golf', 'Volkswagen', 'Electric', 4);
+-- insert into vehicle (model, brand, type, user_id) values ('Soul EV', 'Kia', 'Electric', 4);
+-- insert into vehicle (model, brand, type, user_id) values ('Ioniq', 'Hyundai', 'Electric', 5);
+-- insert into vehicle (model, brand, type, user_id) values ('Kona', 'Hyundai', 'Electric', 5);
+-- insert into vehicle (model, brand, type, user_id) values ('e-Niro', 'Kia', 'Electric', 5);

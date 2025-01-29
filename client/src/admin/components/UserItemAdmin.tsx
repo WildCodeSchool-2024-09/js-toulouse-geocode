@@ -3,7 +3,7 @@ import arrowImg from "/images/arrow-item-img.svg";
 import trashCanImg from "/images/trash-can-img.svg";
 import type { UserItemType } from "../types/itemType";
 import "../styles/UserItemAdmin.css";
-import { useModifyModal } from "../contexts/ShowModifyModalProvider";
+import { useModal } from "../contexts/ShowModalProvider";
 
 interface UserItemAdminProps {
   item: UserItemType;
@@ -22,10 +22,16 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     city: null,
   });
 
-  const { setDisplayUserModification, setUserId } = useModifyModal();
+  const { setDisplayUserModification, setDisplayUserDeleteModal, setItemId } =
+    useModal();
   const [isVisible, setIsVisible] = useState(false);
   const handleClickArrow = () => {
     setIsVisible(!isVisible);
+  };
+
+  const handleDelete = () => {
+    setDisplayUserDeleteModal(true);
+    setItemId(item.id);
   };
 
   useEffect(() => {
@@ -82,7 +88,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
           className={`user-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
           onClick={() => {
             setDisplayUserModification(true);
-            setUserId(item.id);
+            setItemId(item.id);
           }}
         >
           Modifier
@@ -91,6 +97,8 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
           src={trashCanImg}
           alt="supprimer"
           className={`user-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
+          onClick={handleDelete}
+          onKeyDown={handleDelete}
         />
       </div>
       {isVisible && (
