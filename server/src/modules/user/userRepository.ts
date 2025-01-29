@@ -215,6 +215,15 @@ class UserRepository {
     return rows[0] as Omit<UserDB, "hashed_password">;
   }
 
+  async delete(id: number) {
+    const [result] = await databaseClient.query<Result>(
+      "delete from user where id = ?",
+      [id],
+    );
+
+    return result;
+  }
+
   // The U of CRUD - Update operation
   async updateProfileInfos(user: UserInfos) {
     const postalCodeId = await insertDataRepository.verifyPostalCode(
@@ -244,15 +253,6 @@ class UserRepository {
         user.id,
       ],
     );
-    return result;
-  }
-
-  async delete(id: number) {
-    const [result] = await databaseClient.query<Result>(
-      "delete from user where id = ?",
-      [id],
-    );
-
     return result;
   }
 }

@@ -49,6 +49,7 @@ router.get("/api/users/verify-email", userActions.verifyEmail);
 router.get("/api/users/:id", userActions.read);
 router.post("/api/users", authActions.hashPassword, userActions.add);
 router.put("/api/users/:id", userActions.updateUserInfos);
+router.delete("/api/users/:id", userActions.destroy);
 
 router.get("/api/inseecodes/:id", codeInseeActions.read);
 

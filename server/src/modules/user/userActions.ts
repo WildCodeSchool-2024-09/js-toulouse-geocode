@@ -1,10 +1,11 @@
+import { ne } from "@faker-js/faker/.";
 import type { RequestHandler } from "express";
 import insertDataRepository from "../insertData/insertDataRepository";
 import userRepository from "./userRepository";
 
 // The B of BREAD - Browse (Read) operation
 
-const browse: RequestHandler = async (req, res) => {
+const browse: RequestHandler = async (req, res, next) => {
   const { limit, offset, search } = req.query;
   try {
     const users = await userRepository.readAll(
@@ -15,7 +16,7 @@ const browse: RequestHandler = async (req, res) => {
 
     res.json(users);
   } catch (error) {
-    res.status(500).send("Error retrieving stations from database");
+    next(error);
   }
 };
 
@@ -55,9 +56,21 @@ const add: RequestHandler = async (req, res, next) => {
 
     // Respond with HTTP 201 (Created) and the ID of the newly inserted user
     res.status(201).json({ insertId });
-  } catch (err) {
+  } catch (error) {
     // Pass any errors to the error-handling middleware
-    next(err);
+    next(error);
+  }
+};
+
+const destroy: RequestHandler = async (req, res, next) => {
+  try {
+    const id = Number.parseInt(req.params.id);
+
+    await userRepository.delete(id);
+
+    res.send(204);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -74,9 +87,9 @@ const verifyEmail: RequestHandler = async (req, res, next) => {
     }
 
     res.sendStatus(200);
-  } catch (err) {
+  } catch (error) {
     // Pass any errors to the error-handling middleware
-    next(err);
+    next(error);
   }
 };
 
@@ -104,16 +117,4 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
   }
 };
 
-const deleteUser: RequestHandler = async (req, res, next) => {
-  try {
-    const id = Number.parseInt(req.params.id);
-
-    await userRepository.delete(id);
-
-    res.sendStatus(204);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export default { browse, read, add, verifyEmail, updateUserInfos, deleteUser };
+export default { browse, read, add, destroy, verifyEmail, updateUserInfos };

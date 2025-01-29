@@ -1,4 +1,4 @@
-import ShowModifyModalProvider from "../admin/contexts/ShowModifyModalProvider";
+import ShowModalProvider from "../admin/contexts/ShowModalProvider";
 import ShowNavProvider from "../admin/contexts/ShowNavProvider";
 import AuthProvider from "./AuthProvider";
 import { GeoPositionContextProvider } from "./GeoPositionContextProvider";
@@ -14,7 +14,7 @@ export default function GlobalContext({
         <ShowMenubarProvider>
           <ShowNavProvider>
             <StationsLocationsContextProvider>
-              <ShowModifyModalProvider>{children}</ShowModifyModalProvider>
+              <ShowModalProvider>{children}</ShowModalProvider>
             </StationsLocationsContextProvider>
           </ShowNavProvider>
         </ShowMenubarProvider>
