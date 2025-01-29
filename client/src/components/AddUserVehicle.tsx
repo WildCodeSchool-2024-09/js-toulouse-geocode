@@ -14,16 +14,9 @@ export default function AddUserVehicle({
     >
       <div className="add-vehicle-header">
         <h2>Ajouter un véhicule</h2>
-        <img
-          src={closeCrossSvg}
-          alt=""
-          onClick={() => setIsAddingVehicle(false)}
-          onKeyUp={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              setIsAddingVehicle(false);
-            }
-          }}
-        />
+        <button type="button" onClick={() => setIsAddingVehicle(false)}>
+          <img src={closeCrossSvg} alt="close button" />
+        </button>
       </div>
       <form action="">
         <label htmlFor="vehicle-brand">Marque</label>
