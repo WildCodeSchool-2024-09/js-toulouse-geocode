@@ -1,0 +1,31 @@
+.user-delete-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-delete-modal-container > article {
+  background-color: #e5e9e7;
+  width: 30%;
+  height: fit-content;
+  color: var(--chicago-color-950);
+}
+
+.user-delete-modal-title-container {
+  color: white;
+  background: linear-gradient(
+    90deg,
+    var(--keppel-color-600),
+    var(--chicago-color-200)
+  );
+}
+
+.user-delete-modal-button-container {
+  padding: 2rem;
+}
