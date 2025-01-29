@@ -1,4 +1,7 @@
-import databaseClient, { type Rows } from "../../../database/client";
+import databaseClient, {
+  type Result,
+  type Rows,
+} from "../../../database/client";
 
 class VehicleRepository {
   async readAll(limit: number, offset: number, search: string) {
@@ -26,19 +29,13 @@ class VehicleRepository {
     return rows;
   }
 
-  async ReadAllWithUserId(userId: number) {
-    const [rows] = await databaseClient.query<Rows>(
-      "select * from vehicle where user_id = ?",
-      [userId],
+  async delete(id: number) {
+    const [result] = await databaseClient.query<Result>(
+      "delete from vehicle where id = ?",
+      [id],
     );
 
-    return rows;
-  }
-
-  async deleteWithUserId(userId: number) {
-    await databaseClient.query("delete from vehicle where user_id = ?", [
-      userId,
-    ]);
+    return result;
   }
 }
 

@@ -4,17 +4,18 @@ import "../styles/UserDeleteModal.css";
 interface UserDeleteModalProps {
   title: string;
   paragraph: string;
+  path: string;
 }
 
 export default function DeleteModal({
   title,
   paragraph,
+  path,
 }: UserDeleteModalProps) {
   const { setDisplayUserDeleteModal, itemId, setIsRefresh } = useModal();
-
   const handleDelete = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/users/${itemId}`,
+      `${import.meta.env.VITE_API_URL}/api/${path}/${itemId}`,
       {
         method: "DELETE",
         headers: {
