@@ -82,7 +82,6 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
           className={`user-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
           onClick={() => {
             setDisplayUserModification(true);
-            console.info(item.id);
             setUserId(item.id);
           }}
         >
