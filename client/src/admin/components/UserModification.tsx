@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useModifyModal } from "../contexts/ShowModifyModalProvider";
+import { useModal } from "../contexts/ShowModalProvider";
 
 type cityType = {
   nom: string;
@@ -8,11 +8,11 @@ type cityType = {
 };
 
 interface UserModificationProps {
-  userId: number;
+  userId: number | null;
 }
 
 function UserModification({ userId }: UserModificationProps) {
-  const { setDisplayUserModification } = useModifyModal();
+  const { setDisplayUserModification } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [emailValid, setEmailValid] = useState(false);
@@ -152,6 +152,7 @@ function UserModification({ userId }: UserModificationProps) {
   };
 
   const fetchUserInfos = () => {
+    if (!userId) return;
     fetch(`${import.meta.env.VITE_API_URL}/api/users/${userId}`)
       .then((response) => response.json())
       .then((userData) => {
