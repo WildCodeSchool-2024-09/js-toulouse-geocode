@@ -35,3 +35,9 @@ export interface VehicleItemType extends BaseItemType {
   type: string;
   user_id: number;
 }
+
+export type cityType = {
+  nom: string;
+  code: string;
+  codeDepartement: string;
+};

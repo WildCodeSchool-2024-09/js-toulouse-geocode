@@ -3,12 +3,15 @@ import "../styles/StationItemAdmin.css";
 import { useEffect, useState } from "react";
 import arrowImg from "/images/arrow-item-img.svg";
 import trashCanImg from "/images/trash-can-img.svg";
+import { useModal } from "../contexts/ShowModalProvider";
 
 interface StationItemAdminProps {
   item: StationItemType;
 }
 
 export default function StationItemAdmin({ item }: StationItemAdminProps) {
+  const { setDisplayStationModification, setItemId } = useModal();
+
   const [station, setStation] = useState({
     name: item.name,
     address: item.address,
@@ -111,6 +114,10 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
         <button
           type="button"
           className={`station-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
+          onClick={() => {
+            setDisplayStationModification(true);
+            setItemId(item.id);
+          }}
         >
           Modifier
         </button>
