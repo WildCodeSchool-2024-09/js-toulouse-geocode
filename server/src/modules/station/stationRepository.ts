@@ -1,7 +1,7 @@
 import type { RowDataPacket } from "mysql2";
 import databaseClient from "../../../database/client";
 
-import type { Rows } from "../../../database/client";
+import type { Result, Rows } from "../../../database/client";
 
 import {
   AdminstrativeAreaProps,
@@ -107,6 +107,15 @@ class StationRepository {
 
     // Return the array of items
     return rows.map(transform)[0];
+  }
+
+  async delete(id: number) {
+    const [result] = await databaseClient.query<Result>(
+      "delete from station where id = ?",
+      [id],
+    );
+
+    return result;
   }
 }
 

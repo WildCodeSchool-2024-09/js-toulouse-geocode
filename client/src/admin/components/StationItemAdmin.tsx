@@ -10,8 +10,6 @@ interface StationItemAdminProps {
 }
 
 export default function StationItemAdmin({ item }: StationItemAdminProps) {
-  const { setDisplayStationModification, setItemId } = useModal();
-
   const [station, setStation] = useState({
     name: item.name,
     address: item.address,
@@ -34,9 +32,16 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
   });
 
   const [isVisible, setIsVisible] = useState(false);
+  const { setDisplayStationModification, setItemId, setDisplayDeleteModal } =
+    useModal();
 
   const handleClickArrow = () => {
     setIsVisible(!isVisible);
+  };
+
+  const handleDelete = () => {
+    setDisplayDeleteModal(true);
+    setItemId(item.id);
   };
 
   useEffect(() => {
@@ -102,13 +107,17 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
       <div
         className={`station-item-admin-container ${isVisible ? "is-visible" : ""}`}
       >
-        <img
-          src={arrowImg}
-          alt="déplier"
-          className={`station-item-admin-arrow-img ${isVisible ? "is-visible" : ""}`}
+        <button
+          type="button"
+          className="station-item-admin-button"
           onClick={handleClickArrow}
-          onKeyDown={handleClickArrow}
-        />
+        >
+          <img
+            src={arrowImg}
+            alt="déplier"
+            className={`station-item-admin-arrow-img ${isVisible ? "is-visible" : ""}`}
+          />
+        </button>
         <p className="station-item-admin-name">{station.name}</p>
         <p className="station-item-admin-postalcode">{station.postalcode}</p>
         <button
@@ -121,11 +130,17 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
         >
           Modifier
         </button>
-        <img
-          src={trashCanImg}
-          alt="supprimer"
-          className={`station-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
-        />
+        <button
+          type="button"
+          className="station-item-admin-button"
+          onClick={handleDelete}
+        >
+          <img
+            src={trashCanImg}
+            alt="supprimer"
+            className={`station-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
+          />
+        </button>
       </div>
       {isVisible && (
         <div className="station-item-admin-full-info">
