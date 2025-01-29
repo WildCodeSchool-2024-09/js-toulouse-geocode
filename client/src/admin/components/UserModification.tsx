@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useModifyModal } from "../contexts/ShowModifyModalProvider";
-
-type cityType = {
-  nom: string;
-  code: string;
-  codeDepartement: string;
-};
+import type { cityType } from "../types/itemType";
 
 interface UserModificationProps {
   userId: number;
