@@ -22,7 +22,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     city: null,
   });
 
-  const { setDisplayUserModification, setDisplayUserDeleteModal, setItemId } =
+  const { setDisplayUserModification, setDisplayDeleteModal, setItemId } =
     useModal();
   const [isVisible, setIsVisible] = useState(false);
   const handleClickArrow = () => {
@@ -30,7 +30,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
   };
 
   const handleDelete = () => {
-    setDisplayUserDeleteModal(true);
+    setDisplayDeleteModal(true);
     setItemId(item.id);
   };
 
@@ -74,13 +74,17 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
       <div
         className={`user-item-admin-container ${isVisible ? "is-visible" : ""}`}
       >
-        <img
-          src={arrowImg}
-          alt="déplier"
-          className={`user-item-admin-arrow-img ${isVisible ? "is-visible" : ""}`}
+        <button
+          type="button"
+          className="user-item-admin-button"
           onClick={handleClickArrow}
-          onKeyDown={handleClickArrow}
-        />
+        >
+          <img
+            src={arrowImg}
+            alt="déplier"
+            className={`user-item-admin-arrow-img ${isVisible ? "is-visible" : ""}`}
+          />
+        </button>
         <p className="user-item-admin-name">{user.lastname}</p>
         <p className="user-item-admin-postalcode">{user.firstname}</p>
         <button
@@ -93,13 +97,17 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
         >
           Modifier
         </button>
-        <img
-          src={trashCanImg}
-          alt="supprimer"
-          className={`user-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
+        <button
+          type="button"
+          className="user-item-admin-button"
           onClick={handleDelete}
-          onKeyDown={handleDelete}
-        />
+        >
+          <img
+            src={trashCanImg}
+            alt="supprimer"
+            className={`user-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
+          />
+        </button>
       </div>
       {isVisible && (
         <div className="user-item-admin-full-info">

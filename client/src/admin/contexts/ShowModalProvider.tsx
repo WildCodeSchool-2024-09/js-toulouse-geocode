@@ -3,12 +3,10 @@ import { type ReactNode, createContext, useContext, useState } from "react";
 interface ShowModalContextType {
   displayUserModification: boolean;
   setDisplayUserModification: (value: boolean) => void;
-  displayUserDeleteModal: boolean;
-  setDisplayUserDeleteModal: (value: boolean) => void;
   displayStationModification: boolean;
   setDisplayStationModification: (value: boolean) => void;
-  displayStationDeleteModal: boolean;
-  setDisplayStationDeleteModal: (value: boolean) => void;
+  displayDeleteModal: boolean;
+  setDisplayDeleteModal: (value: boolean) => void;
   itemId: number | null;
   setItemId: (value: number | null) => void;
   isRefresh: boolean;
@@ -21,10 +19,8 @@ export default function ShowModalProvider({
   children,
 }: { children: ReactNode }) {
   const [displayUserModification, setDisplayUserModification] = useState(false);
-  const [displayUserDeleteModal, setDisplayUserDeleteModal] = useState(false);
+  const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
   const [displayStationModification, setDisplayStationModification] =
-    useState(false);
-  const [displayStationDeleteModal, setDisplayStationDeleteModal] =
     useState(false);
   const [itemId, setItemId] = useState<number | null>(null);
   const [isRefresh, setIsRefresh] = useState(false);
@@ -33,12 +29,10 @@ export default function ShowModalProvider({
       value={{
         displayUserModification,
         setDisplayUserModification,
-        displayUserDeleteModal,
-        setDisplayUserDeleteModal,
+        displayDeleteModal,
+        setDisplayDeleteModal,
         displayStationModification,
         setDisplayStationModification,
-        displayStationDeleteModal,
-        setDisplayStationDeleteModal,
         itemId,
         setItemId,
         isRefresh,

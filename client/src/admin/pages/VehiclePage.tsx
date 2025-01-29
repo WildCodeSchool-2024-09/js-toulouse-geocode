@@ -4,15 +4,15 @@ import HeaderAdminPage from "../components/HeaderAdminPage";
 import { useModal } from "../contexts/ShowModalProvider";
 
 export default function VehiclePage() {
-  const { displayUserDeleteModal } = useModal();
+  const { displayDeleteModal } = useModal();
   return (
     <div className="station-page-container">
       <HeaderAdminPage title="Gestion des Vehicules" />
       <ContentAdmin titles={["Model", "Propriétaire"]} path="vehicles" />
-      {displayUserDeleteModal && (
+      {displayDeleteModal && (
         <DeleteModal
-          title="Utilisateur"
-          paragraph="cet utilisateur"
+          title="du véhicule"
+          paragraph="ce véhicule"
           path="vehicles"
         />
       )}
