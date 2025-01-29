@@ -9,3 +9,228 @@
   top: 0;
   left: 0;
 }
+
+.station-modification-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.station-modification-dialog_box {
+  width: fit-content;
+  height: fit-content;
+  border-radius: 1rem;
+  border: black 1px solid;
+}
+
+.station-modification-dialog_box > caption {
+  padding: 1.0rem;
+  background: linear-gradient(
+    90deg,
+    var(--keppel-color-600),
+    var(--chicago-color-200)
+  );
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.station-modification-dialog_box > caption > button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.station-modification-dialog_box > caption > h2 {
+  text-align: center;
+}
+.station-modification-dialog_box > caption > button > img {
+  width: 2.625rem;
+  height: 2.625rem;
+}
+
+.station-modification-dialog_box > section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--egg-color);
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.station-modification-dialog_box > section > form {
+  width: 100%;
+  padding: 1.625rem 4.1875rem 2.1875rem 4.1875rem;
+  border: none !important;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+.station-modification-dialog_box > section label {
+  color: black;
+}
+
+.station-modification-dialog_box > section p {
+  color: var(--red-color);
+}
+
+.station-modification-dialog_box > section input,
+.station-modification-dialog_box > section select {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--chicago-color-600);
+  max-width: 8.15625rem;
+}
+
+.station-modification-dialog_box > section .submit {
+  display: flex;
+  grid-column-start: 1;
+  grid-column-end: 7;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  gap: 0.625rem;
+}
+
+.station-modification-dialog_box > section .submit > button {
+  padding: 0.5rem 1.5rem;
+  background-color: var(--keppel-color-600);
+  border: none;
+  border-radius: 1.25rem;
+  cursor: pointer;
+  color: var(--egg-color);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.group:has(#operator-name) {
+  grid-column: span 2;
+}
+
+.group:has(#operator-name) > input {
+  max-width: unset !important;
+}
+
+.group:has(#sign-name) {
+  grid-column: span 2;
+}
+
+.group:has(#sign-name) > input {
+  max-width: unset !important;
+}
+
+.group:has(#provider-name) {
+  grid-column: span 2;
+}
+
+.group:has(#provider-name) > input {
+  max-width: unset !important;
+}
+
+.group:has(#station-name) {
+  grid-column: span 3;
+}
+
+.group:has(#station-name) > input {
+  max-width: unset !important;
+}
+
+.group:has(#station-identifier) {
+  grid-column: span 3;
+}
+
+.group:has(#station-identifier) > input {
+  max-width: unset !important;
+}
+
+.group:has(#address) {
+  grid-column: span 6;
+}
+
+.group:has(#address) > input {
+  max-width: unset !important;
+}
+
+.group:has(#postal-code) {
+  grid-column: span 2;
+}
+
+.group:has(#postal-code) > input {
+  max-width: unset !important;
+}
+
+.group:has(#city) {
+  grid-column: span 4;
+}
+
+.group:has(#city) > input {
+  max-width: unset !important;
+}
+
+.group:has(#latitude) {
+  grid-column: span 3;
+}
+
+.group:has(#latitude) > input {
+  max-width: unset !important;
+}
+
+.group:has(#longitude) {
+  grid-column: span 3;
+}
+
+.group:has(#longitude) > input {
+  max-width: unset !important;
+}
+
+.group:has(#pdc-name) {
+  grid-column: span 2;
+}
+
+.group:has(#pdc-name) > input {
+  max-width: unset !important;
+}
+
+.group:has(#pdc-type) {
+  grid-column: span 2;
+}
+
+.group:has(#pdc-type) > input {
+  max-width: unset !important;
+}
+
+.group:has(#access-charging) {
+  grid-column: span 2;
+}
+
+.group:has(#access-charging) > input {
+  max-width: unset !important;
+}
+
+.group:has(#accessibility) {
+  grid-column: span 2;
+}
+
+.group:has(#accessibility) > input {
+  max-width: unset !important;
+}
+
+.group:has(#source) {
+  grid-column: span 2;
+}
+
+.group:has(#source) > input {
+  max-width: unset !important;
+}
