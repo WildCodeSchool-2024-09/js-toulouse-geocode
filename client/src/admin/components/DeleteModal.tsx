@@ -6,11 +6,11 @@ interface UserDeleteModalProps {
   paragraph: string;
 }
 
-export default function UserDeleteModal({
+export default function DeleteModal({
   title,
   paragraph,
 }: UserDeleteModalProps) {
-  const { setDisplayUserDeleteModal, itemId } = useModal();
+  const { setDisplayUserDeleteModal, itemId, setIsRefresh } = useModal();
 
   const handleDelete = async () => {
     const response = await fetch(
@@ -24,6 +24,7 @@ export default function UserDeleteModal({
     );
     if (response.ok) {
       setDisplayUserDeleteModal(false);
+      setIsRefresh(true);
     } else {
       console.error("An error occurred while deleting the user");
     }
@@ -39,7 +40,7 @@ export default function UserDeleteModal({
         <div className="user-delete-modal-title-container">
           <h3>Suppression {title}</h3>
         </div>
-        <p>Êtes vous sûre de vouloir supprimer {paragraph}</p>
+        <p>Êtes vous sûre de vouloir supprimer {paragraph} ?</p>
         <div className="user-delete-modal-button-container">
           <button
             type="button"
