@@ -22,7 +22,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     city: null,
   });
 
-  const { setDisplayUserModification, setDisplayUserDeleteModal, setItemId } =
+  const { setDisplayUserModification, setDisplayDeleteModal, setItemId } =
     useModal();
   const [isVisible, setIsVisible] = useState(false);
   const handleClickArrow = () => {
@@ -30,7 +30,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
   };
 
   const handleDelete = () => {
-    setDisplayUserDeleteModal(true);
+    setDisplayDeleteModal(true);
     setItemId(item.id);
   };
 

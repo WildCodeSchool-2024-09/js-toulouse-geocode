@@ -17,7 +17,7 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
     owner: null as string | null,
   });
   const [isVisible, setIsVisible] = useState(false);
-  const { setDisplayUserDeleteModal, setItemId } = useModal();
+  const { setDisplayDeleteModal, setItemId } = useModal();
 
   useEffect(() => {
     (async () => {
@@ -37,7 +37,7 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
   };
 
   const handleDelete = () => {
-    setDisplayUserDeleteModal(true);
+    setDisplayDeleteModal(true);
     setItemId(item.id);
   };
 
