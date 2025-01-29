@@ -1,10 +1,8 @@
 import { type ReactNode, createContext, useContext, useState } from "react";
 
 interface ShowModalContextType {
-  displayUserModification: boolean;
-  setDisplayUserModification: (value: boolean) => void;
-  displayStationModification: boolean;
-  setDisplayStationModification: (value: boolean) => void;
+  displayModification: boolean;
+  setDisplayModification: (value: boolean) => void;
   displayDeleteModal: boolean;
   setDisplayDeleteModal: (value: boolean) => void;
   itemId: number | null;
@@ -18,21 +16,17 @@ const ShowModalContext = createContext<ShowModalContextType | null>(null);
 export default function ShowModalProvider({
   children,
 }: { children: ReactNode }) {
-  const [displayUserModification, setDisplayUserModification] = useState(false);
+  const [displayModification, setDisplayModification] = useState(false);
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
-  const [displayStationModification, setDisplayStationModification] =
-    useState(false);
   const [itemId, setItemId] = useState<number | null>(null);
   const [isRefresh, setIsRefresh] = useState(false);
   return (
     <ShowModalContext.Provider
       value={{
-        displayUserModification,
-        setDisplayUserModification,
+        displayModification,
+        setDisplayModification,
         displayDeleteModal,
         setDisplayDeleteModal,
-        displayStationModification,
-        setDisplayStationModification,
         itemId,
         setItemId,
         isRefresh,

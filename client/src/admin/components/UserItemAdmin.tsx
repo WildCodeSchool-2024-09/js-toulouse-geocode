@@ -22,8 +22,11 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     city: null,
   });
 
-  const { setDisplayUserModification, setDisplayDeleteModal, setItemId } =
-    useModal();
+  const {
+    setDisplayModification: setDisplayUserModification,
+    setDisplayDeleteModal,
+    setItemId,
+  } = useModal();
   const [isVisible, setIsVisible] = useState(false);
   const handleClickArrow = () => {
     setIsVisible(!isVisible);

@@ -6,7 +6,11 @@ import UserModification from "../components/UserModification";
 import { useModal } from "../contexts/ShowModalProvider";
 
 export default function UsersPage() {
-  const { displayUserModification, displayDeleteModal, itemId } = useModal();
+  const {
+    displayModification: displayUserModification,
+    displayDeleteModal,
+    itemId,
+  } = useModal();
   return (
     <div className="users-page-container">
       <HeaderAdminPage title="Gestion des Utilisateurs" />

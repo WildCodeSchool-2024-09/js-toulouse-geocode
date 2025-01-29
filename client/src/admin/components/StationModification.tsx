@@ -7,7 +7,7 @@ interface StationModificationProps {
 }
 
 function StationModification({ stationId }: StationModificationProps) {
-  const { setDisplayStationModification } = useModal();
+  const { setDisplayModification } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [operatorName, setOperatorName] = useState("");
   const [signName, setSignName] = useState("");
@@ -28,12 +28,14 @@ function StationModification({ stationId }: StationModificationProps) {
   const [accessibility, setAccessibility] = useState("");
   const [source, setSource] = useState("");
 
+  const [errorMessage] = useState<string>("");
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
   const handleClose = () => {
-    setDisplayStationModification(false);
+    setDisplayModification(false);
   };
 
   const handleChangeOperator = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,7 +160,7 @@ function StationModification({ stationId }: StationModificationProps) {
             onSubmit={handleSubmit}
           >
             <div className="group">
-              <label htmlFor="operator-name">Nom</label>
+              <label htmlFor="operator-name">Opérateur</label>
               <input
                 type="text"
                 id="operator-name"
@@ -277,10 +279,10 @@ function StationModification({ stationId }: StationModificationProps) {
               />
             </div>
             <div className="group">
-              <label htmlFor="pcd-name">Nom de la prise</label>
+              <label htmlFor="pdc-name">Nom de la prise</label>
               <input
                 type="text"
-                id="pcd-name"
+                id="pdc-name"
                 name="pdc_name"
                 value={pdcName}
                 onChange={handleChangePdcName}
@@ -335,6 +337,10 @@ function StationModification({ stationId }: StationModificationProps) {
                 value={source}
                 onChange={handleChangeSource}
               />
+            </div>
+            <div className="submit">
+              <button type="submit">Sauvegarder</button>
+              {errorMessage && <p>{errorMessage}</p>}
             </div>
           </form>
         </section>
