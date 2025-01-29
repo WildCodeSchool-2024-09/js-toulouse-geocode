@@ -68,6 +68,8 @@
   cursor: pointer;
 }
 .modify-profile-infos-buttons {
+  margin-left: 0.5rem;
+  gap: 2rem;
   display: flex;
   justify-content: space-between;
   padding: 0 1rem;

@@ -10,7 +10,6 @@ import authActions from "./modules/auth/authActions";
 import cityActions from "./modules/city/cityActions";
 import codeInseeActions from "./modules/codeInsee/codeInseeActions";
 import contactActions from "./modules/contact/contactActions";
-import departementActions from "./modules/department/departementActions";
 import geoCoordsActions from "./modules/geoCoords/geoCoordsActions";
 import csvManagementActions from "./modules/insertData/insertDataAction";
 // Define item-related routes
@@ -24,6 +23,7 @@ import signActions from "./modules/sign/signActions";
 import stationActions from "./modules/station/stationActions";
 import userActions from "./modules/user/userActions";
 import userPhotoActions from "./modules/userPhoto/userPhotoActions";
+import vehicleActions from "./modules/vehicle/vehicleActions";
 
 router.get("/api/items", itemActions.browse);
 router.get("/api/items/:id", itemActions.read);
@@ -69,6 +69,8 @@ router.get("/api/postalcodes/:id", postalcodeActions.read);
 router.get("/api/geocoords/:id", geoCoordsActions.read);
 
 router.get("/api/outlets/:id", outletActions.read);
+
+router.get("/api/vehicles", vehicleActions.browse);
 /* ************************************************************************* */
 
 export default router;

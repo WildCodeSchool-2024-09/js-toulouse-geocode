@@ -32,5 +32,6 @@ export interface UserItemType extends BaseItemType {
 export interface VehicleItemType extends BaseItemType {
   model: string;
   brand: string;
+  type: string;
   user_id: number;
 }

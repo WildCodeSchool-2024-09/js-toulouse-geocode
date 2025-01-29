@@ -1,4 +1,4 @@
-.station-item-admin-container {
+.vehicle-item-admin-container {
   width: 95%;
   min-height: 5.6rem;
   display: flex;
@@ -13,35 +13,35 @@
   position: relative;
 }
 
-.station-item-admin-container.is-visible {
+.vehicle-item-admin-container.is-visible {
   background-color: #eeb65b;
   color: #525b5a;
 }
 
-.station-item-admin-trash-can-img {
+.vehicle-item-admin-trash-can-img {
   width: 2.72rem;
   cursor: pointer;
   flex: 0.16;
 }
 
-.station-item-admin-trash-can-img.is-visible {
+.vehicle-item-admin-trash-can-img.is-visible {
   filter: brightness(0) saturate(100%) invert(34%) sepia(10%) saturate(316%)
     hue-rotate(124deg) brightness(96%) contrast(89%);
 }
 
-.station-item-admin-arrow-img {
+.vehicle-item-admin-arrow-img {
   width: 1.7rem;
   cursor: pointer;
   flex: 0.16;
 }
 
-.station-item-admin-arrow-img.is-visible {
+.vehicle-item-admin-arrow-img.is-visible {
   filter: brightness(0) saturate(100%) invert(34%) sepia(10%) saturate(316%)
     hue-rotate(124deg) brightness(96%) contrast(89%);
   transform: rotate(180deg);
 }
 
-.station-item-admin-modify-button {
+.vehicle-item-admin-modify-button {
   background-color: #7dc952;
   color: white;
   border: none;
@@ -52,29 +52,29 @@
   flex: 1.5;
 }
 
-.station-item-admin-modify-button.is-visible {
+.vehicle-item-admin-modify-button.is-visible {
   background-color: #525b5a;
   color: #e5e9e7;
 }
 
-.station-item-admin-modify-button.is-visible:hover {
+.vehicle-item-admin-modify-button.is-visible:hover {
   background-color: #727f7d;
 }
 
-.station-item-admin-modify-button:hover {
+.vehicle-item-admin-modify-button:hover {
   background-color: #7ec952a2;
   transition: 0.3s;
 }
 
-.station-item-admin-name {
-  flex: 4;
+.vehicle-item-admin-model {
+  flex: 2;
 }
 
-.station-item-admin-postalcode {
+.vehicle-item-admin-owner {
   flex: 1;
 }
 
-.station-item-admin-full-info {
+.vehicle-item-admin-full-info {
   height: fit-content;
   width: 95%;
   background-color: bisque;
@@ -85,17 +85,17 @@
   border-radius: 0 0 0.8rem 0.8rem;
   color: #525b5a;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(1, 1fr);
   gap: 1rem;
 }
 
-.station-item-admin-full-info-value {
+.vehicle-item-admin-full-info-value {
   color: black;
   font-size: 1.5rem;
 }
 
-.station-item-admin {
+.vehicle-item-admin {
   width: 100%;
   display: flex;
   flex-direction: column;

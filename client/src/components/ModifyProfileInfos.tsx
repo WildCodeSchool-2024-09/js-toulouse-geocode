@@ -187,7 +187,7 @@ export default function ModifyProfileInfos({
         <div className="modify-location-container" id="location">
           <input
             className="modify-postalcode-input"
-            type="text"
+            type="number"
             placeholder="Code postal"
             name="postalcode"
             value={postalcodeInput}

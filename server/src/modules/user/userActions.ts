@@ -1,4 +1,3 @@
-import { de } from "@faker-js/faker/.";
 import type { RequestHandler } from "express";
 import insertDataRepository from "../insertData/insertDataRepository";
 import userRepository from "./userRepository";
@@ -105,4 +104,16 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read, add, verifyEmail, updateUserInfos };
+const deleteUser: RequestHandler = async (req, res, next) => {
+  try {
+    const id = Number.parseInt(req.params.id);
+
+    await userRepository.delete(id);
+
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { browse, read, add, verifyEmail, updateUserInfos, deleteUser };
