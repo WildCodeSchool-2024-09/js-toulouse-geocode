@@ -32,7 +32,8 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
   });
 
   const [isVisible, setIsVisible] = useState(false);
-  const { setDisplayDeleteModal, setItemId } = useModal();
+  const { setDisplayStationModification, setItemId, setDisplayDeleteModal } =
+    useModal();
 
   const handleClickArrow = () => {
     setIsVisible(!isVisible);
@@ -122,6 +123,10 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
         <button
           type="button"
           className={`station-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
+          onClick={() => {
+            setDisplayStationModification(true);
+            setItemId(item.id);
+          }}
         >
           Modifier
         </button>
