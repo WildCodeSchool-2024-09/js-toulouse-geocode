@@ -1,4 +1,7 @@
-import databaseClient, { type Rows } from "../../../database/client";
+import databaseClient, {
+  type Result,
+  type Rows,
+} from "../../../database/client";
 
 class VehicleRepository {
   async readAll(limit: number, offset: number, search: string) {
@@ -24,6 +27,15 @@ class VehicleRepository {
     const [rows] = await databaseClient.query<Rows>(query, params);
 
     return rows;
+  }
+
+  async delete(id: number) {
+    const [result] = await databaseClient.query<Result>(
+      "delete from vehicle where id = ?",
+      [id],
+    );
+
+    return result;
   }
 }
 

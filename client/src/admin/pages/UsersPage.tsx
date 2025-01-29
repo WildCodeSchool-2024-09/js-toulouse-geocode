@@ -14,7 +14,11 @@ export default function UsersPage() {
       <ContentAdmin titles={["Nom", "Prénom"]} path="users" />
       {displayUserModification && <UserModification userId={itemId} />}
       {displayUserDeleteModal && (
-        <DeleteModal title="Utilisateur" paragraph="cet utilisateur" />
+        <DeleteModal
+          title="Utilisateur"
+          paragraph="cet utilisateur"
+          path="users"
+        />
       )}
     </div>
   );

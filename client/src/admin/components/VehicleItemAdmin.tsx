@@ -3,6 +3,7 @@ import arrowImg from "/images/arrow-item-img.svg";
 import trashCanImg from "/images/trash-can-img.svg";
 import type { VehicleItemType } from "../types/itemType";
 import "../styles/VehicleItemAdmin.css";
+import { useModal } from "../contexts/ShowModalProvider";
 
 interface VehicleItemAdminProps {
   item: VehicleItemType;
@@ -16,6 +17,7 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
     owner: null as string | null,
   });
   const [isVisible, setIsVisible] = useState(false);
+  const { setDisplayUserDeleteModal, setItemId } = useModal();
 
   useEffect(() => {
     (async () => {
@@ -32,6 +34,11 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
 
   const handleClickArrow = () => {
     setIsVisible(!isVisible);
+  };
+
+  const handleDelete = () => {
+    setDisplayUserDeleteModal(true);
+    setItemId(item.id);
   };
 
   return (
@@ -58,6 +65,8 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
           src={trashCanImg}
           alt="supprimer"
           className={`vehicle-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
+          onClick={handleDelete}
+          onKeyDown={handleDelete}
         />
       </div>
       {isVisible && (
