@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import "../styles/ProfileNavbar.css";
+import { useAuth } from "../contexts/AuthProvider";
 
 interface ProfileNavbarProps {
   activeTab: string;
@@ -9,6 +11,27 @@ export default function ProfileNavbar({
   activeTab,
   setActiveTab,
 }: ProfileNavbarProps) {
+  const { auth } = useAuth();
+
+  const [userNumberOfVehicle, setUserNumberOfVehicle] = useState<number>(0);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setUserNumberOfVehicle(data.number_of_vehicles);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [auth]);
+
   return (
     <div className="profile-navbar-container">
       <ul>
@@ -32,7 +55,7 @@ export default function ProfileNavbar({
           }}
           className={activeTab === "vehicles" ? "active" : ""}
         >
-          Véhicules(X)
+          Véhicules ({userNumberOfVehicle})
         </li>
         <li
           onClick={() => {
