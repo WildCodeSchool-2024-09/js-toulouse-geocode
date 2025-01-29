@@ -1,5 +1,7 @@
 import VehiclesInfosCard from "./VehiclesInfosCard";
 import "../styles/VehiclesInfosList.css";
+import { useState } from "react";
+import AddUserVehicle from "./AddUserVehicle";
 
 export default function VehiclesInfo() {
   const vehiclesInfos = [
@@ -29,24 +31,35 @@ export default function VehiclesInfo() {
     },
   ];
 
+  const [isAddingVehicle, setIsAddingVehicle] = useState(false);
+
   return (
-    <section className="vehicles-info-container">
-      <article className="vehicles-infos-header">
-        <h1>Mes véhicules</h1>
-        <button type="button" className="add-vehicle-button">
-          + Ajouter un véhicule
-        </button>
-      </article>
-      <article className="grid-car-infos-cards">
-        {vehiclesInfos.map((item) => (
-          <VehiclesInfosCard
-            key={item.id}
-            vehicleBrand={item.vehicleBrand}
-            vehicleModel={item.vehicleModel}
-            chargingVehicleType={item.chargingVehicleType}
-          />
-        ))}
-      </article>
-    </section>
+    <>
+      <section className="vehicles-info-container">
+        <article className="vehicles-infos-header">
+          <h1>Mes véhicules</h1>
+          <button
+            type="button"
+            className="add-vehicle-button"
+            onClick={() => setIsAddingVehicle(true)}
+          >
+            + Ajouter un véhicule
+          </button>
+        </article>
+        <article className="grid-car-infos-cards">
+          {vehiclesInfos.map((item) => (
+            <VehiclesInfosCard
+              key={item.id}
+              vehicleBrand={item.vehicleBrand}
+              vehicleModel={item.vehicleModel}
+              chargingVehicleType={item.chargingVehicleType}
+            />
+          ))}
+        </article>
+      </section>
+      {isAddingVehicle && (
+        <AddUserVehicle setIsAddingVehicle={setIsAddingVehicle} />
+      )}
+    </>
   );
 }

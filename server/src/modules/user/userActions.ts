@@ -1,6 +1,7 @@
 import { ne } from "@faker-js/faker/.";
 import type { RequestHandler } from "express";
 import insertDataRepository from "../insertData/insertDataRepository";
+import vehicleRepository from "../vehicle/vehicleRepository";
 import userRepository from "./userRepository";
 
 // The B of BREAD - Browse (Read) operation
@@ -117,4 +118,4 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read, add, destroy, verifyEmail, updateUserInfos };
+export default { browse, read, add, verifyEmail, updateUserInfos, destroy };
