@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import "../styles/MenuBar.css";
+import { useAuth } from "../contexts/AuthProvider";
 import { useShowMenubar } from "../contexts/ShowMenubarProvider";
 
 function MenuBar() {
@@ -9,6 +10,8 @@ function MenuBar() {
   if (!showMenubarContext.showMenubar) {
     return null;
   }
+
+  const { auth } = useAuth();
 
   return (
     <div className="footer-container">
@@ -25,7 +28,7 @@ function MenuBar() {
             </Link>
           </li>
           <li>
-            <Link to="/user">
+            <Link to={auth ? "/user" : "/login"}>
               <img src="/images/user.svg" alt="user" />
             </Link>
           </li>

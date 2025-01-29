@@ -25,7 +25,7 @@ const login: RequestHandler = async (req, res, next) => {
       const { id, ...userWithoutHashedPassword } = user;
 
       const myPayload: GeocodePayload = {
-        sub: user.id.toString(),
+        sub: id.toString(),
       };
 
       const token = await jwt.sign(

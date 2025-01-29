@@ -86,7 +86,6 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
       id: Number.parseInt(req.params.id),
       lastname: req.body.lastname,
       firstname: req.body.firstname,
-      hashed_password: req.body.hashed_password,
       mail: req.body.mail,
       sex: req.body.sex,
       birthday: req.body.birthday,
@@ -97,8 +96,6 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
       departement: req.body.departement,
       region: req.body.region,
     };
-
-    console.info("Insee ", req.body.city);
 
     const updatedId = await userRepository.updateProfileInfos(user);
     res.status(200).json({ updatedId });

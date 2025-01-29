@@ -51,9 +51,9 @@ export default function ProfileInfo() {
       const cityData = await cityResponse.json();
 
       setPostalcode(postalcodeData.code);
-      setUser(userData);
 
       const birthdayDate = new Date(userData.birthday);
+
       const birthdayCorrectFormat = `${birthdayDate.getDate().toString().padStart(2, "0")}/${(birthdayDate.getMonth() + 1).toString().padStart(2, "0")}/${birthdayDate.getFullYear()}`;
 
       setUserArr([
@@ -62,6 +62,7 @@ export default function ProfileInfo() {
         [userData.mail ?? ""],
         [postalcodeData.code ?? "", cityData.name ?? ""],
       ]);
+      setUser(userData);
     } catch (error) {
       console.error(error);
     }
