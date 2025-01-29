@@ -11,8 +11,8 @@ export default function VehiclePage() {
       <ContentAdmin titles={["Model", "Propriétaire"]} path="vehicles" />
       {displayDeleteModal && (
         <DeleteModal
-          title="Utilisateur"
-          paragraph="cet utilisateur"
+          title="du véhicule"
+          paragraph="ce véhicule"
           path="vehicles"
         />
       )}

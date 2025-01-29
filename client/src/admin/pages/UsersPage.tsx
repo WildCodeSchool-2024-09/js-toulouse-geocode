@@ -14,7 +14,7 @@ export default function UsersPage() {
       {displayUserModification && <UserModification userId={itemId} />}
       {displayDeleteModal && (
         <DeleteModal
-          title="Utilisateur"
+          title="de l'utilisateur"
           paragraph="cet utilisateur"
           path="users"
         />
