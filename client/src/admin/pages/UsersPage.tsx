@@ -1,7 +1,7 @@
 import "../styles/UsersPage.css";
 import ContentAdmin from "../components/ContentAdmin";
+import DeleteModal from "../components/DeleteModal";
 import HeaderAdminPage from "../components/HeaderAdminPage";
-import UserDeleteModal from "../components/UserDeleteModal";
 import UserModification from "../components/UserModification";
 import { useModal } from "../contexts/ShowModalProvider";
 
@@ -14,7 +14,7 @@ export default function UsersPage() {
       <ContentAdmin titles={["Nom", "Prénom"]} path="users" />
       {displayUserModification && <UserModification userId={itemId} />}
       {displayUserDeleteModal && (
-        <UserDeleteModal title="Utilisateur" paragraph="cet utilisateur" />
+        <DeleteModal title="Utilisateur" paragraph="cet utilisateur" />
       )}
     </div>
   );

@@ -7,6 +7,8 @@ interface ShowModalContextType {
   setDisplayUserDeleteModal: (value: boolean) => void;
   itemId: number | null;
   setItemId: (value: number | null) => void;
+  isRefresh: boolean;
+  setIsRefresh: (value: boolean) => void;
 }
 
 const ShowModalContext = createContext<ShowModalContextType | null>(null);
@@ -17,6 +19,7 @@ export default function ShowModalProvider({
   const [displayUserModification, setDisplayUserModification] = useState(false);
   const [displayUserDeleteModal, setDisplayUserDeleteModal] = useState(false);
   const [itemId, setItemId] = useState<number | null>(null);
+  const [isRefresh, setIsRefresh] = useState(false);
   return (
     <ShowModalContext.Provider
       value={{
@@ -26,6 +29,8 @@ export default function ShowModalProvider({
         setDisplayUserDeleteModal,
         itemId,
         setItemId,
+        isRefresh,
+        setIsRefresh,
       }}
     >
       {children}
