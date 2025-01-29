@@ -1,5 +1,6 @@
 import type { RequestHandler } from "express";
 import insertDataRepository from "../insertData/insertDataRepository";
+import vehicleRepository from "../vehicle/vehicleRepository";
 import userRepository from "./userRepository";
 
 // The B of BREAD - Browse (Read) operation
@@ -110,6 +111,13 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
 const deleteUser: RequestHandler = async (req, res, next) => {
   try {
     const id = Number.parseInt(req.params.id);
+
+    const numberOfVehicles = (await vehicleRepository.ReadAllWithUserId(id))
+      .length;
+
+    if (numberOfVehicles > 0) {
+      await vehicleRepository.deleteWithUserId(id);
+    }
 
     await userRepository.delete(id);
 

@@ -25,6 +25,21 @@ class VehicleRepository {
 
     return rows;
   }
+
+  async ReadAllWithUserId(userId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "select * from vehicle where user_id = ?",
+      [userId],
+    );
+
+    return rows;
+  }
+
+  async deleteWithUserId(userId: number) {
+    await databaseClient.query("delete from vehicle where user_id = ?", [
+      userId,
+    ]);
+  }
 }
 
 export default new VehicleRepository();
