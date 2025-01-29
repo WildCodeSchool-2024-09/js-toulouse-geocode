@@ -7,7 +7,7 @@ interface UserModificationProps {
 }
 
 function UserModification({ userId }: UserModificationProps) {
-  const { setDisplayUserModification } = useModal();
+  const { setDisplayModification: setDisplayUserModification } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [emailValid, setEmailValid] = useState(false);

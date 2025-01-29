@@ -7,7 +7,7 @@ interface StationModificationProps {
 }
 
 function StationModification({ stationId }: StationModificationProps) {
-  const { setDisplayStationModification } = useModal();
+  const { setDisplayModification } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [operatorName, setOperatorName] = useState("");
   const [signName, setSignName] = useState("");
@@ -35,7 +35,7 @@ function StationModification({ stationId }: StationModificationProps) {
   };
 
   const handleClose = () => {
-    setDisplayStationModification(false);
+    setDisplayModification(false);
   };
 
   const handleChangeOperator = (event: React.ChangeEvent<HTMLInputElement>) => {
