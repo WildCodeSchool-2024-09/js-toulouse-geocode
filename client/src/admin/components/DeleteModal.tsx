@@ -12,7 +12,8 @@ export default function DeleteModal({
   paragraph,
   path,
 }: UserDeleteModalProps) {
-  const { setDisplayDeleteModal, itemId, setIsRefresh } = useModal();
+  const { setDisplayDeleteModal, itemId } = useModal();
+
   const handleDelete = async () => {
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/${path}/${itemId}`,
@@ -25,7 +26,6 @@ export default function DeleteModal({
     );
     if (response.ok) {
       setDisplayDeleteModal(false);
-      setIsRefresh(true);
     } else {
       console.error("An error occurred while deleting the user");
     }

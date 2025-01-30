@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../styles/ContentAdmin.css";
-import { useModal } from "../contexts/ShowModalProvider";
-import type { StationItemType } from "../types/itemType";
+import type { BaseItemType } from "../types/itemType";
 import ContentAdminItem from "./ContentAdminItem";
 
 interface ContentAdminProps {
@@ -15,7 +14,6 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
   const [maxElem, seMaxElem] = useState(0);
   const [search, setSearch] = useState("");
   const limit = 10;
-  const { isRefresh, setIsRefresh } = useModal();
 
   const handleClickNext = () => {
     setOffset(offset + limit);
@@ -32,28 +30,29 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
     setOffset(0);
   };
 
-  useEffect(() => {
-    (async () => {
-      let response: Response;
-      if (search === "") {
-        response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}`,
-        );
-      } else {
-        response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}&search=${search}`,
-        );
-      }
-      const responseMaxElem = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/${path}?search=${search}`,
+  const fetchItems = useCallback(async () => {
+    let response: Response;
+    if (search === "") {
+      response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}`,
       );
-      const dataMaxElem = await responseMaxElem.json();
-      const data = await response.json();
-      setItems(data);
-      seMaxElem(dataMaxElem.length);
-      setIsRefresh(!isRefresh);
-    })();
-  }, [path, offset, search, isRefresh, setIsRefresh]);
+    } else {
+      response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}&search=${search}`,
+      );
+    }
+    const responseMaxElem = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/${path}?search=${search}`,
+    );
+    const dataMaxElem = await responseMaxElem.json();
+    const data = await response.json();
+    setItems(data);
+    seMaxElem(dataMaxElem.length);
+  }, [offset, path, search]);
+
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
 
   return (
     <div className="content-admin-container">
@@ -69,7 +68,7 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
           <h2>{titles[1]}</h2>
         </div>
         <div className="content-admin-items-container">
-          {items.map((item: StationItemType) => (
+          {items.map((item: BaseItemType) => (
             <ContentAdminItem key={item.id} item={item} itemType={path} />
           ))}
           <div
