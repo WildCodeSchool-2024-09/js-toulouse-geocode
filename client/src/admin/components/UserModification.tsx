@@ -7,7 +7,7 @@ interface UserModificationProps {
 }
 
 function UserModification({ userId }: UserModificationProps) {
-  const { setDisplayModification: setDisplayUserModification } = useModal();
+  const { setDisplayModification } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [emailValid, setEmailValid] = useState(false);
@@ -72,14 +72,14 @@ function UserModification({ userId }: UserModificationProps) {
       body: formData,
     });
     if (response.ok) {
-      setDisplayUserModification(false);
+      setDisplayModification(false);
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
     }
   };
 
   const handleClose = () => {
-    setDisplayUserModification(false);
+    setDisplayModification(false);
   };
 
   const isEmailValid = (email: string): boolean =>

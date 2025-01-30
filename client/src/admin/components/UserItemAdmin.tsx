@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import arrowImg from "/images/arrow-item-img.svg";
 import trashCanImg from "/images/trash-can-img.svg";
 import type { UserItemType } from "../types/itemType";
@@ -21,14 +21,48 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     sex: item.sex,
     city: null,
   });
-
   const {
     setDisplayModification: setDisplayUserModification,
     setDisplayDeleteModal,
     setItemId,
   } = useModal();
   const [isVisible, setIsVisible] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const [responsePostalcode, responseInseecode] = await Promise.all([
+        fetch(
+          `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postal_code_id}`,
+        ),
+        fetch(
+          `${import.meta.env.VITE_API_URL}/api/inseecodes/${item.insee_code_id}`,
+        ),
+      ]);
+
+      const [dataPostalcode, dataInseecode] = await Promise.all([
+        responsePostalcode.json(),
+        responseInseecode.json(),
+      ]);
+
+      const responseCity = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/cities/${dataInseecode.city_id}`,
+      );
+
+      const dataCity = await responseCity.json();
+
+      setUser((prev) => ({
+        ...prev,
+        insee_code: dataInseecode.code,
+        postal_code: dataPostalcode.code,
+        city: dataCity.name,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleClickArrow = () => {
+    fetchData();
     setIsVisible(!isVisible);
   };
 
@@ -36,41 +70,6 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     setDisplayDeleteModal(true);
     setItemId(item.id);
   };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const [responsePostalcode, responseInseecode] = await Promise.all([
-          fetch(
-            `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postal_code_id}`,
-          ),
-          fetch(
-            `${import.meta.env.VITE_API_URL}/api/inseecode/${item.insee_code_id}`,
-          ),
-        ]);
-
-        const [dataPostalcode, dataInseecode] = await Promise.all([
-          responsePostalcode.json(),
-          responseInseecode.json(),
-        ]);
-
-        const responseCity = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/cities/${dataInseecode.city_id}`,
-        );
-
-        const dataCity = await responseCity.json();
-
-        setUser({
-          ...user,
-          insee_code: dataInseecode.code,
-          postal_code: dataPostalcode.code,
-          city: dataCity.name,
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [item.postal_code_id, item.insee_code_id, user]);
 
   return (
     <div className="user-item-admin">
