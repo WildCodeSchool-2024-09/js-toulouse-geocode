@@ -10,10 +10,7 @@ export default function AddUserVehicle({
 }: AddUserVehicleProps) {
   return (
     <div className="background-modal-user-vehicle-add">
-      <section
-        className="modal-user-vehicle-add"
-        style={{ position: "absolute" }}
-      >
+      <section className="modal-user-vehicle-add">
         <div className="add-vehicle-header">
           <h2>Ajouter un véhicule</h2>
           <button
