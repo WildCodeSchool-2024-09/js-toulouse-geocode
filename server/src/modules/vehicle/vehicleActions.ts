@@ -17,6 +17,36 @@ const browse: RequestHandler = async (req, res) => {
   }
 };
 
+const read: RequestHandler = async (req, res, next) => {
+  try {
+    const id = Number.parseInt(req.params.id);
+
+    const vehicle = await vehicleRepository.read(id);
+
+    res.json(vehicle);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateVehicleInfos: RequestHandler = async (req, res, next) => {
+  try {
+    const vehicle = {
+      id: Number.parseInt(req.params.id),
+      model: req.body.model_name,
+      brand: req.body.brand_name,
+      type: req.body.type_name,
+      user_id: req.body.user_id,
+    };
+
+    await vehicleRepository.updateVehicleInfos(vehicle);
+
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const add: RequestHandler = async (req, res, next) => {
   try {
     const { brand, model, type, user_id, userNumberOfVehicle } = req.body;
@@ -42,10 +72,10 @@ const destroy: RequestHandler = async (req, res, next) => {
 
     await vehicleRepository.delete(id);
 
-    res.send(204);
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }
 };
 
-export default { browse, add, destroy };
+export default { browse, add, read, updateVehicleInfos, destroy };
