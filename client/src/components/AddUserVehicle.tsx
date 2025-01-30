@@ -1,6 +1,6 @@
 import closeCrossSvg from "/images/close.svg";
 import "../styles/AddUserVehicle.css";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
 
 interface AddUserVehicleProps {
@@ -14,6 +14,25 @@ export default function AddUserVehicle({
   const brandRef = useRef<HTMLInputElement>(null);
   const modelRef = useRef<HTMLInputElement>(null);
   const typeRef = useRef<HTMLInputElement>(null);
+
+  const [userNumberOfVehicle, setUserNumberOfVehicle] = useState<number>(0);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setUserNumberOfVehicle(data.number_of_vehicles);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [auth]);
 
   const handleAddUserVehicle = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,6 +51,7 @@ export default function AddUserVehicle({
       brand,
       model,
       type,
+      userNumberOfVehicle: userNumberOfVehicle + 1,
     };
 
     fetch(`${import.meta.env.VITE_API_URL}/api/vehicles`, {
