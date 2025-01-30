@@ -74,6 +74,7 @@ router.get("/api/geocoords/:id", geoCoordsActions.read);
 router.get("/api/outlets/:id", outletActions.read);
 
 router.get("/api/vehicles", vehicleActions.browse);
+router.post("/api/vehicles", vehicleActions.add);
 router.delete("/api/vehicles/:id", vehicleActions.destroy);
 /* ************************************************************************* */
 
