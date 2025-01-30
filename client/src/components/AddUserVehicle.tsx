@@ -1,5 +1,7 @@
 import closeCrossSvg from "/images/close.svg";
 import "../styles/AddUserVehicle.css";
+import { useRef } from "react";
+import { useAuth } from "../contexts/AuthProvider";
 
 interface AddUserVehicleProps {
   setIsAddingVehicle: (value: boolean) => void;
@@ -8,6 +10,50 @@ interface AddUserVehicleProps {
 export default function AddUserVehicle({
   setIsAddingVehicle,
 }: AddUserVehicleProps) {
+  const { auth } = useAuth();
+  const brandRef = useRef<HTMLInputElement>(null);
+  const modelRef = useRef<HTMLInputElement>(null);
+  const typeRef = useRef<HTMLInputElement>(null);
+
+  const handleAddUserVehicle = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const brand = brandRef.current?.value;
+    const model = modelRef.current?.value;
+    const type = typeRef.current?.value;
+
+    if (!brand || !model || !type) {
+      alert("Tous les champs sont obligatoires.");
+      return;
+    }
+
+    const vehicleData = {
+      user_id: auth?.user_id,
+      brand,
+      model,
+      type,
+    };
+
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicles`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(vehicleData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          setIsAddingVehicle(false);
+        } else {
+          alert("Erreur lors de l'ajout du véhicule");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Erreur lors de l'ajout du véhicule");
+      });
+  };
+
   return (
     <div className="background-modal-user-vehicle-add">
       <section className="modal-user-vehicle-add">
@@ -21,13 +67,18 @@ export default function AddUserVehicle({
             <img src={closeCrossSvg} alt="close button" />
           </button>
         </div>
-        <form action="" className="add-user-vehicle-form">
+        <form
+          action="/api/vehicles"
+          className="add-user-vehicle-form"
+          onSubmit={handleAddUserVehicle}
+        >
           <label htmlFor="vehicle-brand">Marque</label>
           <input
             type="text"
             id="vehicle-brand"
             name="vehicle-brand"
             placeholder="Marque"
+            ref={brandRef}
             required
           />
           <label htmlFor="vehicle-model">Modèle</label>
@@ -36,6 +87,7 @@ export default function AddUserVehicle({
             id="vehicle-model"
             name="vehicle-model"
             placeholder="Modèle"
+            ref={modelRef}
             required
           />
           <label htmlFor="vehicle-type">Type de recharge</label>
@@ -44,6 +96,7 @@ export default function AddUserVehicle({
             id="vehicle-type"
             name="vehicle-type"
             placeholder="Type de recharge"
+            ref={typeRef}
             required
           />
           <button className="add-user-vehicule-button" type="submit">
