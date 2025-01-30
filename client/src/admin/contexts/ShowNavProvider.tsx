@@ -11,7 +11,7 @@ const ShowNavContext = createContext<ShowNavProviderType | null>(null);
 
 export default function ShowNavProvider({ children }: { children: ReactNode }) {
   const [navOpen, setNavOpen] = useState(false);
-  const [navVisible, setNavVisible] = useState(true);
+  const [navVisible, setNavVisible] = useState(false);
   return (
     <ShowNavContext.Provider
       value={{ navOpen, setNavOpen, navVisible, setNavVisible }}

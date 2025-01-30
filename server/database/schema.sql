@@ -130,6 +130,14 @@ create table contact (
   message text not null
 );
 
+insert into region (name) values ('Occitanie');
+insert into department (name, region_id) values ('Haute-Garonne', 1);
+insert into city (name, department_id) values ('Balma', 1);
+insert into insee_code (code, city_id) values ('31044', 1);
+insert into postalcode (code) values ('31130');
+
+insert into user (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles) values ('Rémi', 'Zickenheiner', '$argon2id$v=19$m=19456,t=2,p=1$09wIu8TYY/KtLHfSmHv7Iw$KQrw/OsjITIqOkEKDtAjMLLWYv4zF3OPoASCyAc7FNE', 'admin@geocode.com', 'masculin', '1890-01-01', 1, 1, 0);
+
 -- insert into user (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles) values ('John', 'Doe', 'password', 'john@gmail.com', 'M', '1990-01-01', 1, 1, 3);
 -- insert into user (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles) values ('Jane', 'Doe', 'password', 'jane@gmail.com', 'F', '1990-01-01', 2, 2, 2);
 -- insert into user (firstname, lastname, hashed_password, mail, sex, birthday, postal_code_id, insee_code_id, number_of_vehicles) values ('Alice', 'Smith', 'password', 'alice@gmail.com', 'F', '1990-01-01', 3, 3, 1);

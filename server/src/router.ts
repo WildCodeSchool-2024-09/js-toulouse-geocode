@@ -60,6 +60,7 @@ router.get("/api/cities/:id", cityActions.read);
 router.post("/api/contacts", contactActions.validate, contactActions.add);
 
 router.post("/api/login", authActions.login);
+router.post("/api/admin/login", authActions.adminLogin);
 
 router.get("/api/signs/:id", signActions.read);
 
