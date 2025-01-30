@@ -1,4 +1,5 @@
 import type { RequestHandler } from "express";
+import userRepository from "../user/userRepository";
 import vehicleRepository from "./vehicleRepository";
 
 const browse: RequestHandler = async (req, res) => {
@@ -18,7 +19,7 @@ const browse: RequestHandler = async (req, res) => {
 
 const add: RequestHandler = async (req, res, next) => {
   try {
-    const { brand, model, type, user_id } = req.body;
+    const { brand, model, type, user_id, userNumberOfVehicle } = req.body;
 
     const insertId = await vehicleRepository.create(
       brand,
@@ -26,6 +27,8 @@ const add: RequestHandler = async (req, res, next) => {
       type,
       user_id,
     );
+
+    await userRepository.updateNumberOfVehicles(user_id, userNumberOfVehicle);
 
     res.status(201).json({ insertId });
   } catch (error) {
