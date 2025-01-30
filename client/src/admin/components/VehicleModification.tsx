@@ -8,14 +8,31 @@ interface VehicleModificationProps {
 function VehicleModification({ vehicleId }: VehicleModificationProps) {
   const { setDisplayModification } = useModal();
 
-  const [errorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [userId, setUserId] = useState("");
 
   const brandInputElement = useRef<HTMLInputElement>(null);
   const modelInputElement = useRef<HTMLInputElement>(null);
   const typeInputElement = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const form = event?.currentTarget;
+
     event.preventDefault();
+
+    const formData = new FormData(form);
+    formData.append("user_id", userId);
+
+    const response = await fetch(form.action, {
+      method: "PUT",
+      body: formData,
+    });
+    if (response.ok) {
+      setDisplayModification(false);
+    } else {
+      setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
+    }
+
     setDisplayModification(false);
   };
 
@@ -28,6 +45,21 @@ function VehicleModification({ vehicleId }: VehicleModificationProps) {
     if (vehicleId == null) {
       return;
     }
+
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${vehicleId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (brandInputElement.current) {
+          brandInputElement.current.value = data.brand;
+        }
+        if (modelInputElement.current) {
+          modelInputElement.current.value = data.model;
+        }
+        if (typeInputElement.current) {
+          typeInputElement.current.value = data.type;
+        }
+        setUserId(data.user_id);
+      });
   };
 
   useEffect(fetchUserInfos, []);

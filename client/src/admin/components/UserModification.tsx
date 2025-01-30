@@ -66,7 +66,6 @@ function UserModification({ userId }: UserModificationProps) {
     formData.append("departement", department);
     formData.append("region", region);
 
-    console.info("form Data: ", JSON.stringify(formData));
     response = await fetch(form.action, {
       method: "PUT",
       body: formData,
