@@ -3,7 +3,7 @@ import arrowImg from "/images/arrow-item-img.svg";
 import trashCanImg from "/images/trash-can-img.svg";
 import type { UserItemType } from "../types/itemType";
 import "../styles/UserItemAdmin.css";
-import { useModifyModal } from "../contexts/ShowModifyModalProvider";
+import { useModal } from "../contexts/ShowModalProvider";
 
 interface UserItemAdminProps {
   item: UserItemType;
@@ -22,10 +22,19 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     city: null,
   });
 
-  const { setDisplayUserModification, setUserId } = useModifyModal();
+  const {
+    setDisplayModification: setDisplayUserModification,
+    setDisplayDeleteModal,
+    setItemId,
+  } = useModal();
   const [isVisible, setIsVisible] = useState(false);
   const handleClickArrow = () => {
     setIsVisible(!isVisible);
+  };
+
+  const handleDelete = () => {
+    setDisplayDeleteModal(true);
+    setItemId(item.id);
   };
 
   useEffect(() => {
@@ -68,13 +77,17 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
       <div
         className={`user-item-admin-container ${isVisible ? "is-visible" : ""}`}
       >
-        <img
-          src={arrowImg}
-          alt="déplier"
-          className={`user-item-admin-arrow-img ${isVisible ? "is-visible" : ""}`}
+        <button
+          type="button"
+          className="user-item-admin-button"
           onClick={handleClickArrow}
-          onKeyDown={handleClickArrow}
-        />
+        >
+          <img
+            src={arrowImg}
+            alt="déplier"
+            className={`user-item-admin-arrow-img ${isVisible ? "is-visible" : ""}`}
+          />
+        </button>
         <p className="user-item-admin-name">{user.lastname}</p>
         <p className="user-item-admin-postalcode">{user.firstname}</p>
         <button
@@ -82,16 +95,22 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
           className={`user-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
           onClick={() => {
             setDisplayUserModification(true);
-            setUserId(item.id);
+            setItemId(item.id);
           }}
         >
           Modifier
         </button>
-        <img
-          src={trashCanImg}
-          alt="supprimer"
-          className={`user-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
-        />
+        <button
+          type="button"
+          className="user-item-admin-button"
+          onClick={handleDelete}
+        >
+          <img
+            src={trashCanImg}
+            alt="supprimer"
+            className={`user-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
+          />
+        </button>
       </div>
       {isVisible && (
         <div className="user-item-admin-full-info">

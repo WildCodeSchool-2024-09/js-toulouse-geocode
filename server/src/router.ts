@@ -43,12 +43,14 @@ router.delete("/api/delete-photo/:user_id", userPhotoActions.deleteAction);
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
 router.get("/api/stations", stationActions.browse);
 router.get("/api/stations/:id", stationActions.read);
+router.delete("/api/stations/:id", stationActions.destroy);
 
 router.get("/api/users", userActions.browse);
 router.get("/api/users/verify-email", userActions.verifyEmail);
 router.get("/api/users/:id", userActions.read);
 router.post("/api/users", authActions.hashPassword, userActions.add);
 router.put("/api/users/:id", userActions.updateUserInfos);
+router.delete("/api/users/:id", userActions.destroy);
 
 router.get("/api/inseecodes/:id", codeInseeActions.read);
 
@@ -71,6 +73,7 @@ router.get("/api/geocoords/:id", geoCoordsActions.read);
 router.get("/api/outlets/:id", outletActions.read);
 
 router.get("/api/vehicles", vehicleActions.browse);
+router.delete("/api/vehicles/:id", vehicleActions.destroy);
 /* ************************************************************************* */
 
 export default router;

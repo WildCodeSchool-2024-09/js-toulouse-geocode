@@ -55,4 +55,14 @@ const read: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browseByGeoLocation, read, browse };
+const destroy: RequestHandler = async (req, res, next) => {
+  try {
+    const itemId = Number(req.params.id);
+    await stationRepository.delete(itemId);
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default { browseByGeoLocation, read, browse, destroy };

@@ -1,16 +1,28 @@
 import "../styles/UsersPage.css";
 import ContentAdmin from "../components/ContentAdmin";
+import DeleteModal from "../components/DeleteModal";
 import HeaderAdminPage from "../components/HeaderAdminPage";
 import UserModification from "../components/UserModification";
-import { useModifyModal } from "../contexts/ShowModifyModalProvider";
+import { useModal } from "../contexts/ShowModalProvider";
 
 export default function UsersPage() {
-  const { displayUserModification, userId } = useModifyModal();
+  const {
+    displayModification: displayUserModification,
+    displayDeleteModal,
+    itemId,
+  } = useModal();
   return (
     <div className="users-page-container">
       <HeaderAdminPage title="Gestion des Utilisateurs" />
       <ContentAdmin titles={["Nom", "Prénom"]} path="users" />
-      {displayUserModification && <UserModification userId={userId} />}
+      {displayUserModification && <UserModification userId={itemId} />}
+      {displayDeleteModal && (
+        <DeleteModal
+          title="de l'utilisateur"
+          paragraph="cet utilisateur"
+          path="users"
+        />
+      )}
     </div>
   );
 }

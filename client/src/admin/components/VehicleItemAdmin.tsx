@@ -3,6 +3,7 @@ import arrowImg from "/images/arrow-item-img.svg";
 import trashCanImg from "/images/trash-can-img.svg";
 import type { VehicleItemType } from "../types/itemType";
 import "../styles/VehicleItemAdmin.css";
+import { useModal } from "../contexts/ShowModalProvider";
 
 interface VehicleItemAdminProps {
   item: VehicleItemType;
@@ -16,6 +17,7 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
     owner: null as string | null,
   });
   const [isVisible, setIsVisible] = useState(false);
+  const { setDisplayDeleteModal, setItemId } = useModal();
 
   useEffect(() => {
     (async () => {
@@ -34,18 +36,27 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
     setIsVisible(!isVisible);
   };
 
+  const handleDelete = () => {
+    setDisplayDeleteModal(true);
+    setItemId(item.id);
+  };
+
   return (
     <div className="vehicle-item-admin">
       <div
         className={`vehicle-item-admin-container ${isVisible ? "is-visible" : ""}`}
       >
-        <img
-          src={arrowImg}
-          alt="déplier"
-          className={`vehicle-item-admin-arrow-img ${isVisible ? "is-visible" : ""}`}
+        <button
+          type="button"
+          className="vehicle-item-admin-button"
           onClick={handleClickArrow}
-          onKeyDown={handleClickArrow}
-        />
+        >
+          <img
+            src={arrowImg}
+            alt="déplier"
+            className={`vehicle-item-admin-arrow-img ${isVisible ? "is-visible" : ""}`}
+          />
+        </button>
         <p className="vehicle-item-admin-model">{vehicle.model}</p>
         <p className="vehicle-item-admin-owner">{vehicle.owner}</p>
         <button
@@ -54,11 +65,17 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
         >
           Modifier
         </button>
-        <img
-          src={trashCanImg}
-          alt="supprimer"
-          className={`vehicle-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
-        />
+        <button
+          type="button"
+          className="vehicle-item-admin-button"
+          onClick={handleDelete}
+        >
+          <img
+            src={trashCanImg}
+            alt="supprimer"
+            className={`vehicle-item-admin-trash-can-img ${isVisible ? "is-visible" : ""}`}
+          />
+        </button>
       </div>
       {isVisible && (
         <div className="vehicle-item-admin-full-info">

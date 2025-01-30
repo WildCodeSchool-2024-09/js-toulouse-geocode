@@ -16,4 +16,16 @@ const browse: RequestHandler = async (req, res) => {
   }
 };
 
-export default { browse };
+const destroy: RequestHandler = async (req, res, next) => {
+  try {
+    const id = Number.parseInt(req.params.id);
+
+    await vehicleRepository.delete(id);
+
+    res.send(204);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { browse, destroy };

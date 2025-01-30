@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/ContentAdmin.css";
+import { useModal } from "../contexts/ShowModalProvider";
 import type { StationItemType } from "../types/itemType";
 import ContentAdminItem from "./ContentAdminItem";
 
@@ -14,6 +15,7 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
   const [maxElem, seMaxElem] = useState(0);
   const [search, setSearch] = useState("");
   const limit = 10;
+  const { isRefresh, setIsRefresh } = useModal();
 
   const handleClickNext = () => {
     setOffset(offset + limit);
@@ -49,8 +51,9 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
       const data = await response.json();
       setItems(data);
       seMaxElem(dataMaxElem.length);
+      setIsRefresh(!isRefresh);
     })();
-  }, [path, offset, search]);
+  }, [path, offset, search, isRefresh, setIsRefresh]);
 
   return (
     <div className="content-admin-container">
