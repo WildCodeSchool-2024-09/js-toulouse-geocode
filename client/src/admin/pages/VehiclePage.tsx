@@ -1,3 +1,4 @@
+import "../styles/VehiclePage.css";
 import ContentAdmin from "../components/ContentAdmin";
 import DeleteModal from "../components/DeleteModal";
 import HeaderAdminPage from "../components/HeaderAdminPage";
