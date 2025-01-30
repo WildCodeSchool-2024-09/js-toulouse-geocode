@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { StationProps } from "../../../../server/common/types/StationProps";
 import { useModal } from "../contexts/ShowModalProvider";
 import type { cityType } from "../types/itemType";
 
@@ -9,61 +10,65 @@ interface StationModificationProps {
 function StationModification({ stationId }: StationModificationProps) {
   const { setDisplayModification } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
-  const [operatorName, setOperatorName] = useState("");
-  const [signName, setSignName] = useState("");
-  const [providerName, setProviderName] = useState("");
-  const [stationName, setStationName] = useState("");
-  const [stationIdentifier, setStationIdentifier] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [cities, setCities] = useState<cityType[]>([]);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-  const [numberOfPdcs, setNumberOfPdcs] = useState(0);
-  const [pdcName, setPdcName] = useState("");
-  const [pdcPowerMax, setPdcPowerMax] = useState(0);
-  const [pdcType, setPdcType] = useState("");
-  const [accessCharging, setAccessCharging] = useState("");
-  const [accessibility, setAccessibility] = useState("");
-  const [source, setSource] = useState("");
+  const operatorInputElement = useRef<HTMLInputElement>(null);
+  const signInputElement = useRef<HTMLInputElement>(null);
+  const providerInputElement = useRef<HTMLInputElement>(null);
+  const stationNameInputElement = useRef<HTMLInputElement>(null);
+  const stationIdentifierInputElement = useRef<HTMLInputElement>(null);
+  const addressInputElement = useRef<HTMLInputElement>(null);
+  const postalCodeInputElement = useRef<HTMLInputElement>(null);
+  const latitudeInputElement = useRef<HTMLInputElement>(null);
+  const longitudeInputElement = useRef<HTMLInputElement>(null);
+  const numberOfPdcsInputElement = useRef<HTMLInputElement>(null);
+  const pdcPowerMaxInputElement = useRef<HTMLInputElement>(null);
+  const pdcTypeInputElement = useRef<HTMLInputElement>(null);
+  const accessChargingInputElement = useRef<HTMLInputElement>(null);
+  const accessibilityInputElement = useRef<HTMLInputElement>(null);
+  const sourceInputElement = useRef<HTMLInputElement>(null);
 
-  const [errorMessage] = useState<string>("");
+  const [cities, setCities] = useState<cityType[]>([]);
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const form = event?.currentTarget;
+
     event.preventDefault();
+
+    let response = await fetch(
+      `https://geo.api.gouv.fr/communes?codePostal=${form.postal_code.value}&nom=${form.city.value}&fields=nom,code,departement,region`,
+    );
+    if (!response.ok) {
+      setErrorMessage(
+        "Veuillez entrer une ville valide en fonction du code postal.",
+      );
+      return;
+    }
+
+    const dataReceived = await response.json();
+    if (dataReceived.length === 0) {
+      setErrorMessage(
+        "Veuillez entrer une ville valide en fonction du code postal.",
+      );
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    console.info("form Data: ", JSON.stringify(formData));
+    response = await fetch(form.action, {
+      method: "PUT",
+      body: formData,
+    });
+    if (response.ok) {
+      setDisplayModification(false);
+    } else {
+      setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
+    }
   };
 
   const handleClose = () => {
     setDisplayModification(false);
-  };
-
-  const handleChangeOperator = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOperatorName(event.target.value);
-  };
-  const handleChangeSign = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSignName(event.target.value);
-  };
-
-  const handleChangeProvider = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProviderName(event.target.value);
-  };
-  const handleChangeStation = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStationName(event.target.value);
-  };
-
-  const handleChangestationIdentifier = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setStationIdentifier(event.target.value);
-  };
-
-  const handleChangeAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(event.target.value);
-  };
-
-  const handleChangeCity = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCity(event.target.value);
   };
 
   const isPostalCode = (value: string) => {
@@ -73,7 +78,6 @@ function StationModification({ stationId }: StationModificationProps) {
   const handleChangePostalCode = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setPostalCode(event.target.value);
     if (isPostalCode(event.target.value)) {
       fetch(
         `https://geo.api.gouv.fr/communes?codePostal=${event.target.value}&fields=nom,code,codeDepartement,codeRegion`,
@@ -90,57 +94,70 @@ function StationModification({ stationId }: StationModificationProps) {
     }
   };
 
-  const handleChangeLatitude = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLatitude(Number.parseFloat(event.target.value));
-  };
-
-  const handleChangeLongitude = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setLongitude(Number.parseFloat(event.target.value));
-  };
-
-  const handleChangeNumberOfPdcs = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setNumberOfPdcs(Number.parseInt(event.target.value, 10));
-  };
-
-  const handleChangePdcName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPdcName(event.target.value);
-  };
-
-  const handleChangePdcPowerMax = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setPdcPowerMax(Number.parseFloat(event.target.value));
-  };
-
-  const handleChangePdcType = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPdcType(event.target.value);
-  };
-
-  const handleChangeAccessCharging = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setAccessCharging(event.target.value);
-  };
-
-  const handleChangeaccessibility = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setAccessibility(event.target.value);
-  };
-
-  const handleChangeSource = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSource(event.target.value);
-  };
-
   const fetchUserInfos = () => {
     // Fetch user infos
     if (stationId == null) {
       return;
     }
+
+    fetch(`${import.meta.env.VITE_API_URL}/api/stations/${stationId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const datareceived: StationProps = data as StationProps;
+        if (operatorInputElement.current) {
+          operatorInputElement.current.value = datareceived.operator_name;
+        }
+        if (signInputElement.current) {
+          signInputElement.current.value = datareceived.sign_name;
+        }
+        if (providerInputElement.current) {
+          providerInputElement.current.value = datareceived.provider_name;
+        }
+        if (stationNameInputElement.current) {
+          stationNameInputElement.current.value = datareceived.name;
+        }
+        if (stationIdentifierInputElement.current) {
+          stationIdentifierInputElement.current.value = datareceived.pdc.name;
+        }
+        if (addressInputElement.current) {
+          addressInputElement.current.value = datareceived.address;
+        }
+        if (postalCodeInputElement.current) {
+          postalCodeInputElement.current.value = datareceived.area.postalcode;
+        }
+        if (cityInputElement.current) {
+          cityInputElement.current.value = datareceived.area.city_name;
+        }
+        if (latitudeInputElement.current) {
+          latitudeInputElement.current.value =
+            datareceived.geo_coords.latitude.toString();
+        }
+        if (longitudeInputElement.current) {
+          longitudeInputElement.current.value =
+            datareceived.geo_coords.longitude.toString();
+        }
+        if (numberOfPdcsInputElement.current) {
+          numberOfPdcsInputElement.current.value =
+            datareceived.number_pdc.toString();
+        }
+        if (pdcPowerMaxInputElement.current) {
+          pdcPowerMaxInputElement.current.value =
+            datareceived.pdc.power_max.toString();
+        }
+        if (pdcTypeInputElement.current) {
+          pdcTypeInputElement.current.value = datareceived.pdc.type;
+        }
+        if (accessChargingInputElement.current) {
+          accessChargingInputElement.current.value =
+            datareceived.access_charging;
+        }
+        if (accessibilityInputElement.current) {
+          accessibilityInputElement.current.value = datareceived.accessibility;
+        }
+        if (sourceInputElement.current) {
+          sourceInputElement.current.value = datareceived.source;
+        }
+      });
   };
 
   useEffect(fetchUserInfos, []);
@@ -155,8 +172,8 @@ function StationModification({ stationId }: StationModificationProps) {
         </caption>
         <section>
           <form
-            action={`${import.meta.env.VITE_API_URL}/api/users/${stationId}`}
-            method="post"
+            action={`${import.meta.env.VITE_API_URL}/api/stations/${stationId}`}
+            method="put"
             onSubmit={handleSubmit}
           >
             <div className="group">
@@ -165,8 +182,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="operator-name"
                 name="operator_name"
-                value={operatorName}
-                onChange={handleChangeOperator}
+                ref={operatorInputElement}
               />
             </div>
             <div className="group">
@@ -175,8 +191,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="sign-name"
                 name="sign_name"
-                value={signName}
-                onChange={handleChangeSign}
+                ref={signInputElement}
               />
             </div>
             <div className="group">
@@ -185,8 +200,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="provider-name"
                 name="provider_name"
-                value={providerName}
-                onChange={handleChangeProvider}
+                ref={providerInputElement}
               />
             </div>
             <div className="group">
@@ -195,8 +209,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="station-name"
                 name="station_name"
-                value={stationName}
-                onChange={handleChangeStation}
+                ref={stationNameInputElement}
               />
             </div>
             <div className="group">
@@ -207,8 +220,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="station-identifier"
                 name="station_identifier"
-                value={stationIdentifier}
-                onChange={handleChangestationIdentifier}
+                ref={stationIdentifierInputElement}
               />
             </div>
             <div className="group">
@@ -217,8 +229,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="address"
                 name="address"
-                value={address}
-                onChange={handleChangeAddress}
+                ref={addressInputElement}
               />
             </div>
             <div className="group">
@@ -227,8 +238,8 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="postal-code"
                 name="postal_code"
-                value={postalCode}
                 onChange={handleChangePostalCode}
+                ref={postalCodeInputElement}
               />
             </div>
             <div className="group">
@@ -239,8 +250,6 @@ function StationModification({ stationId }: StationModificationProps) {
                 name="city"
                 list="cities"
                 ref={cityInputElement}
-                value={city}
-                onChange={handleChangeCity}
               />
               <datalist id="cities">
                 {cities.map((city) => (
@@ -254,8 +263,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="latitude"
                 name="latitude"
-                value={latitude}
-                onChange={handleChangeLatitude}
+                ref={latitudeInputElement}
               />
             </div>
             <div className="group">
@@ -264,8 +272,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="longitude"
                 name="longitude"
-                value={longitude}
-                onChange={handleChangeLongitude}
+                ref={longitudeInputElement}
               />
             </div>
             <div className="group">
@@ -274,18 +281,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="number-of-pdcs"
                 name="number_of_pdcs"
-                value={numberOfPdcs}
-                onChange={handleChangeNumberOfPdcs}
-              />
-            </div>
-            <div className="group">
-              <label htmlFor="pdc-name">Nom de la prise</label>
-              <input
-                type="text"
-                id="pdc-name"
-                name="pdc_name"
-                value={pdcName}
-                onChange={handleChangePdcName}
+                ref={numberOfPdcsInputElement}
               />
             </div>
             <div className="group">
@@ -294,8 +290,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="pcd-power-max"
                 name="pdc_power_max"
-                value={pdcPowerMax}
-                onChange={handleChangePdcPowerMax}
+                ref={pdcPowerMaxInputElement}
               />
             </div>
             <div className="group">
@@ -304,8 +299,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="pdc-type"
                 name="pdc_type"
-                value={pdcType}
-                onChange={handleChangePdcType}
+                ref={pdcTypeInputElement}
               />
             </div>
             <div className="group">
@@ -314,8 +308,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="access-charging"
                 name="access_charging"
-                value={accessCharging}
-                onChange={handleChangeAccessCharging}
+                ref={accessChargingInputElement}
               />
             </div>
             <div className="group">
@@ -324,8 +317,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="accessibility"
                 name="accessibility"
-                value={accessibility}
-                onChange={handleChangeaccessibility}
+                ref={accessibilityInputElement}
               />
             </div>
             <div className="group">
@@ -334,8 +326,7 @@ function StationModification({ stationId }: StationModificationProps) {
                 type="text"
                 id="source"
                 name="source"
-                value={source}
-                onChange={handleChangeSource}
+                ref={sourceInputElement}
               />
             </div>
             <div className="submit">

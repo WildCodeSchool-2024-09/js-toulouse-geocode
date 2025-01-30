@@ -195,11 +195,19 @@
   max-width: unset !important;
 }
 
-.group:has(#pdc-name) {
+.group:has(#number-of-pdcs) {
   grid-column: span 2;
 }
 
-.group:has(#pdc-name) > input {
+.group:has(#number-of-pdcs) > input {
+  max-width: unset !important;
+}
+
+.group:has(#pcd-power-max) {
+  grid-column: span 2;
+}
+
+.group:has(#pcd-power-max) > input {
   max-width: unset !important;
 }
 

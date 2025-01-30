@@ -43,6 +43,7 @@ router.delete("/api/delete-photo/:user_id", userPhotoActions.deleteAction);
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
 router.get("/api/stations", stationActions.browse);
 router.get("/api/stations/:id", stationActions.read);
+router.put("/api/stations/:id", stationActions.updateStationInfos);
 router.delete("/api/stations/:id", stationActions.destroy);
 
 router.get("/api/users", userActions.browse);
