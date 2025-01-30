@@ -10,6 +10,7 @@ import {
   StationProps,
   type StationPropsWithIndex,
 } from "../../../common/types/StationProps";
+import insertDataRepository from "../insertData/insertDataRepository";
 
 const selectStatement = `select 
         st.id as id, st.name as name, st.address as address,
@@ -107,6 +108,68 @@ class StationRepository {
 
     // Return the array of items
     return rows.map(transform)[0];
+  }
+
+  // The Us of CRUD - Update operations
+  async updateStationInfos(station: StationProps, insee_code: string) {
+    const operatorId = await insertDataRepository.insertOperatorUsingName(
+      station.operator_name,
+    );
+    const providerId = await insertDataRepository.insertProviderUsingName(
+      station.provider_name,
+    );
+    const signId = await insertDataRepository.insertSignUsingName(
+      station.sign_name,
+    );
+    const postalcodeId = await insertDataRepository.insertPostalCodeUsingName(
+      station.area.postalcode,
+    );
+    const regionId = await insertDataRepository.insertRegionUsingName(
+      station.area.region_name,
+    );
+    const departmentId = await insertDataRepository.insertDepartementUsingName(
+      station.area.department_name,
+      regionId,
+    );
+    const cityId = await insertDataRepository.insertCityUsingName(
+      station.area.city_name,
+      departmentId,
+    );
+    const inseeCodeId = await insertDataRepository.insertInseeCodeUsingName(
+      insee_code,
+      cityId,
+    );
+    const geoCoordsId = await insertDataRepository.insertGeoCoordsUsingCoords(
+      station.geo_coords.latitude.toString(),
+      station.geo_coords.longitude.toString(),
+    );
+    const pdcId = await insertDataRepository.insertPdcUsingElements(
+      station.pdc.name,
+      station.pdc.power_max.toString(10),
+      station.pdc.type,
+    );
+
+    const [result] = await databaseClient.query<Result>(
+      "update station set name = ?, address = ?, sign_id = ?, operator_id = ?, provider_id = ?, postalcode_id = ?, insee_code_id = ?, geo_coords_id = ?, number_pdc = ?, pdc_id = ?, access_charging = ?, accessibility = ?, update_date_time = ?, source = ?where id = ?",
+      [
+        station.name,
+        station.address,
+        signId,
+        operatorId,
+        providerId,
+        postalcodeId,
+        inseeCodeId,
+        geoCoordsId,
+        station.number_pdc.toString(10),
+        pdcId,
+        station.access_charging,
+        station.accessibility,
+        station.update_date_time,
+        station.source,
+        station.id,
+      ],
+    );
+    return result;
   }
 
   async delete(id: number) {
