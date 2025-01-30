@@ -55,7 +55,6 @@ function StationModification({ stationId }: StationModificationProps) {
 
     const formData = new FormData(form);
 
-    console.info("form Data: ", JSON.stringify(formData));
     response = await fetch(form.action, {
       method: "PUT",
       body: formData,

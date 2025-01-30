@@ -16,16 +16,46 @@ const browse: RequestHandler = async (req, res) => {
   }
 };
 
+const read: RequestHandler = async (req, res, next) => {
+  try {
+    const id = Number.parseInt(req.params.id);
+
+    const vehicle = await vehicleRepository.read(id);
+
+    res.json(vehicle);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateVehicleInfos: RequestHandler = async (req, res, next) => {
+  try {
+    const vehicle = {
+      id: Number.parseInt(req.params.id),
+      model: req.body.model_name,
+      brand: req.body.brand_name,
+      type: req.body.type_name,
+      user_id: req.body.user_id,
+    };
+
+    await vehicleRepository.updateVehicleInfos(vehicle);
+
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const destroy: RequestHandler = async (req, res, next) => {
   try {
     const id = Number.parseInt(req.params.id);
 
     await vehicleRepository.delete(id);
 
-    res.send(204);
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }
 };
 
-export default { browse, destroy };
+export default { browse, read, updateVehicleInfos, destroy };

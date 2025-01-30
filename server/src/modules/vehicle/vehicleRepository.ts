@@ -3,6 +3,14 @@ import databaseClient, {
   type Rows,
 } from "../../../database/client";
 
+interface VehicleProps {
+  id: number;
+  model: string;
+  brand: string;
+  type: string;
+  user_id: number;
+}
+
 class VehicleRepository {
   async readAll(limit: number, offset: number, search: string) {
     let query = "select * from vehicle";
@@ -29,6 +37,23 @@ class VehicleRepository {
     return rows;
   }
 
+  async read(id: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "select * from vehicle where id = ?",
+      [id],
+    );
+
+    return rows[0];
+  }
+
+  async updateVehicleInfos(vehicle: VehicleProps) {
+    const [result] = await databaseClient.query<Result>(
+      "update vehicle set model = ?, brand = ?, type = ?, user_id = ? where id = ?",
+      [vehicle.model, vehicle.brand, vehicle.type, vehicle.user_id, vehicle.id],
+    );
+
+    return result;
+  }
   async delete(id: number) {
     const [result] = await databaseClient.query<Result>(
       "delete from vehicle where id = ?",
