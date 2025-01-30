@@ -68,11 +68,9 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
           <h2>{titles[1]}</h2>
         </div>
         <div className="content-admin-items-container">
-          {items.map((item: BaseItemType) => {
-            return (
-              <ContentAdminItem key={item.id} item={item} itemType={path} />
-            );
-          })}
+          {items.map((item: BaseItemType) => (
+            <ContentAdminItem key={item.id} item={item} itemType={path} />
+          ))}
           <div
             className={`content-admin-pagination ${offset <= 0 ? "start" : offset > maxElem - limit ? "end" : ""}`}
           >
