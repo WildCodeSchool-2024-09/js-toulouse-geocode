@@ -1,0 +1,71 @@
+.background-modal-user-vehicle-add {
+  background-color: #000000d7;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-user-vehicle-add {
+  background-color: var(--beige-color);
+  margin-top: 10%;
+  color: var(--chicago-color-700);
+  width: 90%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.add-vehicle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-vehicle-header h2 {
+  font-size: 1rem;
+}
+
+.add-user-vehicle-button {
+  border: none;
+  background: none;
+  width: fit-content;
+  height: fit-content;
+}
+
+.add-user-vehicle-button img {
+  filter: invert(70%) sepia(5%) saturate(468%) hue-rotate(120deg)
+    brightness(98%) contrast(91%);
+  width: 60%;
+}
+
+.add-user-vehicle-form {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  padding-inline: 0.5rem;
+}
+
+.add-user-vehicle-form label {
+  margin-top: .7rem;
+  font-size: 0.7rem;
+}
+
+.add-user-vehicle-form input {
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  border: 1px solid var(--chicago-color-700);
+}
+
+.add-user-vehicule-button {
+  background-color: var(--green-light-color);
+  color: var(--egg-color);
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-top: 2rem;
+  padding: .5rem;
+  border-radius: .5rem;
+}
