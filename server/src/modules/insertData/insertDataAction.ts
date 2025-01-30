@@ -16,7 +16,7 @@ const addStations: RequestHandler = async (req, res) => {
     const data = (await convertCsvToJson(csvContent)) as CsvDataType[];
     await insertDataRepository.createStationsFromCsvData(data);
 
-    res.status(200).json({ content: files });
+    res.status(201).json({ content: files });
   } catch (error) {
     console.error("Error processing file:", error);
     res.status(500).json({ error: "Internal server error" });

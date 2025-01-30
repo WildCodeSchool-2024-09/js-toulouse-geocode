@@ -12,6 +12,15 @@ interface VehicleProps {
 }
 
 class VehicleRepository {
+  async create(brand: string, model: string, type: string, user_id: number) {
+    const [result] = await databaseClient.query<Result>(
+      "insert into vehicle (brand, model, type, user_id) values (?, ?, ?, ?)",
+      [brand, model, type, user_id],
+    );
+
+    return result.insertId;
+  }
+
   async readAll(limit: number, offset: number, search: string) {
     let query = "select * from vehicle";
 

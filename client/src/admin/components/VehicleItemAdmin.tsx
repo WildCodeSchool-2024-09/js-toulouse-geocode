@@ -26,12 +26,12 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
         `${import.meta.env.VITE_API_URL}/api/users/${item.user_id}`,
       );
       const data = await response.json();
-      setVehicle({
-        ...vehicle,
+      setVehicle((prev) => ({
+        ...prev,
         owner: `${data.firstname} ${data.lastname}`,
-      });
+      }));
     })();
-  }, [vehicle, item.user_id]);
+  }, [item.user_id]);
 
   const handleClickArrow = () => {
     setIsVisible(!isVisible);

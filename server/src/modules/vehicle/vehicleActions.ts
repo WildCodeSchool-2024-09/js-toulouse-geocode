@@ -46,6 +46,23 @@ const updateVehicleInfos: RequestHandler = async (req, res, next) => {
   }
 };
 
+const add: RequestHandler = async (req, res, next) => {
+  try {
+    const { brand, model, type, user_id } = req.body;
+
+    const insertId = await vehicleRepository.create(
+      brand,
+      model,
+      type,
+      user_id,
+    );
+
+    res.status(201).json({ insertId });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const destroy: RequestHandler = async (req, res, next) => {
   try {
     const id = Number.parseInt(req.params.id);
@@ -58,4 +75,4 @@ const destroy: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read, updateVehicleInfos, destroy };
+export default { browse, add, read, updateVehicleInfos, destroy };

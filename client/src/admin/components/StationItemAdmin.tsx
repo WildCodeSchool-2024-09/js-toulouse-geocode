@@ -35,7 +35,42 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
   const { setDisplayModification, setItemId, setDisplayDeleteModal } =
     useModal();
 
+  const fetchData = async () => {
+    try {
+      const [responseProvider, responseSign, responseOperator, responseOutlet] =
+        await Promise.all([
+          fetch(
+            `${import.meta.env.VITE_API_URL}/api/providers/${item.provider_id}`,
+          ),
+          fetch(`${import.meta.env.VITE_API_URL}/api/signs/${item.sign_id}`),
+          fetch(
+            `${import.meta.env.VITE_API_URL}/api/operators/${item.operator_id}`,
+          ),
+          fetch(`${import.meta.env.VITE_API_URL}/api/outlets/${item.pdc_id}`),
+        ]);
+
+      const [dataProvider, dataSign, dataOperator, dataOutlet] =
+        await Promise.all([
+          responseProvider.json(),
+          responseSign.json(),
+          responseOperator.json(),
+          responseOutlet.json(),
+        ]);
+
+      setStation({
+        ...station,
+        sign: dataSign.name,
+        provider: dataProvider.name,
+        operator: dataOperator.name,
+        outlet: dataOutlet,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleClickArrow = () => {
+    fetchData();
     setIsVisible(!isVisible);
   };
 
@@ -46,61 +81,13 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
 
   useEffect(() => {
     (async () => {
-      try {
-        const [
-          responseProvider,
-          responseSign,
-          responseOperator,
-          responsePostalcode,
-          responseOutlet,
-        ] = await Promise.all([
-          fetch(
-            `${import.meta.env.VITE_API_URL}/api/providers/${item.provider_id}`,
-          ),
-          fetch(`${import.meta.env.VITE_API_URL}/api/signs/${item.sign_id}`),
-          fetch(
-            `${import.meta.env.VITE_API_URL}/api/operators/${item.operator_id}`,
-          ),
-          fetch(
-            `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postalcode_id}`,
-          ),
-          fetch(`${import.meta.env.VITE_API_URL}/api/outlets/${item.pdc_id}`),
-        ]);
-
-        const [
-          dataProvider,
-          dataSign,
-          dataOperator,
-          dataPostalcode,
-          dataOutlet,
-        ] = await Promise.all([
-          responseProvider.json(),
-          responseSign.json(),
-          responseOperator.json(),
-          responsePostalcode.json(),
-          responseOutlet.json(),
-        ]);
-
-        setStation({
-          ...station,
-          postalcode: dataPostalcode.code,
-          sign: dataSign.name,
-          provider: dataProvider.name,
-          operator: dataOperator.name,
-          outlet: dataOutlet,
-        });
-      } catch (error) {
-        console.error(error);
-      }
+      const responsePostalcode = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postalcode_id}`,
+      );
+      const dataPostalcode = await responsePostalcode.json();
+      setStation((prev) => ({ ...prev, postalcode: dataPostalcode.code }));
     })();
-  }, [
-    item.provider_id,
-    item.sign_id,
-    item.operator_id,
-    item.postalcode_id,
-    item.pdc_id,
-    station,
-  ]);
+  }, [item.postalcode_id]);
 
   return (
     <div className="station-item-admin">
