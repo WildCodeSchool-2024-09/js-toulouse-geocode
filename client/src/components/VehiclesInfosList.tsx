@@ -1,6 +1,7 @@
 import VehiclesInfosCard from "./VehiclesInfosCard";
 import "../styles/VehiclesInfosList.css";
 import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthProvider";
 import AddUserVehicle from "./AddUserVehicle";
 interface VehiclesInfoProps {
   setRefreshNavbar: (value: boolean) => void;
@@ -17,11 +18,12 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
   const [isAddingVehicle, setIsAddingVehicle] = useState(false);
   const [vehiclesInfos, setVehiclesInfos] = useState<VehicleInfo[]>([]);
   const [doFetch, setDoFetch] = useState<boolean>(false);
+  const { auth } = useAuth();
 
   const fetchVehicleInfos = useCallback(async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/vehicles`,
+        `${import.meta.env.VITE_API_URL}/api/vehicles/user/${auth?.user_id}`,
       );
 
       if (response.ok) {
@@ -32,7 +34,7 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     fetchVehicleInfos();
