@@ -159,11 +159,23 @@ function UserModification({ userId }: UserModificationProps) {
           .then((postalcodeData) => {
             fetch(
               `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
+              {
+                method: "GET",
+                headers: {
+                  credentials: "include",
+                },
+              },
             )
               .then((inseeCodeResponse) => inseeCodeResponse.json())
               .then((inseeCodeData) => {
                 fetch(
                   `${import.meta.env.VITE_API_URL}/api/cities/${inseeCodeData.city_id}`,
+                  {
+                    method: "GET",
+                    headers: {
+                      credentials: "include",
+                    },
+                  },
                 )
                   .then((cityResponse) => cityResponse.json())
                   .then((cityData) => {

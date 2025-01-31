@@ -58,6 +58,7 @@ function StationModification({ stationId }: StationModificationProps) {
     response = await fetch(form.action, {
       method: "PUT",
       body: formData,
+      credentials: "include",
     });
     if (response.ok) {
       setDisplayModification(false);
@@ -99,7 +100,12 @@ function StationModification({ stationId }: StationModificationProps) {
       return;
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/api/stations/${stationId}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/stations/${stationId}`, {
+      method: "GET",
+      headers: {
+        credentials: "include",
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const datareceived: StationProps = data as StationProps;

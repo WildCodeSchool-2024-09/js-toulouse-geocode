@@ -31,6 +31,20 @@ router.post("/api/items", itemActions.add);
 
 router.post("/api/csv", csvManagementActions.addStations);
 
+router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
+router.get("/api/stations", stationActions.browse);
+
+router.get("/api/users/verify-email", userActions.verifyEmail);
+router.post("/api/users", authActions.hashPassword, userActions.add);
+
+router.post("/api/contacts", contactActions.validate, contactActions.add);
+
+router.post("/api/login", authActions.login);
+
+router.post("/api/admin/login", authActions.adminLogin);
+
+router.use(authActions.verifyToken);
+
 router.get("/api/get-photo/:user_id", userPhotoActions.browse);
 router.put(
   "/api/upload-photo/:user_id",
@@ -40,26 +54,23 @@ router.put(
 
 router.delete("/api/delete-photo/:user_id", userPhotoActions.deleteAction);
 
-router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
-router.get("/api/stations", stationActions.browse);
 router.get("/api/stations/:id", stationActions.read);
 router.put("/api/stations/:id", stationActions.updateStationInfos);
 router.delete("/api/stations/:id", stationActions.destroy);
 
 router.get("/api/users", userActions.browse);
-router.get("/api/users/verify-email", userActions.verifyEmail);
 router.get("/api/users/:id", userActions.read);
-router.post("/api/users", authActions.hashPassword, userActions.add);
 router.put("/api/users/:id", userActions.updateUserInfos);
 router.delete("/api/users/:id", userActions.destroy);
+
+router.get("/api/vehicles/:id", vehicleActions.read);
+router.put("/api/vehicles/:id", vehicleActions.updateVehicleInfos);
+router.post("/api/vehicles", vehicleActions.add);
+router.delete("/api/vehicles/:id", vehicleActions.destroy);
 
 router.get("/api/inseecodes/:id", codeInseeActions.read);
 
 router.get("/api/cities/:id", cityActions.read);
-
-router.post("/api/contacts", contactActions.validate, contactActions.add);
-
-router.post("/api/login", authActions.login);
 
 router.get("/api/signs/:id", signActions.read);
 
@@ -74,10 +85,7 @@ router.get("/api/geocoords/:id", geoCoordsActions.read);
 router.get("/api/outlets/:id", outletActions.read);
 
 router.get("/api/vehicles", vehicleActions.browse);
-router.get("/api/vehicles/:id", vehicleActions.read);
-router.put("/api/vehicles/:id", vehicleActions.updateVehicleInfos);
-router.post("/api/vehicles", vehicleActions.add);
-router.delete("/api/vehicles/:id", vehicleActions.destroy);
+
 /* ************************************************************************* */
 
 export default router;

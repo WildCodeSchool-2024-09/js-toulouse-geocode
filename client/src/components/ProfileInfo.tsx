@@ -39,14 +39,32 @@ export default function ProfileInfo() {
       const [postalcodeData, inseeCodeData] = await Promise.all([
         fetch(
           `${import.meta.env.VITE_API_URL}/api/postalcodes/${userData.postal_code_id}`,
+          {
+            method: "GET",
+            headers: {
+              credentials: "include",
+            },
+          },
         ).then((res) => res.json()),
         fetch(
           `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
+          {
+            method: "GET",
+            headers: {
+              credentials: "include",
+            },
+          },
         ).then((res) => res.json()),
       ]);
 
       const cityResponse = await fetch(
         `${import.meta.env.VITE_API_URL}/api/cities/${inseeCodeData.city_id}`,
+        {
+          method: "GET",
+          headers: {
+            credentials: "include",
+          },
+        },
       );
       const cityData = await cityResponse.json();
 
@@ -76,6 +94,12 @@ export default function ProfileInfo() {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/get-photo/${auth?.user_id}`,
+        {
+          method: "GET",
+          headers: {
+            credentials: "include",
+          },
+        },
       );
 
       if (!response.ok) {
