@@ -23,6 +23,7 @@ export default function FormConnexionAdmin() {
             email: (email.current as HTMLInputElement).value,
             password: (password.current as HTMLInputElement).value,
           }),
+          credentials: "include",
         },
       );
 
