@@ -343,6 +343,15 @@ class InsertDataRepository {
         console.info(`${count} / ${data.length}`);
         if (elem.geo_point_borne === "") continue;
         const correctData = await correctionData(elem);
+
+        if (
+          !correctData ||
+          !correctData.ville ||
+          !correctData.departement ||
+          !correctData.region
+        )
+          continue;
+
         const regionId = await this.insertRegion(correctData);
         const departmentId = await this.insertDepartement(
           correctData,

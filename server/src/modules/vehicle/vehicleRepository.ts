@@ -55,6 +55,15 @@ class VehicleRepository {
     return rows[0];
   }
 
+  async readAllByUser(user_id: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "select * from vehicle where user_id = ?",
+      [user_id],
+    );
+
+    return rows;
+  }
+
   async updateVehicleInfos(vehicle: VehicleProps) {
     const [result] = await databaseClient.query<Result>(
       "update vehicle set model = ?, brand = ?, type = ?, user_id = ? where id = ?",

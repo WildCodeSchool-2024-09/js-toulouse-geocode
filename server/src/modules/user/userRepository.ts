@@ -177,7 +177,7 @@ class UserRepository {
        birthday,
        postal_code_id,
        insee_code_id,
-       number_of_vehicles from user`;
+       number_of_vehicles from user where id <> 1`;
     const params: (string | number)[] = [];
 
     if (search) {
