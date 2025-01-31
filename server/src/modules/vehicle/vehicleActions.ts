@@ -17,6 +17,18 @@ const browse: RequestHandler = async (req, res) => {
   }
 };
 
+const readByUserId: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const vehicles = await vehicleRepository.readAllByUser(Number.parseInt(id));
+
+    res.json(vehicles);
+  } catch (error) {
+    res.status(500).send("Error retrieving vehicles from database");
+  }
+};
+
 const read: RequestHandler = async (req, res, next) => {
   try {
     const id = Number.parseInt(req.params.id);
@@ -78,4 +90,11 @@ const destroy: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, add, read, updateVehicleInfos, destroy };
+export default {
+  browse,
+  readByUserId,
+  add,
+  read,
+  updateVehicleInfos,
+  destroy,
+};

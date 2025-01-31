@@ -13,6 +13,7 @@ function UserPage() {
 
   const { auth } = useAuth();
   const navigate = useNavigate();
+  const [refreshNavbar, setRefreshNavbar] = useState<boolean>(false);
 
   useEffect(() => {
     if (!auth) {
@@ -21,7 +22,7 @@ function UserPage() {
       (async () => {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+            `${import.meta.env.VITE_API_URL}/api/users/${auth.user_id}`,
           );
 
           if (response.ok) {
@@ -32,8 +33,9 @@ function UserPage() {
           console.error(error);
         }
       })();
+      refreshNavbar;
     }
-  }, [auth, navigate]);
+  }, [auth, navigate, refreshNavbar]);
 
   const showMenuBarContext = useShowMenubar();
   const [activeTab, setActiveTabs] = useState<string>("profile-infos");
@@ -45,7 +47,7 @@ function UserPage() {
       case "profile-infos":
         return <ProfileInfo />;
       case "vehicles":
-        return <VehiclesInfosList />;
+        return <VehiclesInfosList setRefreshNavbar={setRefreshNavbar} />;
       case "reservations":
         return <BookingsInfos />;
       default:
