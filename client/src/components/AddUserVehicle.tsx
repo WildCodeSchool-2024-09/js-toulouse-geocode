@@ -6,15 +6,11 @@ import { useAuth } from "../contexts/AuthProvider";
 interface AddUserVehicleProps {
   setIsAddingVehicle: (value: boolean) => void;
   setRefreshNavbar: (value: boolean) => void;
-  doFetch: boolean;
-  setDoFetch: (value: boolean) => void;
 }
 
 export default function AddUserVehicle({
   setIsAddingVehicle,
   setRefreshNavbar,
-  doFetch,
-  setDoFetch,
 }: AddUserVehicleProps) {
   const { auth } = useAuth();
   const brandRef = useRef<HTMLInputElement>(null);
@@ -130,7 +126,6 @@ export default function AddUserVehicle({
             type="submit"
             onClick={() => {
               setRefreshNavbar(true);
-              setDoFetch(!doFetch);
             }}
           >
             Ajouter
