@@ -1,11 +1,8 @@
 // Options de hachage (voir documentation : https://github.com/ranisalt/node-argon2/wiki/Options)
 
-import { O } from "@faker-js/faker/dist/airline-C5Qwd7_q";
 import argon2 from "argon2";
 import type { RequestHandler } from "express";
-import { ParamsDictionary, Request } from "express-serve-static-core";
 import jwt from "jsonwebtoken";
-import { ParsedQs } from "qs";
 import userRepository from "../user/userRepository";
 
 const verifyEmailPassword = async (
@@ -61,32 +58,6 @@ const login: RequestHandler = async (req, res, next) => {
       res.json({
         token,
         user_id: id,
-      });
-    } else {
-      res.sendStatus(422);
-    }
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
-};
-
-const adminLogin: RequestHandler = async (req, res, next) => {
-  try {
-    const [token, id] = await verifyEmailPassword(
-      req.body.email,
-      req.body.password,
-    );
-
-    if (token && id) {
-      res.cookie("admin_token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        expires: new Date(Date.now() + 3600000),
-      });
-      res.json({
-        token,
       });
     } else {
       res.sendStatus(422);
@@ -181,4 +152,4 @@ const verifyToken: RequestHandler = (req, res, next) => {
   }
 };
 
-export default { hashPassword, login, adminLogin, verifyToken };
+export default { hashPassword, login, verifyToken };
