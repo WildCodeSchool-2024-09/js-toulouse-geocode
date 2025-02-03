@@ -1,3 +1,5 @@
+import "../styles/DeleteUserVehicle.css";
+
 interface ConfirmationDeleteVehicleProps {
   setIsDeletingVehicle: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -12,17 +14,17 @@ export default function ConfirmationUploadPhoto({
           Êtes vous sûr de vouloir supprimer ce véhicule ? Cette action est
           irréversible.
         </p>
-        <div className="warning-delete-buttons">
+        <div className="warning-delete-vehicle-buttons">
           <button
             type="button"
-            className="cancel-delete"
+            className="delete-vehicle-user"
             onClick={() => setIsDeletingVehicle(false)}
           >
             Annuler
           </button>
           <button
             type="button"
-            className="confirm-delete"
+            className="confirm-delete-vehicle-user"
             onClick={() => {
               setIsDeletingVehicle(false);
             }}
