@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../styles/ContentAdmin.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
@@ -17,7 +17,7 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
   const [offset, setOffset] = useState(0);
   const [maxElem, seMaxElem] = useState(0);
   const [search, setSearch] = useState("");
-  const limit = 10;
+  const limit = 30;
   const { auth } = useAuth();
   const { setNavVisible } = useShowNav();
   const { isRefresh } = useModal();
@@ -38,34 +38,36 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
     setOffset(0);
   };
 
+  const fetchItems = useCallback(async () => {
+    let response: Response;
+    if (search === "") {
+      response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}`,
+      );
+    } else {
+      response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}&search=${search}`,
+      );
+    }
+    const responseMaxElem = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/${path}?search=${search}`,
+    );
+    const dataMaxElem = await responseMaxElem.json();
+    const data = await response.json();
+
+    setItems(data);
+    seMaxElem(dataMaxElem.length);
+  }, [offset, path, search]);
+
   useEffect(() => {
     if (auth === null) {
       navigate("/admin");
     } else {
       setNavVisible(true);
-      (async () => {
-        let response: Response;
-        if (search === "") {
-          response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}`,
-          );
-        } else {
-          response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}&search=${search}`,
-          );
-        }
-        const responseMaxElem = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/${path}?search=${search}`,
-        );
-        const dataMaxElem = await responseMaxElem.json();
-        const data = await response.json();
-
-        setItems(data);
-        seMaxElem(dataMaxElem.length);
-      })();
+      fetchItems();
       isRefresh;
     }
-  }, [auth, navigate, setNavVisible, isRefresh, path, offset, search]);
+  }, [auth, navigate, setNavVisible, isRefresh, fetchItems]);
 
   return (
     <div className="content-admin-container">
