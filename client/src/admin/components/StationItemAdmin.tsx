@@ -1,6 +1,6 @@
 import type { StationItemType } from "../types/itemType";
 import "../styles/StationItemAdmin.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import arrowImg from "/images/arrow-item-img.svg";
 import trashCanImg from "/images/trash-can-img.svg";
 import { useModal } from "../contexts/ShowModalProvider";
@@ -35,42 +35,65 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
   const { setDisplayModification, setItemId, setDisplayDeleteModal } =
     useModal();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const [responseProvider, responseSign, responseOperator, responseOutlet] =
-        await Promise.all([
-          fetch(
-            `${import.meta.env.VITE_API_URL}/api/providers/${item.provider_id}`,
-          ),
-          fetch(`${import.meta.env.VITE_API_URL}/api/signs/${item.sign_id}`),
-          fetch(
-            `${import.meta.env.VITE_API_URL}/api/operators/${item.operator_id}`,
-          ),
-          fetch(`${import.meta.env.VITE_API_URL}/api/outlets/${item.pdc_id}`),
-        ]);
+      const [
+        responsePostalcode,
+        responseProvider,
+        responseSign,
+        responseOperator,
+        responseOutlet,
+      ] = await Promise.all([
+        fetch(
+          `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postalcode_id}`,
+        ),
+        fetch(
+          `${import.meta.env.VITE_API_URL}/api/providers/${item.provider_id}`,
+        ),
+        fetch(`${import.meta.env.VITE_API_URL}/api/signs/${item.sign_id}`),
+        fetch(
+          `${import.meta.env.VITE_API_URL}/api/operators/${item.operator_id}`,
+        ),
+        fetch(`${import.meta.env.VITE_API_URL}/api/outlets/${item.pdc_id}`),
+      ]);
 
-      const [dataProvider, dataSign, dataOperator, dataOutlet] =
+      const [dataPostalcode, dataProvider, dataSign, dataOperator, dataOutlet] =
         await Promise.all([
+          responsePostalcode.json(),
           responseProvider.json(),
           responseSign.json(),
           responseOperator.json(),
           responseOutlet.json(),
         ]);
 
-      setStation({
-        ...station,
+      setStation((prev) => ({
+        ...prev,
         sign: dataSign.name,
         provider: dataProvider.name,
         operator: dataOperator.name,
         outlet: dataOutlet,
-      });
+        postalcode: dataPostalcode.code,
+      }));
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [item]);
+
+  useEffect(() => {
+    setStation((prev) => ({
+      ...prev,
+      name: item.name,
+      address: item.address,
+      number_outlet: item.number_pdc,
+      access_charging: item.access_charging,
+      accessibility: item.accessibility,
+      update_date_time: item.update_date_time,
+      source: item.source,
+    }));
+    fetchData();
+  }, [item, fetchData]);
 
   const handleClickArrow = () => {
-    fetchData();
     setIsVisible(!isVisible);
   };
 
@@ -78,16 +101,6 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
     setDisplayDeleteModal(true);
     setItemId(item.id);
   };
-
-  useEffect(() => {
-    (async () => {
-      const responsePostalcode = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postalcode_id}`,
-      );
-      const dataPostalcode = await responsePostalcode.json();
-      setStation((prev) => ({ ...prev, postalcode: dataPostalcode.code }));
-    })();
-  }, [item.postalcode_id]);
 
   return (
     <div className="station-item-admin">
