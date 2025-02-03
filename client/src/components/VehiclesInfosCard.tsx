@@ -4,15 +4,19 @@ import deleteIconSVG from "/images/delete.svg";
 import DeleteUserVehicle from "./DeleteUserVehicle";
 
 interface VehiclesInfosCardProps {
+  vehicleId: number;
   vehicleBrand: string;
   vehicleModel: string;
   chargingVehicleType: string;
+  refreshVehicles: () => void;
 }
 
 export default function VehiclesInfosCard({
+  vehicleId,
   vehicleBrand,
   vehicleModel,
   chargingVehicleType,
+  refreshVehicles,
 }: VehiclesInfosCardProps) {
   const [isDeletingVehicle, setIsDeletingVehicle] = useState<boolean>(false);
 
@@ -40,7 +44,11 @@ export default function VehiclesInfosCard({
         <img src={deleteIconSVG} alt="" />
       </button>
       {isDeletingVehicle && (
-        <DeleteUserVehicle setIsDeletingVehicle={setIsDeletingVehicle} />
+        <DeleteUserVehicle
+          vehicleId={vehicleId}
+          setIsDeletingVehicle={setIsDeletingVehicle}
+          refreshVehicles={refreshVehicles}
+        />
       )}
     </article>
   );

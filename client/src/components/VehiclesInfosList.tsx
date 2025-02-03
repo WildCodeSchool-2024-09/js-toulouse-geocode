@@ -67,9 +67,11 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
           {vehiclesInfos.map((item) => (
             <VehiclesInfosCard
               key={item.id}
+              vehicleId={item.id}
               vehicleBrand={item.brand}
               vehicleModel={item.model}
               chargingVehicleType={item.type}
+              refreshVehicles={refreshVehicles}
             />
           ))}
         </article>
