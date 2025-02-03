@@ -17,7 +17,6 @@ interface VehicleInfo {
 export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
   const [isAddingVehicle, setIsAddingVehicle] = useState(false);
   const [vehiclesInfos, setVehiclesInfos] = useState<VehicleInfo[]>([]);
-  const [doFetch, setDoFetch] = useState<boolean>(false);
   const { auth } = useAuth();
 
   const fetchVehicleInfos = useCallback(async () => {
@@ -38,8 +37,7 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
 
   useEffect(() => {
     fetchVehicleInfos();
-    doFetch;
-  }, [fetchVehicleInfos, doFetch]);
+  }, [fetchVehicleInfos]);
 
   return (
     <>
@@ -69,8 +67,6 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
         <AddUserVehicle
           setIsAddingVehicle={setIsAddingVehicle}
           setRefreshNavbar={setRefreshNavbar}
-          doFetch={doFetch}
-          setDoFetch={setDoFetch}
         />
       )}
     </>

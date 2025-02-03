@@ -1,4 +1,7 @@
+import { useState } from "react";
 import "../styles/VehiclesInfosCard.css";
+import deleteIconSVG from "/images/delete.svg";
+import DeleteUserVehicle from "./DeleteUserVehicle";
 
 interface VehiclesInfosCardProps {
   vehicleBrand: string;
@@ -11,6 +14,8 @@ export default function VehiclesInfosCard({
   vehicleModel,
   chargingVehicleType,
 }: VehiclesInfosCardProps) {
+  const [isDeletingVehicle, setIsDeletingVehicle] = useState<boolean>(false);
+
   return (
     <article className="vehicles-infos-card-container">
       <div className="brand-and-model-car">
@@ -27,6 +32,16 @@ export default function VehiclesInfosCard({
         <h2>Type de charge</h2>
         <p>{chargingVehicleType}</p>
       </div>
+      <button
+        type="button"
+        className="delete-user-vehicle-button"
+        onClick={() => setIsDeletingVehicle(true)}
+      >
+        <img src={deleteIconSVG} alt="" />
+      </button>
+      {isDeletingVehicle && (
+        <DeleteUserVehicle setIsDeletingVehicle={setIsDeletingVehicle} />
+      )}
     </article>
   );
 }
