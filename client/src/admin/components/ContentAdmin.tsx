@@ -41,14 +41,26 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
     if (search === "") {
       response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
     } else {
       response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}&search=${search}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
     }
     const responseMaxElem = await fetch(
       `${import.meta.env.VITE_API_URL}/api/${path}?search=${search}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
     );
     const dataMaxElem = await responseMaxElem.json();
     const data = await response.json();
@@ -57,7 +69,8 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
   }, [offset, path, search]);
 
   useEffect(() => {
-    if (auth === null) {
+    if (!auth) {
+      console.info("Not authentified");
       navigate("/admin");
     } else {
       setNavVisible(true);

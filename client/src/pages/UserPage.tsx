@@ -23,6 +23,10 @@ function UserPage() {
         try {
           const response = await fetch(
             `${import.meta.env.VITE_API_URL}/api/users/${auth.user_id}`,
+            {
+              method: "GET",
+              credentials: "include",
+            },
           );
 
           if (response.ok) {

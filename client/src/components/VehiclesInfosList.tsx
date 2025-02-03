@@ -24,6 +24,10 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/vehicles/user/${auth?.user_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
 
       if (response.ok) {

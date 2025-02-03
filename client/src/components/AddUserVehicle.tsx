@@ -30,9 +30,7 @@ export default function AddUserVehicle({
           `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
           {
             method: "GET",
-            headers: {
-              credentials: "include",
-            },
+            credentials: "include",
           },
         );
 
@@ -70,8 +68,8 @@ export default function AddUserVehicle({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
+      credentials: "include",
       body: JSON.stringify(vehicleData),
     })
       .then((response) => {

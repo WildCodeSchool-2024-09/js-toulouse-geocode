@@ -69,6 +69,7 @@ function UserModification({ userId }: UserModificationProps) {
     response = await fetch(form.action, {
       method: "PUT",
       body: formData,
+      credentials: "include",
     });
     if (response.ok) {
       setDisplayModification(false);
@@ -147,13 +148,20 @@ function UserModification({ userId }: UserModificationProps) {
 
   const fetchUserInfos = () => {
     if (!userId) return;
-    fetch(`${import.meta.env.VITE_API_URL}/api/users/${userId}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/users/${userId}`, {
+      method: "GET",
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((userData) => {
         fetch(
           `${import.meta.env.VITE_API_URL}/api/postalcodes/${
             userData.postal_code_id
           }`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         )
           .then((postalcodeResponse) => postalcodeResponse.json())
           .then((postalcodeData) => {
@@ -161,9 +169,7 @@ function UserModification({ userId }: UserModificationProps) {
               `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
               {
                 method: "GET",
-                headers: {
-                  credentials: "include",
-                },
+                credentials: "include",
               },
             )
               .then((inseeCodeResponse) => inseeCodeResponse.json())
@@ -172,9 +178,7 @@ function UserModification({ userId }: UserModificationProps) {
                   `${import.meta.env.VITE_API_URL}/api/cities/${inseeCodeData.city_id}`,
                   {
                     method: "GET",
-                    headers: {
-                      credentials: "include",
-                    },
+                    credentials: "include",
                   },
                 )
                   .then((cityResponse) => cityResponse.json())

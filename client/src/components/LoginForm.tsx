@@ -24,6 +24,7 @@ export default function LoginForm() {
             email: (emailRef.current as HTMLInputElement).value,
             password: (passwordRef.current as HTMLInputElement).value,
           }),
+          credentials: "include",
         },
       );
 

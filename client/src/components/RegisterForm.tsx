@@ -62,6 +62,7 @@ function RegisterForm() {
     response = await fetch(form.action, {
       method: "POST",
       body: formData,
+      credentials: "include",
     });
     if (response.ok) {
       navigate("/login");

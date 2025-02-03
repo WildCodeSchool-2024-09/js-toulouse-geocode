@@ -33,6 +33,10 @@ export default function ProfileInfo() {
     try {
       const userResponse = await fetch(
         `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
       const userData = await userResponse.json();
 
@@ -41,18 +45,14 @@ export default function ProfileInfo() {
           `${import.meta.env.VITE_API_URL}/api/postalcodes/${userData.postal_code_id}`,
           {
             method: "GET",
-            headers: {
-              credentials: "include",
-            },
+            credentials: "include",
           },
         ).then((res) => res.json()),
         fetch(
           `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
           {
             method: "GET",
-            headers: {
-              credentials: "include",
-            },
+            credentials: "include",
           },
         ).then((res) => res.json()),
       ]);
@@ -61,9 +61,7 @@ export default function ProfileInfo() {
         `${import.meta.env.VITE_API_URL}/api/cities/${inseeCodeData.city_id}`,
         {
           method: "GET",
-          headers: {
-            credentials: "include",
-          },
+          credentials: "include",
         },
       );
       const cityData = await cityResponse.json();
@@ -96,9 +94,7 @@ export default function ProfileInfo() {
         `${import.meta.env.VITE_API_URL}/api/get-photo/${auth?.user_id}`,
         {
           method: "GET",
-          headers: {
-            credentials: "include",
-          },
+          credentials: "include",
         },
       );
 

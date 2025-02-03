@@ -102,9 +102,7 @@ function StationModification({ stationId }: StationModificationProps) {
 
     fetch(`${import.meta.env.VITE_API_URL}/api/stations/${stationId}`, {
       method: "GET",
-      headers: {
-        credentials: "include",
-      },
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => {

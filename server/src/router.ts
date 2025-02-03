@@ -32,7 +32,6 @@ router.post("/api/items", itemActions.add);
 router.post("/api/csv", csvManagementActions.addStations);
 
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
-router.get("/api/stations", stationActions.browse);
 
 router.get("/api/users/verify-email", userActions.verifyEmail);
 router.post("/api/users", authActions.hashPassword, userActions.add);
@@ -44,6 +43,8 @@ router.post("/api/login", authActions.login);
 router.post("/api/admin/login", authActions.login);
 
 router.use(authActions.verifyToken);
+router.get("/api/stations", stationActions.browse);
+router.get("/api/auth", authActions.verifyRequest);
 
 router.get("/api/get-photo/:user_id", userPhotoActions.browse);
 router.put(

@@ -49,9 +49,7 @@ function VehicleModification({ vehicleId }: VehicleModificationProps) {
 
     fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${vehicleId}`, {
       method: "GET",
-      headers: {
-        credentials: "include",
-      },
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => {

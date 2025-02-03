@@ -43,31 +43,23 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
             `${import.meta.env.VITE_API_URL}/api/providers/${item.provider_id}`,
             {
               method: "GET",
-              headers: {
-                credentials: "include",
-              },
+              credentials: "include",
             },
           ),
           fetch(`${import.meta.env.VITE_API_URL}/api/signs/${item.sign_id}`, {
             method: "GET",
-            headers: {
-              credentials: "include",
-            },
+            credentials: "include",
           }),
           fetch(
             `${import.meta.env.VITE_API_URL}/api/operators/${item.operator_id}`,
             {
               method: "GET",
-              headers: {
-                credentials: "include",
-              },
+              credentials: "include",
             },
           ),
           fetch(`${import.meta.env.VITE_API_URL}/api/outlets/${item.pdc_id}`, {
             method: "GET",
-            headers: {
-              credentials: "include",
-            },
+            credentials: "include",
           }),
         ]);
 
@@ -107,9 +99,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
         `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postalcode_id}`,
         {
           method: "GET",
-          headers: {
-            credentials: "include",
-          },
+          credentials: "include",
         },
       );
       const dataPostalcode = await responsePostalcode.json();

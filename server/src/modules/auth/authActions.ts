@@ -56,7 +56,6 @@ const login: RequestHandler = async (req, res, next) => {
         expires: new Date(Date.now() + 3600000),
       });
       res.json({
-        token,
         user_id: id,
       });
     } else {
@@ -96,27 +95,27 @@ const hashPassword: RequestHandler = async (req, res, next) => {
   }
 };
 
+const buildCookieObject = (cookieString: string | undefined) => {
+  if (!cookieString) {
+    throw new Error("Cookie header is missing");
+  }
+
+  const cookieArray = cookieString
+    .split(";")
+    .map((item) => item.trim())
+    .map((pair) => {
+      const [key, value] = pair.split("=");
+      return [key, value];
+    });
+
+  return Object.fromEntries(cookieArray);
+};
+
 const verifyToken: RequestHandler = (req, res, next) => {
   try {
-    const cookies = req.get("Cookie");
-
-    if (cookies == null) {
-      throw new Error("Cookie header is missing");
-    }
-
     let tokenFound = undefined;
-
-    const cookieArray = cookies
-      .split(";")
-      .map((item) => item.trim())
-      .map((pair) => {
-        const [key, value] = pair.split("=");
-        return [key, value];
-      });
-
-    const cookieObject = Object.fromEntries(cookieArray);
-
-    console.info(JSON.stringify(cookieObject));
+    console.info(`Request from ${req.url}`);
+    const cookieObject = buildCookieObject(req.get("Cookie"));
 
     if (!cookieObject.token) {
       console.info("Token not found in cookies. Token in Authorization header");
@@ -152,4 +151,24 @@ const verifyToken: RequestHandler = (req, res, next) => {
   }
 };
 
-export default { hashPassword, login, verifyToken };
+const verifyRequest: RequestHandler = (req, res) => {
+  try {
+    if (!req.auth) {
+      throw new Error("Authentication failed");
+    }
+
+    const cookieObject = buildCookieObject(req.get("Cookie"));
+    if (!cookieObject.user_id) {
+      throw new Error("User id not found in cookies");
+    }
+
+    res.json({
+      user_id: cookieObject.user_id,
+    });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(401);
+  }
+};
+
+export default { hashPassword, login, verifyToken, verifyRequest };

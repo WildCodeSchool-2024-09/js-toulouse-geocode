@@ -24,6 +24,10 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
     (async () => {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/users/${item.user_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
       const data = await response.json();
       setVehicle((prev) => ({
