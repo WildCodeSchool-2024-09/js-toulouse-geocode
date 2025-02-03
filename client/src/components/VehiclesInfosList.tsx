@@ -18,6 +18,7 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
   const [isAddingVehicle, setIsAddingVehicle] = useState(false);
   const [vehiclesInfos, setVehiclesInfos] = useState<VehicleInfo[]>([]);
   const { auth } = useAuth();
+  const [refreshNavbar, setRefreshNavbarState] = useState(false);
 
   const fetchVehicleInfos = useCallback(async () => {
     try {
@@ -36,6 +37,16 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
   }, [auth]);
 
   useEffect(() => {
+    fetchVehicleInfos();
+  }, [fetchVehicleInfos]);
+
+  useEffect(() => {
+    if (refreshNavbar) {
+      setRefreshNavbarState(false);
+    }
+  }, [refreshNavbar]);
+
+  const refreshVehicles = useCallback(() => {
     fetchVehicleInfos();
   }, [fetchVehicleInfos]);
 
@@ -67,6 +78,7 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
         <AddUserVehicle
           setIsAddingVehicle={setIsAddingVehicle}
           setRefreshNavbar={setRefreshNavbar}
+          refreshVehicles={refreshVehicles}
         />
       )}
     </>
