@@ -6,15 +6,13 @@ import { useAuth } from "../contexts/AuthProvider";
 interface AddUserVehicleProps {
   setIsAddingVehicle: (value: boolean) => void;
   setRefreshNavbar: (value: boolean) => void;
-  doFetch: boolean;
-  setDoFetch: (value: boolean) => void;
+  refreshVehicles: () => void;
 }
 
 export default function AddUserVehicle({
   setIsAddingVehicle,
   setRefreshNavbar,
-  doFetch,
-  setDoFetch,
+  refreshVehicles,
 }: AddUserVehicleProps) {
   const { auth } = useAuth();
   const brandRef = useRef<HTMLInputElement>(null);
@@ -75,6 +73,8 @@ export default function AddUserVehicle({
       .then((response) => {
         if (response.ok) {
           setIsAddingVehicle(false);
+          refreshVehicles();
+          setRefreshNavbar(true);
         } else {
           alert("Erreur lors de l'ajout du véhicule");
         }
@@ -135,7 +135,6 @@ export default function AddUserVehicle({
             type="submit"
             onClick={() => {
               setRefreshNavbar(true);
-              setDoFetch(!doFetch);
             }}
           >
             Ajouter

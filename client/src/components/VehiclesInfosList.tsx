@@ -17,8 +17,8 @@ interface VehicleInfo {
 export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
   const [isAddingVehicle, setIsAddingVehicle] = useState(false);
   const [vehiclesInfos, setVehiclesInfos] = useState<VehicleInfo[]>([]);
-  const [doFetch, setDoFetch] = useState<boolean>(false);
   const { auth } = useAuth();
+  const [refreshNavbar, setRefreshNavbarState] = useState(false);
 
   const fetchVehicleInfos = useCallback(async () => {
     try {
@@ -42,8 +42,17 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
 
   useEffect(() => {
     fetchVehicleInfos();
-    doFetch;
-  }, [fetchVehicleInfos, doFetch]);
+  }, [fetchVehicleInfos]);
+
+  useEffect(() => {
+    if (refreshNavbar) {
+      setRefreshNavbarState(false);
+    }
+  }, [refreshNavbar]);
+
+  const refreshVehicles = useCallback(() => {
+    fetchVehicleInfos();
+  }, [fetchVehicleInfos]);
 
   return (
     <>
@@ -62,9 +71,11 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
           {vehiclesInfos.map((item) => (
             <VehiclesInfosCard
               key={item.id}
+              vehicleId={item.id}
               vehicleBrand={item.brand}
               vehicleModel={item.model}
               chargingVehicleType={item.type}
+              refreshVehicles={refreshVehicles}
             />
           ))}
         </article>
@@ -73,8 +84,7 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
         <AddUserVehicle
           setIsAddingVehicle={setIsAddingVehicle}
           setRefreshNavbar={setRefreshNavbar}
-          doFetch={doFetch}
-          setDoFetch={setDoFetch}
+          refreshVehicles={refreshVehicles}
         />
       )}
     </>
