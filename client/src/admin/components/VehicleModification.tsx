@@ -26,6 +26,7 @@ function VehicleModification({ vehicleId }: VehicleModificationProps) {
     const response = await fetch(form.action, {
       method: "PUT",
       body: formData,
+      credentials: "include",
     });
     if (response.ok) {
       setIsRefresh(!isRefresh);
@@ -47,7 +48,10 @@ function VehicleModification({ vehicleId }: VehicleModificationProps) {
       return;
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${vehicleId}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${vehicleId}`, {
+      method: "GET",
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((data) => {
         if (brandInputElement.current) {

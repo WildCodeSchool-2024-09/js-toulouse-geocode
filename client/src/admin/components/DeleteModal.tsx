@@ -22,6 +22,7 @@ export default function DeleteModal({
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
       },
     );
     if (response.ok) {

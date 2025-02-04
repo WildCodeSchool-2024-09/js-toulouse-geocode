@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import "../styles/ContentAdmin.css";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthProvider";
 import { useModal } from "../contexts/ShowModalProvider";
 import { useShowNav } from "../contexts/ShowNavProvider";
 import type { BaseItemType } from "../types/itemType";
@@ -18,10 +16,8 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
   const [maxElem, seMaxElem] = useState(0);
   const [search, setSearch] = useState("");
   const limit = 30;
-  const { auth } = useAuth();
   const { setNavVisible } = useShowNav();
   const { isRefresh } = useModal();
-  const navigate = useNavigate();
 
   const handleClickNext = () => {
     setOffset(offset + limit);
@@ -43,14 +39,26 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
     if (search === "") {
       response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
     } else {
       response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/${path}?limit=${limit}&offset=${offset}&search=${search}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
     }
     const responseMaxElem = await fetch(
       `${import.meta.env.VITE_API_URL}/api/${path}?search=${search}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
     );
     const dataMaxElem = await responseMaxElem.json();
     const data = await response.json();
@@ -60,14 +68,10 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
   }, [offset, path, search]);
 
   useEffect(() => {
-    if (auth === null) {
-      navigate("/admin");
-    } else {
-      setNavVisible(true);
-      fetchItems();
-      isRefresh;
-    }
-  }, [auth, navigate, setNavVisible, isRefresh, fetchItems]);
+    setNavVisible(true);
+    fetchItems();
+    isRefresh;
+  }, [setNavVisible, isRefresh, fetchItems]);
 
   return (
     <div className="content-admin-container">

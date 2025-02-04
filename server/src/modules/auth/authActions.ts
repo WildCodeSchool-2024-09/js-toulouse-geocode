@@ -5,83 +5,57 @@ import type { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import userRepository from "../user/userRepository";
 
-const login: RequestHandler = async (req, res, next) => {
-  try {
-    // Fetch a specific user from the database based on the provided email
-    const user = await userRepository.readByEmailWithPassword(req.body.email);
+const verifyEmailPassword = async (
+  email: string,
+  password: string,
+): Promise<[string | undefined, number | undefined]> => {
+  // Fetch a specific user from the database based on the provided email
+  const user = await userRepository.readByEmailWithPassword(email);
 
-    if (user == null) {
-      res.sendStatus(422);
-      return;
-    }
-
-    const verified = await argon2.verify(
-      user.hashed_password,
-      req.body.password,
-    );
-
-    if (verified) {
-      // Respond with the user and a signed token in JSON format (but without the hashed password)
-      const { id, ...userWithoutHashedPassword } = user;
-
-      const myPayload: GeocodePayload = {
-        sub: id.toString(),
-      };
-
-      const token = await jwt.sign(
-        myPayload,
-        process.env.APP_SECRET as string,
-        {
-          expiresIn: "1h",
-        },
-      );
-
-      res.json({
-        token,
-        user_id: id,
-      });
-    } else {
-      res.sendStatus(422);
-    }
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
+  if (user == null) {
+    return [undefined, undefined];
   }
+
+  const verified = await argon2.verify(user.hashed_password, password);
+
+  if (!verified) {
+    return [undefined, undefined];
+  }
+  // Respond with the user and a signed token in JSON format (but without the hashed password)
+  const { id, ...userWithoutHashedPassword } = user;
+
+  const myPayload: GeocodePayload = {
+    sub: id.toString(),
+  };
+
+  const token = await jwt.sign(myPayload, process.env.APP_SECRET as string, {
+    expiresIn: "1h",
+  });
+
+  return [token, id];
 };
 
-const adminLogin: RequestHandler = async (req, res, next) => {
+const login: RequestHandler = async (req, res, next) => {
   try {
-    // Fetch a specific user from the database based on the provided email
-    const user = await userRepository.readByEmailWithPassword(req.body.email);
-
-    if (user == null) {
-      res.sendStatus(422);
-      return;
-    }
-
-    const verified = await argon2.verify(
-      user.hashed_password,
+    const [token, id] = await verifyEmailPassword(
+      req.body.email,
       req.body.password,
     );
 
-    if (verified && user.mail === process.env.ADMIN_EMAIL) {
-      // Respond with the user and a signed token in JSON format (but without the hashed password)
-      const { id, ...userWithoutHashedPassword } = user;
-
-      const myPayload: GeocodePayload = {
-        sub: id.toString(),
-      };
-
-      const token = await jwt.sign(
-        myPayload,
-        process.env.APP_SECRET as string,
-        {
-          expiresIn: "1h",
-        },
-      );
-
+    if (token && id) {
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        expires: new Date(Date.now() + 3600000),
+      });
+      res.cookie("user_id", id, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        expires: new Date(Date.now() + 3600000),
+      });
       res.json({
-        token,
         user_id: id,
       });
     } else {
@@ -121,4 +95,85 @@ const hashPassword: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { hashPassword, login, adminLogin };
+const buildCookieObject = (cookieString: string | undefined, url: string) => {
+  if (!cookieString) {
+    throw new Error(`From ${url}, Cookie header is missing`);
+  }
+
+  const cookieArray = cookieString
+    .split(";")
+    .map((item) => item.trim())
+    .map((pair) => {
+      const [key, value] = pair.split("=");
+      return [key, value];
+    });
+
+  return Object.fromEntries(cookieArray);
+};
+
+const verifyToken: RequestHandler = (req, res, next) => {
+  try {
+    let tokenFound = undefined;
+    const cookieObject = buildCookieObject(
+      req.get("Cookie"),
+      req.url as string,
+    );
+
+    if (!cookieObject.token) {
+      console.info("Token not found in cookies. Token in Authorization header");
+      const authorizationHeader = req.get("Authorization");
+
+      if (authorizationHeader == null) {
+        throw new Error("Authorization header is missing");
+      }
+      const [type, token] = authorizationHeader.split(" ");
+
+      if (type !== "Bearer") {
+        throw new Error("Authorization header has not the 'Bearer' type");
+      }
+
+      tokenFound = token;
+    } else {
+      tokenFound = cookieObject.token;
+    }
+
+    // Vérifier que l'en-tête a la forme "Bearer <token>"
+
+    // Vérifier la validité du token (son authenticité et sa date d'expériation)
+    // En cas de succès, le payload est extrait et décodé
+    req.auth = jwt.verify(
+      tokenFound,
+      process.env.APP_SECRET as string,
+    ) as GeocodePayload;
+
+    next();
+  } catch (err) {
+    console.info(`${err}`);
+    res.sendStatus(401);
+  }
+};
+
+const verifyRequest: RequestHandler = (req, res) => {
+  try {
+    if (!req.auth) {
+      throw new Error("Authentication failed");
+    }
+
+    const cookieObject = buildCookieObject(
+      req.get("Cookie"),
+      req.url as string,
+    );
+    if (!cookieObject.user_id) {
+      throw new Error("User id not found in cookies");
+    }
+
+    res.json({
+      user_id: cookieObject.user_id,
+    });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(401);
+  }
+};
+
+export default { hashPassword, login, verifyToken, verifyRequest };

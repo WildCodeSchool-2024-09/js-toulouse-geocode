@@ -23,8 +23,14 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
   const fetchData = useCallback(async () => {
     try {
       const [responseOwner, responseVehicle] = await Promise.all([
-        fetch(`${import.meta.env.VITE_API_URL}/api/users/${item.user_id}`),
-        fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${item.id}`),
+        fetch(`${import.meta.env.VITE_API_URL}/api/users/${item.user_id}`, {
+          method: "GET",
+          credentials: "include",
+        }),
+        fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${item.id}`, {
+          method: "GET",
+          credentials: "include",
+        }),
       ]);
 
       const [dataOwner, dataVehicle] = await Promise.all([

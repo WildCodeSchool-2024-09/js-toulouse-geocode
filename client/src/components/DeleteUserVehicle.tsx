@@ -18,6 +18,7 @@ export default function ConfirmationUploadPhoto({
         `${import.meta.env.VITE_API_URL}/api/vehicles/${vehicleId}`,
         {
           method: "DELETE",
+          credentials: "include",
         },
       );
 

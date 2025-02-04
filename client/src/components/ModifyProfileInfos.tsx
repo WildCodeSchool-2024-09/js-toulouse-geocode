@@ -88,6 +88,7 @@ export default function ModifyProfileInfos({
       {
         method: "PUT",
         body: formDataProfileModification,
+        credentials: "include",
       },
     );
     if (response.ok) {
