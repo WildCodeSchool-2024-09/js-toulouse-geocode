@@ -145,7 +145,7 @@ const verifyToken: RequestHandler = (req, res, next) => {
 
     next();
   } catch (err) {
-    console.error(err);
+    console.info(`${err}`);
     res.sendStatus(401);
   }
 };

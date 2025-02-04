@@ -36,7 +36,6 @@ export default function LoginForm() {
         navigate("/user");
       } else {
         setErrorMessage("L'adresse email ou le mot de passe est incorrect");
-        console.info(response);
       }
     } catch (err) {
       console.error(err);
