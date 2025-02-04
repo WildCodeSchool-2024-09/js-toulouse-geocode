@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import "../styles/ContentAdmin.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
+import { useModal } from "../contexts/ShowModalProvider";
 import { useShowNav } from "../contexts/ShowNavProvider";
 import type { BaseItemType } from "../types/itemType";
 import ContentAdminItem from "./ContentAdminItem";
@@ -16,9 +17,10 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
   const [offset, setOffset] = useState(0);
   const [maxElem, seMaxElem] = useState(0);
   const [search, setSearch] = useState("");
-  const limit = 10;
+  const limit = 30;
   const { auth } = useAuth();
   const { setNavVisible } = useShowNav();
+  const { isRefresh } = useModal();
   const navigate = useNavigate();
 
   const handleClickNext = () => {
@@ -52,6 +54,7 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
     );
     const dataMaxElem = await responseMaxElem.json();
     const data = await response.json();
+
     setItems(data);
     seMaxElem(dataMaxElem.length);
   }, [offset, path, search]);
@@ -62,8 +65,9 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
     } else {
       setNavVisible(true);
       fetchItems();
+      isRefresh;
     }
-  }, [fetchItems, auth, navigate, setNavVisible]);
+  }, [auth, navigate, setNavVisible, isRefresh, fetchItems]);
 
   return (
     <div className="content-admin-container">

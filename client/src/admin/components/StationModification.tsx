@@ -8,7 +8,7 @@ interface StationModificationProps {
 }
 
 function StationModification({ stationId }: StationModificationProps) {
-  const { setDisplayModification } = useModal();
+  const { setDisplayModification, isRefresh, setIsRefresh } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const operatorInputElement = useRef<HTMLInputElement>(null);
   const signInputElement = useRef<HTMLInputElement>(null);
@@ -60,6 +60,7 @@ function StationModification({ stationId }: StationModificationProps) {
       body: formData,
     });
     if (response.ok) {
+      setIsRefresh(!isRefresh);
       setDisplayModification(false);
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");

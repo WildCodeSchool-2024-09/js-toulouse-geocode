@@ -7,7 +7,7 @@ interface UserModificationProps {
 }
 
 function UserModification({ userId }: UserModificationProps) {
-  const { setDisplayModification } = useModal();
+  const { setDisplayModification, setIsRefresh, isRefresh } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [emailValid, setEmailValid] = useState(false);
@@ -71,6 +71,7 @@ function UserModification({ userId }: UserModificationProps) {
       body: formData,
     });
     if (response.ok) {
+      setIsRefresh(!isRefresh);
       setDisplayModification(false);
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");

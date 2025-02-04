@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import arrowImg from "/images/arrow-item-img.svg";
 import trashCanImg from "/images/trash-can-img.svg";
 import type { VehicleItemType } from "../types/itemType";
@@ -20,18 +20,38 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
   const { setDisplayModification, setDisplayDeleteModal, setItemId } =
     useModal();
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/users/${item.user_id}`,
-      );
-      const data = await response.json();
+  const fetchData = useCallback(async () => {
+    try {
+      const [responseOwner, responseVehicle] = await Promise.all([
+        fetch(`${import.meta.env.VITE_API_URL}/api/users/${item.user_id}`),
+        fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${item.id}`),
+      ]);
+
+      const [dataOwner, dataVehicle] = await Promise.all([
+        responseOwner.json(),
+        responseVehicle.json(),
+      ]);
+
       setVehicle((prev) => ({
         ...prev,
-        owner: `${data.firstname} ${data.lastname}`,
+        brand: dataVehicle.brand,
+        type: dataVehicle.type,
+        owner: `${dataOwner.firstname} ${dataOwner.lastname}`,
       }));
-    })();
-  }, [item.user_id]);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [item]);
+
+  useEffect(() => {
+    setVehicle((prev) => ({
+      ...prev,
+      model: item.model,
+      brand: item.brand,
+      type: item.type,
+    }));
+    fetchData();
+  }, [item, fetchData]);
 
   const handleClickArrow = () => {
     setIsVisible(!isVisible);
