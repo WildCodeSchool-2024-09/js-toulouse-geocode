@@ -8,7 +8,6 @@ interface VehiclesInfosCardProps {
   vehicleBrand: string;
   vehicleModel: string;
   chargingVehicleType: string;
-  refreshVehicles: () => void;
 }
 
 export default function VehiclesInfosCard({
@@ -16,7 +15,6 @@ export default function VehiclesInfosCard({
   vehicleBrand,
   vehicleModel,
   chargingVehicleType,
-  refreshVehicles,
 }: VehiclesInfosCardProps) {
   const [isDeletingVehicle, setIsDeletingVehicle] = useState<boolean>(false);
 
@@ -47,7 +45,6 @@ export default function VehiclesInfosCard({
         <DeleteUserVehicle
           vehicleId={vehicleId}
           setIsDeletingVehicle={setIsDeletingVehicle}
-          refreshVehicles={refreshVehicles}
         />
       )}
     </article>

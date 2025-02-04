@@ -7,13 +7,14 @@ import { useNavigate } from "react-router-dom";
 import BookingsInfos from "../components/BookingsInfos";
 import VehiclesInfosList from "../components/VehiclesInfosList";
 import { useAuth } from "../contexts/AuthProvider";
+import { useRefresh } from "../contexts/RefreshProvider";
 
 function UserPage() {
   const [userNumberOfVehicle, setUserNumberOfVehicle] = useState<number>(0);
 
   const { auth } = useAuth();
   const navigate = useNavigate();
-  const [refreshNavbar, setRefreshNavbar] = useState<boolean>(false);
+  const { refresh } = useRefresh();
 
   useEffect(() => {
     if (!auth) {
@@ -33,9 +34,9 @@ function UserPage() {
           console.error(error);
         }
       })();
-      refreshNavbar;
+      refresh;
     }
-  }, [auth, navigate, refreshNavbar]);
+  }, [auth, navigate, refresh]);
 
   const showMenuBarContext = useShowMenubar();
   const [activeTab, setActiveTabs] = useState<string>("profile-infos");
@@ -47,7 +48,7 @@ function UserPage() {
       case "profile-infos":
         return <ProfileInfo />;
       case "vehicles":
-        return <VehiclesInfosList setRefreshNavbar={setRefreshNavbar} />;
+        return <VehiclesInfosList />;
       case "reservations":
         return <BookingsInfos />;
       default:

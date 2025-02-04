@@ -2,10 +2,8 @@ import VehiclesInfosCard from "./VehiclesInfosCard";
 import "../styles/VehiclesInfosList.css";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
+import { useRefresh } from "../contexts/RefreshProvider";
 import AddUserVehicle from "./AddUserVehicle";
-interface VehiclesInfoProps {
-  setRefreshNavbar: (value: boolean) => void;
-}
 
 interface VehicleInfo {
   id: number;
@@ -14,11 +12,11 @@ interface VehicleInfo {
   type: string;
 }
 
-export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
+export default function VehiclesInfo() {
   const [isAddingVehicle, setIsAddingVehicle] = useState(false);
   const [vehiclesInfos, setVehiclesInfos] = useState<VehicleInfo[]>([]);
   const { auth } = useAuth();
-  const [refreshNavbar, setRefreshNavbarState] = useState(false);
+  const { refresh } = useRefresh();
 
   const fetchVehicleInfos = useCallback(async () => {
     try {
@@ -31,22 +29,13 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
 
         setVehiclesInfos(data);
       }
+      refresh;
     } catch (error) {
       console.error(error);
     }
-  }, [auth]);
+  }, [auth, refresh]);
 
   useEffect(() => {
-    fetchVehicleInfos();
-  }, [fetchVehicleInfos]);
-
-  useEffect(() => {
-    if (refreshNavbar) {
-      setRefreshNavbarState(false);
-    }
-  }, [refreshNavbar]);
-
-  const refreshVehicles = useCallback(() => {
     fetchVehicleInfos();
   }, [fetchVehicleInfos]);
 
@@ -71,17 +60,12 @@ export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {
               vehicleBrand={item.brand}
               vehicleModel={item.model}
               chargingVehicleType={item.type}
-              refreshVehicles={refreshVehicles}
             />
           ))}
         </article>
       </section>
       {isAddingVehicle && (
-        <AddUserVehicle
-          setIsAddingVehicle={setIsAddingVehicle}
-          setRefreshNavbar={setRefreshNavbar}
-          refreshVehicles={refreshVehicles}
-        />
+        <AddUserVehicle setIsAddingVehicle={setIsAddingVehicle} />
       )}
     </>
   );
