@@ -6,12 +6,13 @@ import "../styles/UserPage.css";
 import BookingsInfos from "../components/BookingsInfos";
 import VehiclesInfosList from "../components/VehiclesInfosList";
 import { useAuth } from "../contexts/AuthProvider";
+import { useRefresh } from "../contexts/RefreshProvider";
 
 function UserPage() {
   const [userNumberOfVehicle, setUserNumberOfVehicle] = useState<number>(0);
 
   const { auth } = useAuth();
-  const [refreshNavbar, setRefreshNavbar] = useState<boolean>(false);
+  const { refresh } = useRefresh();
 
   useEffect(() => {
     (async () => {
@@ -32,8 +33,8 @@ function UserPage() {
         console.error(error);
       }
     })();
-    refreshNavbar;
-  }, [auth, refreshNavbar]);
+    refresh;
+  }, [auth, refresh]);
 
   const showMenuBarContext = useShowMenubar();
   const [activeTab, setActiveTabs] = useState<string>("profile-infos");
@@ -45,7 +46,7 @@ function UserPage() {
       case "profile-infos":
         return <ProfileInfo />;
       case "vehicles":
-        return <VehiclesInfosList setRefreshNavbar={setRefreshNavbar} />;
+        return <VehiclesInfosList />;
       case "reservations":
         return <BookingsInfos />;
       default:
