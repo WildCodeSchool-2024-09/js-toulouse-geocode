@@ -12,6 +12,7 @@ interface VehicleInfo {
   brand: string;
   model: string;
   type: string;
+  user_id: number;
 }
 
 export default function VehiclesInfo({ setRefreshNavbar }: VehiclesInfoProps) {

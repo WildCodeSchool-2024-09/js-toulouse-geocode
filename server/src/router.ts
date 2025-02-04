@@ -64,6 +64,7 @@ router.get("/api/users/:id", userActions.read);
 router.put("/api/users/:id", userActions.updateUserInfos);
 router.delete("/api/users/:id", userActions.destroy);
 
+router.get("/api/vehicles/user/:id", vehicleActions.readByUserId);
 router.get("/api/vehicles/:id", vehicleActions.read);
 router.put("/api/vehicles/:id", vehicleActions.updateVehicleInfos);
 router.post("/api/vehicles", vehicleActions.add);
