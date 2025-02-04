@@ -3,7 +3,6 @@ import ProfileInfo from "../components/ProfileInfo";
 import ProfileNavbar from "../components/ProfileNavbar";
 import { useShowMenubar } from "../contexts/ShowMenubarProvider";
 import "../styles/UserPage.css";
-import { useNavigate } from "react-router-dom";
 import BookingsInfos from "../components/BookingsInfos";
 import VehiclesInfosList from "../components/VehiclesInfosList";
 import { useAuth } from "../contexts/AuthProvider";
@@ -13,30 +12,29 @@ function UserPage() {
   const [userNumberOfVehicle, setUserNumberOfVehicle] = useState<number>(0);
 
   const { auth } = useAuth();
-  const navigate = useNavigate();
   const { refresh } = useRefresh();
 
   useEffect(() => {
-    if (!auth) {
-      navigate("/login");
-    } else {
-      (async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/users/${auth.user_id}`,
-          );
+    (async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
 
-          if (response.ok) {
-            const data = await response.json();
-            setUserNumberOfVehicle(data.number_of_vehicles);
-          }
-        } catch (error) {
-          console.error(error);
+        if (response.ok) {
+          const data = await response.json();
+          setUserNumberOfVehicle(data.number_of_vehicles);
         }
-      })();
-      refresh;
-    }
-  }, [auth, navigate, refresh]);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+    refresh;
+  }, [auth, refresh]);
 
   const showMenuBarContext = useShowMenubar();
   const [activeTab, setActiveTabs] = useState<string>("profile-infos");

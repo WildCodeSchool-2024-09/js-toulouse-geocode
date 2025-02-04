@@ -24,6 +24,10 @@ export default function AddUserVehicle({
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         );
 
         if (response.ok) {
@@ -61,6 +65,7 @@ export default function AddUserVehicle({
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(vehicleData),
     })
       .then((response) => {

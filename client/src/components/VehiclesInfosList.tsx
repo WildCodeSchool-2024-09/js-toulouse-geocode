@@ -10,6 +10,7 @@ interface VehicleInfo {
   brand: string;
   model: string;
   type: string;
+  user_id: number;
 }
 
 export default function VehiclesInfo() {
@@ -22,6 +23,10 @@ export default function VehiclesInfo() {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/vehicles/user/${auth?.user_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
 
       if (response.ok) {

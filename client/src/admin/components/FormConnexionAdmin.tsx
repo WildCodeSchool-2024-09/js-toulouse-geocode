@@ -23,18 +23,15 @@ export default function FormConnexionAdmin() {
             email: (email.current as HTMLInputElement).value,
             password: (password.current as HTMLInputElement).value,
           }),
+          credentials: "include",
         },
       );
 
       if (response.status === 200) {
-        const user = await response.json();
-
-        setAuth(user);
-
-        navigate("/admin/users");
+        setAuth({ token: "", user_id: 0 });
+        navigate("/admin");
       } else {
         setErrorMessage("L'adresse email ou le mot de passe est incorrect");
-        console.info(response);
       }
     } catch (err) {
       console.error(err);

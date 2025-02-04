@@ -11,6 +11,7 @@ function StationReservation() {
     const response = await fetch(form.action, {
       method: "POST",
       body: formData,
+      credentials: "include",
     });
     if (response.ok) {
       form.reset();

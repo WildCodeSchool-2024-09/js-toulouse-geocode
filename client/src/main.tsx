@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Import the main app component
 import App from "./App";
 import AppAdmin from "./admin/AppAdmin";
+import AdminPageContainer from "./admin/components/AdminPageContainer";
 import ConnectionAdminPage from "./admin/pages/ConnectionAdminPage";
 import StationPage from "./admin/pages/StationPage";
 import UsersPage from "./admin/pages/UsersPage";
@@ -15,6 +16,7 @@ import VehiclePage from "./admin/pages/VehiclePage";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
 import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
+import UserPageContainer from "./components/UserPageContainer";
 import GlobalContext from "./contexts/GlobalContext";
 import ContactPage from "./pages/ContactPage";
 import GeoMapPage from "./pages/GeoMapPage";
@@ -47,7 +49,7 @@ const router = createBrowserRouter(
         },
         {
           path: "/user",
-          element: <UserPage />,
+          element: <UserPageContainer>{<UserPage />}</UserPageContainer>,
         },
         {
           path: "/contact",
@@ -75,20 +77,24 @@ const router = createBrowserRouter(
       element: <AppAdmin />,
       children: [
         {
-          path: "/admin",
+          path: "/admin/login",
           element: <ConnectionAdminPage />,
         },
         {
+          path: "/admin",
+          element: <AdminPageContainer>{<StationPage />}</AdminPageContainer>,
+        },
+        {
           path: "/admin/users",
-          element: <UsersPage />,
+          element: <AdminPageContainer>{<UsersPage />}</AdminPageContainer>,
         },
         {
           path: "/admin/stations",
-          element: <StationPage />,
+          element: <AdminPageContainer>{<StationPage />}</AdminPageContainer>,
         },
         {
           path: "/admin/vehicles",
-          element: <VehiclePage />,
+          element: <AdminPageContainer>{<VehiclePage />}</AdminPageContainer>,
         },
       ],
     },
