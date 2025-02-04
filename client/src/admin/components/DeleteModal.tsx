@@ -12,7 +12,7 @@ export default function DeleteModal({
   paragraph,
   path,
 }: UserDeleteModalProps) {
-  const { setDisplayDeleteModal, itemId } = useModal();
+  const { setDisplayDeleteModal, itemId, setIsRefresh, isRefresh } = useModal();
 
   const handleDelete = async () => {
     const response = await fetch(
@@ -26,6 +26,7 @@ export default function DeleteModal({
       },
     );
     if (response.ok) {
+      setIsRefresh(!isRefresh);
       setDisplayDeleteModal(false);
     } else {
       console.error("An error occurred while deleting the user");

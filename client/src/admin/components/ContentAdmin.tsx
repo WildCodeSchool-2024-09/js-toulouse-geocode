@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import "../styles/ContentAdmin.css";
+import { useModal } from "../contexts/ShowModalProvider";
 import { useShowNav } from "../contexts/ShowNavProvider";
 import type { BaseItemType } from "../types/itemType";
 import ContentAdminItem from "./ContentAdminItem";
@@ -14,8 +15,9 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
   const [offset, setOffset] = useState(0);
   const [maxElem, seMaxElem] = useState(0);
   const [search, setSearch] = useState("");
-  const limit = 10;
+  const limit = 30;
   const { setNavVisible } = useShowNav();
+  const { isRefresh } = useModal();
 
   const handleClickNext = () => {
     setOffset(offset + limit);
@@ -60,6 +62,7 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
     );
     const dataMaxElem = await responseMaxElem.json();
     const data = await response.json();
+
     setItems(data);
     seMaxElem(dataMaxElem.length);
   }, [offset, path, search]);
@@ -67,7 +70,8 @@ export default function ContentAdmin({ titles, path }: ContentAdminProps) {
   useEffect(() => {
     setNavVisible(true);
     fetchItems();
-  }, [fetchItems, setNavVisible]);
+    isRefresh;
+  }, [setNavVisible, isRefresh, fetchItems]);
 
   return (
     <div className="content-admin-container">

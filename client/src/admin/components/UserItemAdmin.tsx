@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import arrowImg from "/images/arrow-item-img.svg";
 import trashCanImg from "/images/trash-can-img.svg";
 import type { UserItemType } from "../types/itemType";
@@ -26,7 +26,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     useModal();
   const [isVisible, setIsVisible] = useState(false);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [responsePostalcode, responseInseecode] = await Promise.all([
         fetch(
@@ -69,10 +69,22 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [item]);
+
+  useEffect(() => {
+    setUser((prev) => ({
+      ...prev,
+      firstname: item.firstname,
+      lastname: item.lastname,
+      number_of_vehicle: item.number_of_vehicles,
+      birthday: new Date(item.birthday).toLocaleDateString(),
+      sex: item.sex,
+      mail: item.mail,
+    }));
+    fetchData();
+  }, [item, fetchData]);
 
   const handleClickArrow = () => {
-    fetchData();
     setIsVisible(!isVisible);
   };
 

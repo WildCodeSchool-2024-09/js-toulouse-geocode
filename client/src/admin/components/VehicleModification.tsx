@@ -6,7 +6,7 @@ interface VehicleModificationProps {
 }
 
 function VehicleModification({ vehicleId }: VehicleModificationProps) {
-  const { setDisplayModification } = useModal();
+  const { setDisplayModification, isRefresh, setIsRefresh } = useModal();
 
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [userId, setUserId] = useState("");
@@ -29,6 +29,7 @@ function VehicleModification({ vehicleId }: VehicleModificationProps) {
       credentials: "include",
     });
     if (response.ok) {
+      setIsRefresh(!isRefresh);
       setDisplayModification(false);
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
