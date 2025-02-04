@@ -8,7 +8,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Import the main app component
 import App from "./App";
 import AppAdmin from "./admin/AppAdmin";
-import PageContainer from "./admin/components/PageContainer";
+import AdminPageContainer from "./admin/components/AdminPageContainer";
 import ConnectionAdminPage from "./admin/pages/ConnectionAdminPage";
 import StationPage from "./admin/pages/StationPage";
 import UsersPage from "./admin/pages/UsersPage";
@@ -16,6 +16,7 @@ import VehiclePage from "./admin/pages/VehiclePage";
 import FirstWelcomeScreen from "./components/FirstWelcomeScreen";
 import GetStartedScreen from "./components/GetStartedScreen";
 import SecondWelcomeScreen from "./components/SecondWelcomeScreen";
+import UserPageContainer from "./components/UserPageContainer";
 import GlobalContext from "./contexts/GlobalContext";
 import ContactPage from "./pages/ContactPage";
 import GeoMapPage from "./pages/GeoMapPage";
@@ -48,7 +49,7 @@ const router = createBrowserRouter(
         },
         {
           path: "/user",
-          element: <PageContainer>{<UserPage />}</PageContainer>,
+          element: <UserPageContainer>{<UserPage />}</UserPageContainer>,
         },
         {
           path: "/contact",
@@ -81,19 +82,19 @@ const router = createBrowserRouter(
         },
         {
           path: "/admin",
-          element: <PageContainer>{<StationPage />}</PageContainer>,
+          element: <AdminPageContainer>{<StationPage />}</AdminPageContainer>,
         },
         {
           path: "/admin/users",
-          element: <PageContainer>{<UsersPage />}</PageContainer>,
+          element: <AdminPageContainer>{<UsersPage />}</AdminPageContainer>,
         },
         {
           path: "/admin/stations",
-          element: <PageContainer>{<StationPage />}</PageContainer>,
+          element: <AdminPageContainer>{<StationPage />}</AdminPageContainer>,
         },
         {
           path: "/admin/vehicles",
-          element: <PageContainer>{<VehiclePage />}</PageContainer>,
+          element: <AdminPageContainer>{<VehiclePage />}</AdminPageContainer>,
         },
       ],
     },

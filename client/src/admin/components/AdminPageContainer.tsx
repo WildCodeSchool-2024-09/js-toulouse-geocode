@@ -5,10 +5,10 @@ type PageContainerProps = {
   children: React.ReactNode;
 };
 
-function PageContainer({ children }: PageContainerProps) {
+function AdminPageContainer({ children }: PageContainerProps) {
   const { auth } = useAuth();
 
   return <>{auth ? children : <ConnectionAdminPage />}</>;
 }
 
-export default PageContainer;
+export default AdminPageContainer;
