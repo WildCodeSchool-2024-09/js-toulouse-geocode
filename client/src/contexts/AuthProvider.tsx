@@ -30,7 +30,6 @@ export default function AuthProvider({
       return;
     }
 
-    console.info("test authentication by fetching auth.");
     fetch(`${import.meta.env.VITE_API_URL}/api/auth`, {
       method: "GET",
       credentials: "include",

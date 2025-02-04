@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // Import the main app component
 import App from "./App";
 import AppAdmin from "./admin/AppAdmin";
+import PageContainer from "./admin/components/PageContainer";
 import ConnectionAdminPage from "./admin/pages/ConnectionAdminPage";
 import StationPage from "./admin/pages/StationPage";
 import UsersPage from "./admin/pages/UsersPage";
@@ -75,20 +76,24 @@ const router = createBrowserRouter(
       element: <AppAdmin />,
       children: [
         {
-          path: "/admin",
+          path: "/admin/login",
           element: <ConnectionAdminPage />,
         },
         {
+          path: "/admin",
+          element: <PageContainer>{<StationPage />}</PageContainer>,
+        },
+        {
           path: "/admin/users",
-          element: <UsersPage />,
+          element: <PageContainer>{<UsersPage />}</PageContainer>,
         },
         {
           path: "/admin/stations",
-          element: <StationPage />,
+          element: <PageContainer>{<StationPage />}</PageContainer>,
         },
         {
           path: "/admin/vehicles",
-          element: <VehiclePage />,
+          element: <PageContainer>{<VehiclePage />}</PageContainer>,
         },
       ],
     },

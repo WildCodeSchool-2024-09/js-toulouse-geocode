@@ -114,7 +114,6 @@ const buildCookieObject = (cookieString: string | undefined) => {
 const verifyToken: RequestHandler = (req, res, next) => {
   try {
     let tokenFound = undefined;
-    console.info(`Request from ${req.url}`);
     const cookieObject = buildCookieObject(req.get("Cookie"));
 
     if (!cookieObject.token) {
