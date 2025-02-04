@@ -1,16 +1,17 @@
+import { useRefresh } from "../contexts/RefreshProvider";
 import "../styles/DeleteUserVehicle.css";
 
 interface ConfirmationDeleteVehicleProps {
   vehicleId: number;
   setIsDeletingVehicle: React.Dispatch<React.SetStateAction<boolean>>;
-  refreshVehicles: () => void;
 }
 
 export default function ConfirmationUploadPhoto({
   vehicleId,
   setIsDeletingVehicle,
-  refreshVehicles,
 }: ConfirmationDeleteVehicleProps) {
+  const { refresh, setRefresh } = useRefresh();
+
   const handleVehicleDeletion = async () => {
     try {
       const response = await fetch(
@@ -21,8 +22,8 @@ export default function ConfirmationUploadPhoto({
       );
 
       if (response.ok) {
+        setRefresh(!refresh);
         setIsDeletingVehicle(false);
-        refreshVehicles();
       }
     } catch (error) {
       console.error(error);
