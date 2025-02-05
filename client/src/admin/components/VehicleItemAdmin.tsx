@@ -17,8 +17,7 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
     owner: null as string | null,
   });
   const [isVisible, setIsVisible] = useState(false);
-  const { setDisplayModification, setDisplayDeleteModal, setItemId } =
-    useModal();
+  const { setDisplayModification, setDisplayDeleteModal, setItem } = useModal();
 
   const fetchData = useCallback(async () => {
     try {
@@ -65,7 +64,7 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
 
   const handleDelete = () => {
     setDisplayDeleteModal(true);
-    setItemId(item.id);
+    setItem(item);
   };
 
   return (
@@ -91,7 +90,7 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
           className={`vehicle-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
           onClick={() => {
             setDisplayModification(true);
-            setItemId(item.id);
+            setItem(item);
           }}
         >
           Modifier

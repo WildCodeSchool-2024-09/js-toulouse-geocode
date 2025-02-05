@@ -1,12 +1,18 @@
 import { type ReactNode, createContext, useContext, useState } from "react";
+import type {
+  StationItemType,
+  UserItemType,
+  VehicleItemType,
+} from "../types/itemType";
 
+type ItemType = StationItemType | UserItemType | VehicleItemType | null;
 interface ShowModalContextType {
   displayModification: boolean;
   setDisplayModification: (value: boolean) => void;
   displayDeleteModal: boolean;
   setDisplayDeleteModal: (value: boolean) => void;
-  itemId: number | null;
-  setItemId: (value: number | null) => void;
+  item: ItemType;
+  setItem: (value: ItemType) => void;
   isRefresh: boolean;
   setIsRefresh: (value: boolean) => void;
 }
@@ -18,7 +24,7 @@ export default function ShowModalProvider({
 }: { children: ReactNode }) {
   const [displayModification, setDisplayModification] = useState(false);
   const [displayDeleteModal, setDisplayDeleteModal] = useState(false);
-  const [itemId, setItemId] = useState<number | null>(null);
+  const [item, setItem] = useState<ItemType>(null);
   const [isRefresh, setIsRefresh] = useState(false);
   return (
     <ShowModalContext.Provider
@@ -27,8 +33,8 @@ export default function ShowModalProvider({
         setDisplayModification,
         displayDeleteModal,
         setDisplayDeleteModal,
-        itemId,
-        setItemId,
+        item,
+        setItem,
         isRefresh,
         setIsRefresh,
       }}
