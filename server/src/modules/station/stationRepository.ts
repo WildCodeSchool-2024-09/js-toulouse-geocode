@@ -14,13 +14,13 @@ import insertDataRepository from "../insertData/insertDataRepository";
 
 const selectStatement = `select 
         st.id as id, st.name as name, st.address as address,
+        st.identifier,
         si.name as sign_name, op.name as operator_name,
         pr.name as provider_name,
         pc.code as postalcode, ci.name as city_name, 
         de.name as department_name, re.name as region_name,
         gc.latitude as latitude, gc.longitude as longitude,
         st.number_pdc as number_pdc,
-        pdc.name as pdc_name, pdc.power_max as pdc_power_max, pdc.type as pdc_type,
         st.access_charging as access_charging, st.accessibility as accessibility,
         st.update_date_time as update_date_time,
         st.source as source
@@ -33,8 +33,7 @@ const selectStatement = `select
         inner join city ci on ic.city_id = ci.id
         inner join department de on ci.department_id = de.id
         inner join region re on de.region_id = re.id
-        inner join geo_coords gc on st.geo_coords_id = gc.id
-        inner join pdc on st.pdc_id = pdc.id`;
+        inner join geo_coords gc on st.geo_coords_id = gc.id`;
 
 const whereStatementLocation =
   "where gc.latitude between ? and ? and gc.longitude between ? and ?";
@@ -143,17 +142,13 @@ class StationRepository {
       station.geo_coords.latitude.toString(),
       station.geo_coords.longitude.toString(),
     );
-    const pdcId = await insertDataRepository.insertPdcUsingElements(
-      station.pdc.name,
-      station.pdc.power_max.toString(10),
-      station.pdc.type,
-    );
 
     const [result] = await databaseClient.query<Result>(
-      "update station set name = ?, address = ?, sign_id = ?, operator_id = ?, provider_id = ?, postalcode_id = ?, insee_code_id = ?, geo_coords_id = ?, number_pdc = ?, pdc_id = ?, access_charging = ?, accessibility = ?, update_date_time = ?, source = ?where id = ?",
+      "update station set name = ?, address = ?, identifier = ?, sign_id = ?, operator_id = ?, provider_id = ?, postalcode_id = ?, insee_code_id = ?, geo_coords_id = ?, number_pdc = ?, access_charging = ?, accessibility = ?, update_date_time = ?, source = ?where id = ?",
       [
         station.name,
         station.address,
+        station.identifier,
         signId,
         operatorId,
         providerId,
@@ -161,7 +156,6 @@ class StationRepository {
         inseeCodeId,
         geoCoordsId,
         station.number_pdc.toString(10),
-        pdcId,
         station.access_charging,
         station.accessibility,
         station.update_date_time,
@@ -169,6 +163,7 @@ class StationRepository {
         station.id,
       ],
     );
+
     return result;
   }
 
@@ -187,6 +182,7 @@ function transform(item: RowDataPacket): StationProps {
     item.id,
     item.name,
     item.address,
+    item.identifier,
     item.sign_name,
     item.operator_name,
     item.provider_name,
@@ -198,7 +194,6 @@ function transform(item: RowDataPacket): StationProps {
     ),
     new GeoLocationProps(item.latitude, item.longitude),
     item.number_pdc,
-    new PdcProps(item.pdc_name, item.pdc_power_max, item.pdc_type),
     item.access_charging,
     item.accessibility,
     item.update_date_time,

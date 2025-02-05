@@ -278,6 +278,7 @@ class InsertDataRepository {
     return await this.insertStationWithElements(
       elem.n_station,
       elem.ad_station,
+      elem.id_station,
       elem.nbre_pdc,
       elem.acces_recharge,
       elem.accessibilite,
@@ -296,6 +297,7 @@ class InsertDataRepository {
   async insertStationWithElements(
     name: string,
     address: string,
+    identifier: string,
     number_of_pdcs: string,
     access_charging: string,
     accessibility: string,
@@ -310,26 +312,44 @@ class InsertDataRepository {
     pdcId: number,
   ) {
     try {
-      const [result] = await databaseClient.query<Result>(
-        "INSERT INTO station (name, address, sign_id, operator_id, provider_id, postalcode_id, insee_code_id, geo_coords_id, number_pdc, pdc_id, access_charging, accessibility, update_date_time, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          name,
-          address,
-          signId,
-          operatorId,
-          providerId,
-          postalcodeId,
-          inseeCodeId,
-          geoCoordsId,
-          number_of_pdcs,
-          pdcId,
-          access_charging,
-          accessibility,
-          update_date_time,
-          source,
-        ],
+      let station_id: number;
+
+      const [row] = await databaseClient.query<Rows>(
+        "SELECT * FROM station WHERE identifier = ?",
+        [identifier],
       );
-      return result.insertId;
+
+      if (row.length > 0) {
+        station_id = row[0].id;
+      } else {
+        const [result] = await databaseClient.query<Result>(
+          "INSERT INTO station (name, address, identifier, sign_id, operator_id, provider_id, postalcode_id, insee_code_id, geo_coords_id, number_pdc, access_charging, accessibility, update_date_time, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            name,
+            address,
+            identifier,
+            signId,
+            operatorId,
+            providerId,
+            postalcodeId,
+            inseeCodeId,
+            geoCoordsId,
+            number_of_pdcs,
+            access_charging,
+            accessibility,
+            update_date_time,
+            source,
+          ],
+        );
+        station_id = result.insertId;
+      }
+
+      await databaseClient.query<Result>(
+        "update pdc set station_id = ? where id = ?",
+        [station_id, pdcId],
+      );
+
+      return station_id;
     } catch (error) {
       console.error(error);
     }

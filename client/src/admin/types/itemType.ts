@@ -5,6 +5,7 @@ export interface BaseItemType {
 export interface StationItemType extends BaseItemType {
   name: string;
   address: string;
+  identifier: string;
   sign_id: number;
   operator_id: number;
   provider_id: number;
