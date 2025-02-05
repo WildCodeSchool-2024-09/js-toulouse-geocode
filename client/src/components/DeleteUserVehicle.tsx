@@ -1,5 +1,6 @@
 import { useRefresh } from "../contexts/RefreshProvider";
 import "../styles/DeleteUserVehicle.css";
+import { useAuth } from "../contexts/AuthProvider";
 
 interface ConfirmationDeleteVehicleProps {
   vehicleId: number;
@@ -12,12 +13,18 @@ export default function ConfirmationUploadPhoto({
 }: ConfirmationDeleteVehicleProps) {
   const { refresh, setRefresh } = useRefresh();
 
+  const { auth } = useAuth();
+
   const handleVehicleDeletion = async () => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/vehicles/${vehicleId}`,
         {
+          headers: {
+            "Content-Type": "application/json",
+          },
           method: "DELETE",
+          body: JSON.stringify({ user_id: auth?.user_id }),
           credentials: "include",
         },
       );

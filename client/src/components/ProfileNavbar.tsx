@@ -1,15 +1,15 @@
 import "../styles/ProfileNavbar.css";
 
 interface ProfileNavbarProps {
+  userNumberOfVehicle: number;
   activeTab: string;
   setActiveTab: (tab: string) => void;
-  userNumberOfVehicle: number;
 }
 
 export default function ProfileNavbar({
+  userNumberOfVehicle,
   activeTab,
   setActiveTab,
-  userNumberOfVehicle,
 }: ProfileNavbarProps) {
   return (
     <div className="profile-navbar-container">
