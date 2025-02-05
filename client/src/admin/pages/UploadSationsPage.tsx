@@ -39,7 +39,7 @@ export default function UploadSationsPage() {
           <div>
             <p>{file.name}</p>
             <button type="button" onClick={() => updateDatabase(file)}>
-              Mettre à jour la base de donnée
+              Mettre à jour
             </button>
           </div>
         )}
