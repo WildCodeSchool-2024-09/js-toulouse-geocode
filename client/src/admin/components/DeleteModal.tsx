@@ -12,18 +12,34 @@ export default function DeleteModal({
   paragraph,
   path,
 }: UserDeleteModalProps) {
-  const { setDisplayDeleteModal, itemId, setIsRefresh, isRefresh } = useModal();
+  const { setDisplayDeleteModal, item, setIsRefresh, isRefresh } = useModal();
 
   const handleDelete = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/${path}/${itemId}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+    let response: Response;
+    if (path === "vehicles" && item && "user_id" in item) {
+      response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/${path}/${item?.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ user_id: item.user_id }),
         },
-      },
-    );
+      );
+    } else {
+      response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/${path}/${item?.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        },
+      );
+    }
     if (response.ok) {
       setIsRefresh(!isRefresh);
       setDisplayDeleteModal(false);

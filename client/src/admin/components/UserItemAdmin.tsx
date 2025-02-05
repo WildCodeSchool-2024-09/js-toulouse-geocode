@@ -22,8 +22,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     city: null,
   });
 
-  const { setDisplayModification, setDisplayDeleteModal, setItemId } =
-    useModal();
+  const { setDisplayModification, setDisplayDeleteModal, setItem } = useModal();
   const [isVisible, setIsVisible] = useState(false);
 
   const fetchData = useCallback(async () => {
@@ -31,9 +30,17 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
       const [responsePostalcode, responseInseecode] = await Promise.all([
         fetch(
           `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postal_code_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         ),
         fetch(
           `${import.meta.env.VITE_API_URL}/api/inseecodes/${item.insee_code_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         ),
       ]);
 
@@ -44,6 +51,10 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
 
       const responseCity = await fetch(
         `${import.meta.env.VITE_API_URL}/api/cities/${dataInseecode.city_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
 
       const dataCity = await responseCity.json();
@@ -78,7 +89,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
 
   const handleDelete = () => {
     setDisplayDeleteModal(true);
-    setItemId(item.id);
+    setItem(item);
   };
 
   return (
@@ -104,7 +115,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
           className={`user-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
           onClick={() => {
             setDisplayModification(true);
-            setItemId(item.id);
+            setItem(item);
           }}
         >
           Modifier

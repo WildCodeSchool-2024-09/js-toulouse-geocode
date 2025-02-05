@@ -29,24 +29,60 @@ export default function ProfileInfo() {
   const [isDeletingProfile, setIsDeletingProfile] = useState(false);
   const [postalcode, setPostalcode] = useState<number | null>(null);
 
+  const disconnect = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/logout`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        throw new Error("Une erreur est survenue lors de la déconnexion");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getProfileInfos = useCallback(async () => {
     try {
       const userResponse = await fetch(
         `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
       const userData = await userResponse.json();
 
       const [postalcodeData, inseeCodeData] = await Promise.all([
         fetch(
           `${import.meta.env.VITE_API_URL}/api/postalcodes/${userData.postal_code_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         ).then((res) => res.json()),
         fetch(
           `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         ).then((res) => res.json()),
       ]);
 
       const cityResponse = await fetch(
         `${import.meta.env.VITE_API_URL}/api/cities/${inseeCodeData.city_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
       const cityData = await cityResponse.json();
 
@@ -76,6 +112,10 @@ export default function ProfileInfo() {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/get-photo/${auth?.user_id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
 
       if (!response.ok) {
@@ -114,7 +154,11 @@ export default function ProfileInfo() {
             >
               Modifier
             </button>
-            <button type="button" className="disconnect-profile-button">
+            <button
+              type="button"
+              className="disconnect-profile-button"
+              onClick={disconnect}
+            >
               Se déconnecter
             </button>
             <button

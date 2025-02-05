@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import type { StationProps } from "../../../../server/common/types/StationProps";
 import { useModal } from "../contexts/ShowModalProvider";
-import type { cityType } from "../types/itemType";
+import type { BaseItemType, cityType } from "../types/itemType";
 
 interface StationModificationProps {
-  stationId: number | null;
+  station: BaseItemType | null;
 }
 
-function StationModification({ stationId }: StationModificationProps) {
+function StationModification({ station }: StationModificationProps) {
   const { setDisplayModification, isRefresh, setIsRefresh } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const operatorInputElement = useRef<HTMLInputElement>(null);
@@ -58,6 +58,7 @@ function StationModification({ stationId }: StationModificationProps) {
     response = await fetch(form.action, {
       method: "PUT",
       body: formData,
+      credentials: "include",
     });
     if (response.ok) {
       setIsRefresh(!isRefresh);
@@ -96,11 +97,14 @@ function StationModification({ stationId }: StationModificationProps) {
 
   const fetchUserInfos = () => {
     // Fetch user infos
-    if (stationId == null) {
+    if (station == null) {
       return;
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/api/stations/${stationId}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/stations/${station.id}`, {
+      method: "GET",
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((data) => {
         const datareceived: StationProps = data as StationProps;
@@ -172,7 +176,7 @@ function StationModification({ stationId }: StationModificationProps) {
         </caption>
         <section>
           <form
-            action={`${import.meta.env.VITE_API_URL}/api/stations/${stationId}`}
+            action={`${import.meta.env.VITE_API_URL}/api/stations/${station?.id}`}
             method="put"
             onSubmit={handleSubmit}
           >

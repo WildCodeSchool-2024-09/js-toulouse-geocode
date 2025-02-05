@@ -159,9 +159,9 @@ const correctionData = async (
 
     if (elem.puiss_max === "") elem.puiss_max = "22.0";
     if (elem.nbre_pdc === "") elem.nbre_pdc = "1";
-
-    return { ...elem, code_postal: codePostal };
-  } catch (error) {}
+  } catch (error) {
+    elem.ville = "";
+  }
 
   return { ...elem, code_postal: codePostal };
 };

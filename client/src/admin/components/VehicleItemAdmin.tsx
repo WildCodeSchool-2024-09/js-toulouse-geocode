@@ -17,14 +17,19 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
     owner: null as string | null,
   });
   const [isVisible, setIsVisible] = useState(false);
-  const { setDisplayModification, setDisplayDeleteModal, setItemId } =
-    useModal();
+  const { setDisplayModification, setDisplayDeleteModal, setItem } = useModal();
 
   const fetchData = useCallback(async () => {
     try {
       const [responseOwner, responseVehicle] = await Promise.all([
-        fetch(`${import.meta.env.VITE_API_URL}/api/users/${item.user_id}`),
-        fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${item.id}`),
+        fetch(`${import.meta.env.VITE_API_URL}/api/users/${item.user_id}`, {
+          method: "GET",
+          credentials: "include",
+        }),
+        fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${item.id}`, {
+          method: "GET",
+          credentials: "include",
+        }),
       ]);
 
       const [dataOwner, dataVehicle] = await Promise.all([
@@ -59,7 +64,7 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
 
   const handleDelete = () => {
     setDisplayDeleteModal(true);
-    setItemId(item.id);
+    setItem(item);
   };
 
   return (
@@ -85,7 +90,7 @@ export default function VehicleItemAdmin({ item }: VehicleItemAdminProps) {
           className={`vehicle-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
           onClick={() => {
             setDisplayModification(true);
-            setItemId(item.id);
+            setItem(item);
           }}
         >
           Modifier

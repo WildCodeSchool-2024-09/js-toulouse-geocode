@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 interface AuthType {
   token: string;
@@ -17,10 +17,33 @@ export default function AuthProvider({
 }: { children: React.ReactNode }) {
   const [auth, setAuth] = useState<AuthType | null>(null);
 
+  const memoAuth = useMemo(
+    () => ({
+      auth,
+      setAuth,
+    }),
+    [auth],
+  );
+
+  useEffect(() => {
+    if (auth) {
+      return;
+    }
+
+    fetch(`${import.meta.env.VITE_API_URL}/api/auth`, {
+      method: "GET",
+      credentials: "include",
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setAuth({ token: "", user_id: data.user_id });
+        });
+      }
+    });
+  }, [auth]);
+
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={memoAuth}>{children}</AuthContext.Provider>
   );
 }
 

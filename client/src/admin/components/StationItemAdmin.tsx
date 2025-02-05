@@ -32,8 +32,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
   });
 
   const [isVisible, setIsVisible] = useState(false);
-  const { setDisplayModification, setItemId, setDisplayDeleteModal } =
-    useModal();
+  const { setDisplayModification, setItem, setDisplayDeleteModal } = useModal();
 
   const fetchData = useCallback(async () => {
     try {
@@ -46,15 +45,33 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
       ] = await Promise.all([
         fetch(
           `${import.meta.env.VITE_API_URL}/api/postalcodes/${item.postalcode_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         ),
         fetch(
           `${import.meta.env.VITE_API_URL}/api/providers/${item.provider_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         ),
-        fetch(`${import.meta.env.VITE_API_URL}/api/signs/${item.sign_id}`),
+        fetch(`${import.meta.env.VITE_API_URL}/api/signs/${item.sign_id}`, {
+          method: "GET",
+          credentials: "include",
+        }),
         fetch(
           `${import.meta.env.VITE_API_URL}/api/operators/${item.operator_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         ),
-        fetch(`${import.meta.env.VITE_API_URL}/api/outlets/${item.pdc_id}`),
+        fetch(`${import.meta.env.VITE_API_URL}/api/outlets/${item.pdc_id}`, {
+          method: "GET",
+          credentials: "include",
+        }),
       ]);
 
       const [dataPostalcode, dataProvider, dataSign, dataOperator, dataOutlet] =
@@ -99,7 +116,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
 
   const handleDelete = () => {
     setDisplayDeleteModal(true);
-    setItemId(item.id);
+    setItem(item);
   };
 
   return (
@@ -125,7 +142,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
           className={`station-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
           onClick={() => {
             setDisplayModification(true);
-            setItemId(item.id);
+            setItem(item);
           }}
         >
           Modifier

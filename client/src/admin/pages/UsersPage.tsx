@@ -6,12 +6,12 @@ import UserModification from "../components/UserModification";
 import { useModal } from "../contexts/ShowModalProvider";
 
 export default function UsersPage() {
-  const { displayModification, displayDeleteModal, itemId } = useModal();
+  const { displayModification, displayDeleteModal, item } = useModal();
   return (
     <div className="users-page-container">
       <HeaderAdminPage title="Gestion des Utilisateurs" />
       <ContentAdmin titles={["Nom", "Prénom"]} path="users" />
-      {displayModification && <UserModification userId={itemId} />}
+      {displayModification && <UserModification user={item} />}
       {displayDeleteModal && (
         <DeleteModal
           title="de l'utilisateur"

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useModal } from "../contexts/ShowModalProvider";
-import type { cityType } from "../types/itemType";
+import type { BaseItemType, cityType } from "../types/itemType";
 
 interface UserModificationProps {
-  userId: number | null;
+  user: BaseItemType | null;
 }
 
-function UserModification({ userId }: UserModificationProps) {
+function UserModification({ user }: UserModificationProps) {
   const { setDisplayModification, setIsRefresh, isRefresh } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -69,6 +69,7 @@ function UserModification({ userId }: UserModificationProps) {
     response = await fetch(form.action, {
       method: "PUT",
       body: formData,
+      credentials: "include",
     });
     if (response.ok) {
       setIsRefresh(!isRefresh);
@@ -147,24 +148,39 @@ function UserModification({ userId }: UserModificationProps) {
   };
 
   const fetchUserInfos = () => {
-    if (!userId) return;
-    fetch(`${import.meta.env.VITE_API_URL}/api/users/${userId}`)
+    if (!user) return;
+    fetch(`${import.meta.env.VITE_API_URL}/api/users/${user.id}`, {
+      method: "GET",
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((userData) => {
         fetch(
           `${import.meta.env.VITE_API_URL}/api/postalcodes/${
             userData.postal_code_id
           }`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         )
           .then((postalcodeResponse) => postalcodeResponse.json())
           .then((postalcodeData) => {
             fetch(
               `${import.meta.env.VITE_API_URL}/api/inseecodes/${userData.insee_code_id}`,
+              {
+                method: "GET",
+                credentials: "include",
+              },
             )
               .then((inseeCodeResponse) => inseeCodeResponse.json())
               .then((inseeCodeData) => {
                 fetch(
                   `${import.meta.env.VITE_API_URL}/api/cities/${inseeCodeData.city_id}`,
+                  {
+                    method: "GET",
+                    credentials: "include",
+                  },
                 )
                   .then((cityResponse) => cityResponse.json())
                   .then((cityData) => {
@@ -197,7 +213,7 @@ function UserModification({ userId }: UserModificationProps) {
         </caption>
         <section>
           <form
-            action={`${import.meta.env.VITE_API_URL}/api/users/${userId}`}
+            action={`${import.meta.env.VITE_API_URL}/api/users/${user?.id}`}
             method="post"
             onSubmit={handleSubmit}
           >

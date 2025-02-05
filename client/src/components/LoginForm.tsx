@@ -24,6 +24,7 @@ export default function LoginForm() {
             email: (emailRef.current as HTMLInputElement).value,
             password: (passwordRef.current as HTMLInputElement).value,
           }),
+          credentials: "include",
         },
       );
 
@@ -35,7 +36,6 @@ export default function LoginForm() {
         navigate("/user");
       } else {
         setErrorMessage("L'adresse email ou le mot de passe est incorrect");
-        console.info(response);
       }
     } catch (err) {
       console.error(err);

@@ -2,17 +2,14 @@ import closeCrossSvg from "/images/close.svg";
 import "../styles/AddUserVehicle.css";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
+import { useRefresh } from "../contexts/RefreshProvider";
 
 interface AddUserVehicleProps {
   setIsAddingVehicle: (value: boolean) => void;
-  setRefreshNavbar: (value: boolean) => void;
-  refreshVehicles: () => void;
 }
 
 export default function AddUserVehicle({
   setIsAddingVehicle,
-  setRefreshNavbar,
-  refreshVehicles,
 }: AddUserVehicleProps) {
   const { auth } = useAuth();
   const brandRef = useRef<HTMLInputElement>(null);
@@ -20,12 +17,17 @@ export default function AddUserVehicle({
   const typeRef = useRef<HTMLInputElement>(null);
 
   const [userNumberOfVehicle, setUserNumberOfVehicle] = useState<number>(0);
+  const { refresh, setRefresh } = useRefresh();
 
   useEffect(() => {
     (async () => {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/users/${auth?.user_id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
         );
 
         if (response.ok) {
@@ -63,13 +65,13 @@ export default function AddUserVehicle({
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(vehicleData),
     })
       .then((response) => {
         if (response.ok) {
           setIsAddingVehicle(false);
-          refreshVehicles();
-          setRefreshNavbar(true);
+          setRefresh(!refresh);
         } else {
           alert("Erreur lors de l'ajout du véhicule");
         }
@@ -125,13 +127,7 @@ export default function AddUserVehicle({
             ref={typeRef}
             required
           />
-          <button
-            className="add-user-vehicule-button"
-            type="submit"
-            onClick={() => {
-              setRefreshNavbar(true);
-            }}
-          >
+          <button className="add-user-vehicule-button" type="submit">
             Ajouter
           </button>
         </form>

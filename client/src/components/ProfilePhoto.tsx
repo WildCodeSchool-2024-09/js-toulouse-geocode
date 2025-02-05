@@ -78,6 +78,7 @@ export default function ProfilePhoto({
         {
           method: "PUT",
           body: formData,
+          credentials: "include",
         },
       );
       if (!response.ok) {
@@ -95,6 +96,7 @@ export default function ProfilePhoto({
         `${import.meta.env.VITE_API_URL}/api/delete-photo/${auth?.user_id}`,
         {
           method: "DELETE",
+          credentials: "include",
         },
       );
       setPhotoFileUrl(null);
