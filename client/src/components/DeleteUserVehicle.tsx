@@ -15,10 +15,6 @@ export default function ConfirmationUploadPhoto({
 
   const { auth } = useAuth();
 
-  const vehicleData = {
-    user_id: auth?.user_id,
-  };
-
   const handleVehicleDeletion = async () => {
     try {
       const response = await fetch(
@@ -28,7 +24,7 @@ export default function ConfirmationUploadPhoto({
             "Content-Type": "application/json",
           },
           method: "DELETE",
-          body: JSON.stringify(vehicleData),
+          body: JSON.stringify({ user_id: auth?.user_id }),
           credentials: "include",
         },
       );
