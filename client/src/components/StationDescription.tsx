@@ -10,8 +10,8 @@ function StationDescription() {
   return (
     <>
       <section className="station-pdc">
-        <span>{`Type: ${stationsLocationsContext.station.pdc.type} `}</span>
-        <span className="fire-brush">{`max ${stationsLocationsContext.station.pdc.power_max.toFixed(1)} kW`}</span>
+        <span>{`Type: ${"stationsLocationsContext.station.pdc.type"} `}</span>
+        <span className="fire-brush">{`max ${"stationsLocationsContext.station.pdc.power_max.toFixed(1)"} kW`}</span>
       </section>
       <section className="station-dispo">
         {`${stationsLocationsContext.station.number_pdc} place(s) disponible(s)`}

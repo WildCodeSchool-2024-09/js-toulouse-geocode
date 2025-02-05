@@ -65,13 +65,13 @@ export class StationProps {
   id: number;
   name: string;
   address: string;
+  identifier: string;
   sign_name: string;
   operator_name: string;
   provider_name: string;
   area: AdminstrativeAreaProps;
   geo_coords: GeoLocationProps;
   number_pdc: number;
-  pdc: PdcProps;
   access_charging: string;
   accessibility: string;
   update_date_time: string;
@@ -81,13 +81,13 @@ export class StationProps {
     id = -1,
     name = "",
     address = "",
+    identifier = "",
     sign_name = "",
     operator_name = "",
     provider_name = "",
     area = new AdminstrativeAreaProps(),
     geo_coords = new GeoLocationProps(),
     number_pdc = -1,
-    pdc = new PdcProps(),
     access_charging = "",
     accessibility = "",
     update_date_time = "",
@@ -96,13 +96,13 @@ export class StationProps {
     this.id = id;
     this.name = name;
     this.address = address;
+    this.identifier = identifier;
     this.sign_name = sign_name;
     this.operator_name = operator_name;
     this.provider_name = provider_name;
     this.area = area;
     this.geo_coords = geo_coords;
     this.number_pdc = number_pdc;
-    this.pdc = pdc;
     this.access_charging = access_charging;
     this.accessibility = accessibility;
     this.update_date_time = update_date_time;
@@ -114,6 +114,7 @@ export class StationPropsWithIndex {
   id: number;
   name: string;
   address: string;
+  identifier: string;
   sign_id: number;
   operator_id: number;
   provider_id: number;
@@ -129,6 +130,7 @@ export class StationPropsWithIndex {
     id = -1,
     name = "",
     address = "",
+    identifier = "",
     sign_id = -1,
     operator_id = -1,
     provider_id = -1,
@@ -143,6 +145,7 @@ export class StationPropsWithIndex {
     this.id = id;
     this.name = name;
     this.address = address;
+    this.identifier = identifier;
     this.sign_id = sign_id;
     this.operator_id = operator_id;
     this.provider_id = provider_id;

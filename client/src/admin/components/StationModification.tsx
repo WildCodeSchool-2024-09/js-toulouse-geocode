@@ -117,7 +117,7 @@ function StationModification({ stationId }: StationModificationProps) {
           stationNameInputElement.current.value = datareceived.name;
         }
         if (stationIdentifierInputElement.current) {
-          stationIdentifierInputElement.current.value = datareceived.pdc.name;
+          stationIdentifierInputElement.current.value = "datareceived.pdc.name";
         }
         if (addressInputElement.current) {
           addressInputElement.current.value = datareceived.address;
@@ -142,10 +142,10 @@ function StationModification({ stationId }: StationModificationProps) {
         }
         if (pdcPowerMaxInputElement.current) {
           pdcPowerMaxInputElement.current.value =
-            datareceived.pdc.power_max.toString();
+            "datareceived.pdc.power_max.toString()";
         }
         if (pdcTypeInputElement.current) {
-          pdcTypeInputElement.current.value = datareceived.pdc.type;
+          pdcTypeInputElement.current.value = "datareceived.pdc.type";
         }
         if (accessChargingInputElement.current) {
           accessChargingInputElement.current.value =

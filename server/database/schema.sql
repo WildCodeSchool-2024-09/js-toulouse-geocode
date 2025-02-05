@@ -50,17 +50,11 @@ create table geo_coords (
   longitude float
 );
 
-create table pdc (
-  id int primary key auto_increment not null,
-  name varchar(80) not null,
-  power_max float,
-  type text
-);
-
 create table station (
   id int primary key auto_increment not null,
   name varchar(255) not null,
   address text,
+  identifier text,
   sign_id int,
   foreign key(sign_id) references sign(id),
   operator_id int,
@@ -74,12 +68,19 @@ create table station (
   geo_coords_id int,
   foreign key(geo_coords_id) references geo_coords(id),
   number_pdc int,
-  pdc_id int,
-  foreign key(pdc_id) references pdc(id),
   access_charging varchar(255),
   accessibility varchar(80),
   update_date_time datetime,
   source text
+);
+
+create table pdc (
+  id int primary key auto_increment not null,
+  name varchar(80) not null,
+  power_max float,
+  type text,
+  station_id int,
+  foreign key(station_id) references station(id)
 );
 
 create table user (
