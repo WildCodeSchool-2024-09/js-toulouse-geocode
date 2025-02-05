@@ -61,7 +61,7 @@ const updateVehicleInfos: RequestHandler = async (req, res, next) => {
 
 const add: RequestHandler = async (req, res, next) => {
   try {
-    const { brand, model, type, user_id, userNumberOfVehicle } = req.body;
+    const { brand, model, type, user_id } = req.body;
 
     const insertId = await vehicleRepository.create(
       brand,
@@ -70,7 +70,7 @@ const add: RequestHandler = async (req, res, next) => {
       user_id,
     );
 
-    await userRepository.updateNumberOfVehicles(user_id, userNumberOfVehicle);
+    await userRepository.updateNumberOfVehicles(user_id, "+");
 
     res.status(201).json({ insertId });
   } catch (error) {
@@ -81,8 +81,10 @@ const add: RequestHandler = async (req, res, next) => {
 const destroy: RequestHandler = async (req, res, next) => {
   try {
     const id = Number.parseInt(req.params.id);
+    const { user_id } = req.body;
 
     await vehicleRepository.delete(id);
+    await userRepository.updateNumberOfVehicles(user_id, " - ");
 
     res.sendStatus(204);
   } catch (error) {

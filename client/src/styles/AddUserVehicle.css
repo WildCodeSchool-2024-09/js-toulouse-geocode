@@ -11,11 +11,17 @@
 
 .modal-user-vehicle-add {
   background-color: var(--beige-color);
-  margin-top: 10%;
+  margin-top: 3rem;
   color: var(--chicago-color-700);
   width: 90%;
   padding: 1rem;
   border-radius: 0.5rem;
+}
+
+@media screen and (width > 832px) {
+  .modal-user-vehicle-add {
+    padding: 2rem;
+  }
 }
 
 .add-vehicle-header {
@@ -28,11 +34,23 @@
   font-size: 1rem;
 }
 
+@media screen and (width > 832px) {
+  .add-vehicle-header h2 {
+    font-size: 2rem;
+  }
+}
+
 .add-user-vehicle-button {
   border: none;
   background: none;
   width: fit-content;
   height: fit-content;
+}
+
+@media screen and (width > 832px) {
+  .add-user-vehicle-button {
+    font-size: 1.5rem;
+  }
 }
 
 .add-user-vehicle-button img {
@@ -53,10 +71,24 @@
   font-size: 0.7rem;
 }
 
+@media screen and (width > 832px) {
+  .add-user-vehicle-form label {
+    margin-top: 1rem;
+    font-size: 1.3rem;
+  }
+}
+
 .add-user-vehicle-form input {
   padding: 0.3rem;
   border-radius: 0.3rem;
   border: 1px solid var(--chicago-color-700);
+}
+
+@media screen and (width > 832px) {
+  .add-user-vehicle-form input {
+    padding: 0.6rem;
+    border-radius: 0.5rem;
+  }
 }
 
 .add-user-vehicule-button {
