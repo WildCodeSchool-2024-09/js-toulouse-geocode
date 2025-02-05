@@ -29,6 +29,26 @@ export default function ProfileInfo() {
   const [isDeletingProfile, setIsDeletingProfile] = useState(false);
   const [postalcode, setPostalcode] = useState<number | null>(null);
 
+  const disconnect = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/logout`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        throw new Error("Une erreur est survenue lors de la déconnexion");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getProfileInfos = useCallback(async () => {
     try {
       const userResponse = await fetch(
@@ -134,7 +154,11 @@ export default function ProfileInfo() {
             >
               Modifier
             </button>
-            <button type="button" className="disconnect-profile-button">
+            <button
+              type="button"
+              className="disconnect-profile-button"
+              onClick={disconnect}
+            >
               Se déconnecter
             </button>
             <button
