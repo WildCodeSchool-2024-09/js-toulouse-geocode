@@ -72,13 +72,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
             credentials: "include",
           },
         ),
-        fetch(
-          `${import.meta.env.VITE_API_URL}/api/stations/outlet/${item.id}`,
-          {
-            method: "GET",
-            credentials: "include",
-          },
-        ),
+        fetch(`${import.meta.env.VITE_API_URL}/api/stations/outlet/${item.id}`),
       ]);
 
       const [dataPostalcode, dataProvider, dataSign, dataOperator, dataOutlet] =

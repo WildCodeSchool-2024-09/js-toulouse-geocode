@@ -18,10 +18,6 @@ function StationDescription() {
   useEffect(() => {
     fetch(
       `${import.meta.env.VITE_API_URL}/api/stations/outlet/${stationsLocationsContext.station.id}`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
     )
       .then((response) => response.json())
       .then((data) => {
