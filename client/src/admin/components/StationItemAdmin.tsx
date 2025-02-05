@@ -9,10 +9,16 @@ interface StationItemAdminProps {
   item: StationItemType;
 }
 
+interface OutletPros {
+  power_max: number;
+  type: string;
+}
+
 export default function StationItemAdmin({ item }: StationItemAdminProps) {
   const [station, setStation] = useState({
     name: item.name,
     address: item.address,
+    identifier: item.identifier,
     sign: null as string | null,
     operator: null as string | null,
     provider: null as string | null,
@@ -20,8 +26,6 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
     geo_coords: null,
     number_outlet: item.number_pdc,
     outlet: null as {
-      id: number;
-      name: string;
       power_max: number;
       type: string;
     } | null,
@@ -68,10 +72,13 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
             credentials: "include",
           },
         ),
-        fetch(`${import.meta.env.VITE_API_URL}/api/outlets/${item.pdc_id}`, {
-          method: "GET",
-          credentials: "include",
-        }),
+        fetch(
+          `${import.meta.env.VITE_API_URL}/api/stations/outlet/${item.id}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        ),
       ]);
 
       const [dataPostalcode, dataProvider, dataSign, dataOperator, dataOutlet] =
@@ -83,13 +90,27 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
           responseOutlet.json(),
         ]);
 
+      console.info(
+        `${Math.max(...dataOutlet.map((outlet: OutletPros) => outlet.power_max))}`,
+      );
       setStation((prev) => ({
         ...prev,
         sign: dataSign.name,
         provider: dataProvider.name,
         operator: dataOperator.name,
-        outlet: dataOutlet,
         postalcode: dataPostalcode.code,
+        outlet: {
+          power_max: Math.max(
+            ...dataOutlet.map((outlet: OutletPros) => outlet.power_max),
+          ),
+          type: dataOutlet
+            .map((outlet: OutletPros) => outlet.type)
+            .filter(
+              (value: OutletPros, index: number, self: OutletPros[]) =>
+                self.indexOf(value) === index,
+            )
+            .join(", "),
+        },
       }));
     } catch (error) {
       console.error(error);
@@ -101,6 +122,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
       ...prev,
       name: item.name,
       address: item.address,
+      identifier: item.identifier,
       number_outlet: item.number_pdc,
       access_charging: item.access_charging,
       accessibility: item.accessibility,
@@ -186,7 +208,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
           <article>
             <p>Identifiant station:</p>
             <p className="station-item-admin-full-info-value">
-              {station.outlet?.name}
+              {station.identifier}
             </p>
           </article>
           <article>

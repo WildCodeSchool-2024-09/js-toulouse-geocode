@@ -32,6 +32,7 @@ router.post("/api/items", itemActions.add);
 router.post("/api/csv", csvManagementActions.addStations);
 
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
+router.get("/api/stations/outlet/:id", outletActions.readAllByStation);
 
 router.get("/api/users/verify-email", userActions.verifyEmail);
 router.post("/api/users", authActions.hashPassword, userActions.add);

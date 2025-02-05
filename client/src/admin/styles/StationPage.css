@@ -196,31 +196,15 @@
 }
 
 .group:has(#number-of-pdcs) {
-  grid-column: span 2;
+  grid-column: span 3;
 }
 
 .group:has(#number-of-pdcs) > input {
   max-width: unset !important;
 }
 
-.group:has(#pcd-power-max) {
-  grid-column: span 2;
-}
-
-.group:has(#pcd-power-max) > input {
-  max-width: unset !important;
-}
-
-.group:has(#pdc-type) {
-  grid-column: span 2;
-}
-
-.group:has(#pdc-type) > input {
-  max-width: unset !important;
-}
-
 .group:has(#access-charging) {
-  grid-column: span 2;
+  grid-column: span 3;
 }
 
 .group:has(#access-charging) > input {
@@ -228,7 +212,7 @@
 }
 
 .group:has(#accessibility) {
-  grid-column: span 2;
+  grid-column: span 3;
 }
 
 .group:has(#accessibility) > input {
@@ -236,7 +220,7 @@
 }
 
 .group:has(#source) {
-  grid-column: span 2;
+  grid-column: span 3;
 }
 
 .group:has(#source) > input {

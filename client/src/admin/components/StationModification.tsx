@@ -20,8 +20,6 @@ function StationModification({ station }: StationModificationProps) {
   const latitudeInputElement = useRef<HTMLInputElement>(null);
   const longitudeInputElement = useRef<HTMLInputElement>(null);
   const numberOfPdcsInputElement = useRef<HTMLInputElement>(null);
-  const pdcPowerMaxInputElement = useRef<HTMLInputElement>(null);
-  const pdcTypeInputElement = useRef<HTMLInputElement>(null);
   const accessChargingInputElement = useRef<HTMLInputElement>(null);
   const accessibilityInputElement = useRef<HTMLInputElement>(null);
   const sourceInputElement = useRef<HTMLInputElement>(null);
@@ -121,7 +119,7 @@ function StationModification({ station }: StationModificationProps) {
           stationNameInputElement.current.value = datareceived.name;
         }
         if (stationIdentifierInputElement.current) {
-          stationIdentifierInputElement.current.value = "datareceived.pdc.name";
+          stationIdentifierInputElement.current.value = datareceived.identifier;
         }
         if (addressInputElement.current) {
           addressInputElement.current.value = datareceived.address;
@@ -143,13 +141,6 @@ function StationModification({ station }: StationModificationProps) {
         if (numberOfPdcsInputElement.current) {
           numberOfPdcsInputElement.current.value =
             datareceived.number_pdc.toString();
-        }
-        if (pdcPowerMaxInputElement.current) {
-          pdcPowerMaxInputElement.current.value =
-            "datareceived.pdc.power_max.toString()";
-        }
-        if (pdcTypeInputElement.current) {
-          pdcTypeInputElement.current.value = "datareceived.pdc.type";
         }
         if (accessChargingInputElement.current) {
           accessChargingInputElement.current.value =
@@ -286,24 +277,6 @@ function StationModification({ station }: StationModificationProps) {
                 id="number-of-pdcs"
                 name="number_of_pdcs"
                 ref={numberOfPdcsInputElement}
-              />
-            </div>
-            <div className="group">
-              <label htmlFor="pcd-power-max">Puissance maximale</label>
-              <input
-                type="text"
-                id="pcd-power-max"
-                name="pdc_power_max"
-                ref={pdcPowerMaxInputElement}
-              />
-            </div>
-            <div className="group">
-              <label htmlFor="pdc-type">Type de prise</label>
-              <input
-                type="text"
-                id="pdc-type"
-                name="pdc_type"
-                ref={pdcTypeInputElement}
               />
             </div>
             <div className="group">
