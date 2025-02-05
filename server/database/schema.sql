@@ -80,7 +80,7 @@ create table pdc (
   power_max float,
   type text,
   station_id int,
-  foreign key(station_id) references station(id)
+  foreign key(station_id) references station(id) on delete cascade
 );
 
 create table user (
