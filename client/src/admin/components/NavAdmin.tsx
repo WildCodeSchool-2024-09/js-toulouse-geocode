@@ -54,7 +54,7 @@ export default function NavAdmin() {
               </Link>
             </li>
             <li>
-              <Link to={"/"} className="nav-admin-link">
+              <Link to={"/admin/upload"} className="nav-admin-link">
                 <img src={updateAdminImg} alt="mise à jour" /> Mise à jour
               </Link>
             </li>
