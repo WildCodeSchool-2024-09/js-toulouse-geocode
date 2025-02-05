@@ -64,7 +64,28 @@
   border-radius: 0.96rem;
 }
 
+.nav-admin-content > button {
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  font-family: "Nunito", sans-serif;
+  font-size: 1.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.8rem;
+  border-radius: 0.96rem;
+  appearance: none;
+  background-color: unset;
+  color: #525b5a;
+}
+
 .nav-admin-content > p:hover {
+  background-color: #cbcfcd;
+  transition: 0.3s;
+}
+
+.nav-admin-content > button:hover {
   background-color: #cbcfcd;
   transition: 0.3s;
 }

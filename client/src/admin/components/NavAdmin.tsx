@@ -18,6 +18,26 @@ export default function NavAdmin() {
     setRotateArrow(!rotateArrow);
   };
 
+  const disconnect = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/admin/logout`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        throw new Error("Une erreur est survenue lors de la déconnexion");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
       className={
@@ -60,9 +80,9 @@ export default function NavAdmin() {
             </li>
           </ul>
           <div className="nav-admin-line"> </div>
-          <p>
-            <img src={logoutAdminImg} alt="deconnexion" /> Deconnexion
-          </p>
+          <button type="button" onClick={disconnect}>
+            <img src={logoutAdminImg} alt="deconnexion" /> Déconnexion
+          </button>
         </div>
       )}
     </div>

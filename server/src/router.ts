@@ -43,6 +43,10 @@ router.post("/api/login", authActions.login);
 router.post("/api/admin/login", authActions.login);
 
 router.use(authActions.verifyToken);
+
+router.get("/api/logout", authActions.disconnect);
+router.get("/api/admin/logout", authActions.disconnect);
+
 router.get("/api/stations", stationActions.browse);
 router.get("/api/auth", authActions.verifyRequest);
 

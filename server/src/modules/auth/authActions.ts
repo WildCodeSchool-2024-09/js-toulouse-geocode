@@ -176,4 +176,37 @@ const verifyRequest: RequestHandler = (req, res) => {
   }
 };
 
-export default { hashPassword, login, verifyToken, verifyRequest };
+const disconnect: RequestHandler = (req, res) => {
+  try {
+    if (!req.auth) {
+      throw new Error("Authentication failed");
+    }
+
+    const cookieObject = buildCookieObject(
+      req.get("Cookie"),
+      req.url as string,
+    );
+    if (!cookieObject.user_id) {
+      throw new Error("User id not found in cookies");
+    }
+    res.cookie("token", cookieObject.token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      expires: new Date(Date.now() - 3600000),
+    });
+    res.cookie("user_id", cookieObject.user_id, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      expires: new Date(Date.now() - 3600000),
+    });
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(401);
+  }
+};
+
+export default { hashPassword, login, verifyToken, verifyRequest, disconnect };
