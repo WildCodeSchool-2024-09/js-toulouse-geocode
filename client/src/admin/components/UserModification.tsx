@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useModal } from "../contexts/ShowModalProvider";
-import type { cityType } from "../types/itemType";
+import type { BaseItemType, cityType } from "../types/itemType";
 
 interface UserModificationProps {
-  userId: number | null;
+  user: BaseItemType | null;
 }
 
-function UserModification({ userId }: UserModificationProps) {
+function UserModification({ user }: UserModificationProps) {
   const { setDisplayModification, setIsRefresh, isRefresh } = useModal();
   const cityInputElement = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -148,8 +148,8 @@ function UserModification({ userId }: UserModificationProps) {
   };
 
   const fetchUserInfos = () => {
-    if (!userId) return;
-    fetch(`${import.meta.env.VITE_API_URL}/api/users/${userId}`, {
+    if (!user) return;
+    fetch(`${import.meta.env.VITE_API_URL}/api/users/${user.id}`, {
       method: "GET",
       credentials: "include",
     })
@@ -213,7 +213,7 @@ function UserModification({ userId }: UserModificationProps) {
         </caption>
         <section>
           <form
-            action={`${import.meta.env.VITE_API_URL}/api/users/${userId}`}
+            action={`${import.meta.env.VITE_API_URL}/api/users/${user?.id}`}
             method="post"
             onSubmit={handleSubmit}
           >

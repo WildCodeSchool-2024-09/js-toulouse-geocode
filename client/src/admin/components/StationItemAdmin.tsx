@@ -32,8 +32,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
   });
 
   const [isVisible, setIsVisible] = useState(false);
-  const { setDisplayModification, setItemId, setDisplayDeleteModal } =
-    useModal();
+  const { setDisplayModification, setItem, setDisplayDeleteModal } = useModal();
 
   const fetchData = useCallback(async () => {
     try {
@@ -117,7 +116,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
 
   const handleDelete = () => {
     setDisplayDeleteModal(true);
-    setItemId(item.id);
+    setItem(item);
   };
 
   return (
@@ -143,7 +142,7 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
           className={`station-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
           onClick={() => {
             setDisplayModification(true);
-            setItemId(item.id);
+            setItem(item);
           }}
         >
           Modifier

@@ -22,8 +22,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
     city: null,
   });
 
-  const { setDisplayModification, setDisplayDeleteModal, setItemId } =
-    useModal();
+  const { setDisplayModification, setDisplayDeleteModal, setItem } = useModal();
   const [isVisible, setIsVisible] = useState(false);
 
   const fetchData = useCallback(async () => {
@@ -90,7 +89,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
 
   const handleDelete = () => {
     setDisplayDeleteModal(true);
-    setItemId(item.id);
+    setItem(item);
   };
 
   return (
@@ -116,7 +115,7 @@ export default function UserItemAdmin({ item }: UserItemAdminProps) {
           className={`user-item-admin-modify-button ${isVisible ? "is-visible" : ""}`}
           onClick={() => {
             setDisplayModification(true);
-            setItemId(item.id);
+            setItem(item);
           }}
         >
           Modifier

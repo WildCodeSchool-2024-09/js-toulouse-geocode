@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useModal } from "../contexts/ShowModalProvider";
+import type { BaseItemType } from "../types/itemType";
 
 interface VehicleModificationProps {
-  vehicleId: number | null;
+  vehicle: BaseItemType | null;
 }
 
-function VehicleModification({ vehicleId }: VehicleModificationProps) {
+function VehicleModification({ vehicle }: VehicleModificationProps) {
   const { setDisplayModification, isRefresh, setIsRefresh } = useModal();
 
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -44,11 +45,11 @@ function VehicleModification({ vehicleId }: VehicleModificationProps) {
 
   const fetchUserInfos = () => {
     // Fetch user infos
-    if (vehicleId == null) {
+    if (vehicle == null) {
       return;
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${vehicleId}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/vehicles/${vehicle.id}`, {
       method: "GET",
       credentials: "include",
     })
@@ -80,7 +81,7 @@ function VehicleModification({ vehicleId }: VehicleModificationProps) {
         </caption>
         <section>
           <form
-            action={`${import.meta.env.VITE_API_URL}/api/vehicles/${vehicleId}`}
+            action={`${import.meta.env.VITE_API_URL}/api/vehicles/${vehicle?.id}`}
             method="put"
             onSubmit={handleSubmit}
           >

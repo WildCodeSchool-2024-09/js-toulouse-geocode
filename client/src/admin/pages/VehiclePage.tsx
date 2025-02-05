@@ -6,12 +6,12 @@ import VehicleModification from "../components/VehicleModification";
 import { useModal } from "../contexts/ShowModalProvider";
 
 export default function VehiclePage() {
-  const { displayModification, displayDeleteModal, itemId } = useModal();
+  const { displayModification, displayDeleteModal, item } = useModal();
   return (
     <div className="vehicle-page-container">
       <HeaderAdminPage title="Gestion des Vehicules" />
       <ContentAdmin titles={["Model", "Propriétaire"]} path="vehicles" />
-      {displayModification && <VehicleModification vehicleId={itemId} />}
+      {displayModification && <VehicleModification vehicle={item} />}
       {displayDeleteModal && (
         <DeleteModal
           title="du véhicule"
