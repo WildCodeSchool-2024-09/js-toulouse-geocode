@@ -1,0 +1,53 @@
+.upload-page-container {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6.4rem;
+}
+
+.upload-page-drap-and-drop-container {
+  padding: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  position: fixed;
+  bottom: 3.2rem;
+  left: 24rem;
+  right: 3.2rem;
+  height: calc(100% - 19.2rem);
+  border-radius: 1.6rem;
+  background-color: #e5e9e7;
+  color: #525b5a;
+  font-size: 16px;
+}
+
+.upload-page-drap-and-drop-container > section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.upload-page-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.message-error {
+  color: red;
+}
+
+.upload-page-button {
+  all: unset;
+  background-color: #7dc952;
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.8rem 2.4rem 0.8rem 2.4rem;
+  max-width: fit-content;
+  cursor: pointer;
+}
+
+.upload-page-button:hover {
+  background-color: #2d746c;
+  transition: 0.3s;
+}
