@@ -1,9 +1,13 @@
 import { DndContext } from "@dnd-kit/core";
 import uploadFileImg from "/images/upload-file.svg";
+import "../styles/DragAndDrop.css";
 
-export default function DragAndDrop({
-  setFile,
-}: { setFile: (file: File | null) => void }) {
+interface DragAndDropProps {
+  setFile: (file: File | null) => void;
+  setMessage: (message: string | null) => void;
+}
+
+export default function DragAndDrop({ setFile, setMessage }: DragAndDropProps) {
   return (
     <DndContext>
       <div
@@ -13,19 +17,22 @@ export default function DragAndDrop({
           event.preventDefault();
           if (event.dataTransfer.files[0].type === "text/csv") {
             setFile(event.dataTransfer.files[0]);
+            setMessage(event.dataTransfer.files[0].name);
           } else {
-            alert("Le fichier doit être de type CSV");
+            setFile(null);
+            setMessage("Le fichier n'est pas de type CSV");
           }
         }}
       >
         <img
           src={uploadFileImg}
-          className="vector-img"
+          className="upload-file-img"
           alt="Upload file icon"
         />
         <p>
           Glisser-déposer le fichier ici ou{" "}
           <button
+            className="upload-file-button-add-file"
             type="button"
             onClick={() => {
               const fileInput = document.getElementById("fileInput");
@@ -45,8 +52,10 @@ export default function DragAndDrop({
               event.target.files[0].type === "text/csv"
             ) {
               setFile(event.target.files[0]);
+              setMessage(event.target.files[0].name);
             } else {
-              alert("Le fichier doit être de type CSV");
+              setFile(null);
+              setMessage("Le fichier n'est pas de type CSV");
             }
           }}
         />
