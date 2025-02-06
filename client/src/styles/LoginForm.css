@@ -1,0 +1,38 @@
+#login-user-form input {
+  margin-top: 0.5rem;
+}
+
+#login-user-form {
+  all: unset;
+}
+
+#login-user-form label {
+  font-size: .9rem !important;
+}
+
+@media screen and (width > 832px) {
+  .login-user-form label {
+    font-size: 1.3rem !important;
+  }
+
+  .login-user-form input {
+    padding: 0.5rem !important;
+  }
+}
+
+#password-forgotten {
+  background-color: transparent;
+  color: inherit;
+  text-decoration: underline;
+  font-size: 0.6rem;
+  padding-left: .5rem;
+}
+
+#login-user-button {
+  font-size: 0.8rem;
+  padding: 0.5rem .8rem;
+}
+
+#p-not-register {
+  font-size: 0.8rem;
+}

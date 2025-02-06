@@ -1,0 +1,18 @@
+.login-user-form-container {
+  width: 100%;
+  background-color: var(--keppel-color-600);
+  height: 90%;
+}
+
+#password-forgotten-user-form {
+  background-color: var(--beige-color);
+}
+
+.label-user-login {
+  color: var(--chicago-color-700);
+}
+
+#button-get-numbers-password {
+  font-size: 0.8rem;
+  padding: .4rem .8rem;
+}
