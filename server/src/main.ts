@@ -7,14 +7,14 @@ import "dotenv/config";
 import "../database/checkConnection";
 
 // Import the Express application from ./app
-import app from "./app";
+import { app, appWs } from "./app";
 
 // Get the port from the environment variables
 const port = process.env.APP_PORT;
 const portWs = process.env.APP_PORT_WS;
 
 // Start the server and listen on the specified port
-app.app
+app
   .listen(port, () => {
     console.info(`Server is listening on port ${port}`);
   })
@@ -22,7 +22,7 @@ app.app
     console.error("Error:", err.message);
   });
 
-app.appWs
+appWs
   .listen(portWs, () => {
     console.info(`Websocket server is listening on port ${portWs}`);
   })

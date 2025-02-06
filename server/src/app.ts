@@ -3,12 +3,12 @@
 import express from "express";
 import fileUpload from "express-fileupload";
 import expressWs from "express-ws";
-import router from "./router";
+import { mountRouter, router, routerWs } from "./router";
 
 const app = express();
 const appWs = express();
 expressWs(appWs);
-router.mountRouter();
+mountRouter();
 
 // Configure it
 
@@ -73,8 +73,8 @@ app.use(fileUpload());
 // Import the API router
 
 // Mount the API router under the "/api" endpoint
-app.use(router.router);
-appWs.use(router.routerWs);
+app.use(router);
+appWs.use(routerWs);
 
 /* ************************************************************************* */
 
@@ -133,4 +133,4 @@ app.use(logErrors);
 
 /* ************************************************************************* */
 
-export default { app, appWs };
+export { app, appWs };

@@ -2,7 +2,7 @@
 import supertest from "supertest";
 
 // Import the Express application
-import app from "../../src/app";
+import { app } from "../../src/app";
 
 // Import databaseClient
 import databaseClient from "../../database/client";
@@ -26,7 +26,7 @@ describe("GET /api/items", () => {
       .mockImplementation(async () => [rows, []]);
 
     // Send a GET request to the /api/items endpoint
-    const response = await supertest(app.app).get("/api/items");
+    const response = await supertest(app).get("/api/items");
 
     // Assertions
     expect(response.status).toBe(200);
@@ -46,7 +46,7 @@ describe("GET /api/items/:id", () => {
       .mockImplementation(async () => [rows, []]);
 
     // Send a GET request to the /api/items/:id endpoint
-    const response = await supertest(app.app).get("/api/items/1");
+    const response = await supertest(app).get("/api/items/1");
 
     // Assertions
     expect(response.status).toBe(200);
@@ -63,7 +63,7 @@ describe("GET /api/items/:id", () => {
       .mockImplementation(async () => [rows, []]);
 
     // Send a GET request to the /api/items/:id endpoint with an invalid ID
-    const response = await supertest(app.app).get("/api/items/0");
+    const response = await supertest(app).get("/api/items/0");
 
     // Assertions
     expect(response.status).toBe(404);
@@ -87,7 +87,7 @@ describe("POST /api/items", () => {
     const fakeItem = { title: "foo", user_id: 0 };
 
     // Send a POST request to the /api/items endpoint with a test item
-    const response = await supertest(app.app).post("/api/items").send(fakeItem);
+    const response = await supertest(app).post("/api/items").send(fakeItem);
 
     // Assertions
     expect(response.status).toBe(201);
@@ -108,7 +108,7 @@ describe("POST /api/items", () => {
     const fakeItem = { title: "foo" };
 
     // Send a POST request to the /api/items endpoint with a test item
-    const response = await supertest(app.app).post("/api/items").send(fakeItem);
+    const response = await supertest(app).post("/api/items").send(fakeItem);
 
     // Assertions
     expect(response.status).toBe(400);
@@ -132,9 +132,7 @@ describe("PUT /api/items/:id", () => {
     const fakeItem = { title: "foo", user_id: 0 };
 
     // Send a PUT request to the /api/items/:id endpoint with a test item
-    const response = await supertest(app.app)
-      .put("/api/items/42")
-      .send(fakeItem);
+    const response = await supertest(app).put("/api/items/42").send(fakeItem);
 
     // Assertions
     expect(response.status).toBe(204);
@@ -154,9 +152,7 @@ describe("PUT /api/items/:id", () => {
     const fakeItem = { title: "foo" };
 
     // Send a PUT request to the /api/items/:id endpoint with a test item
-    const response = await supertest(app.app)
-      .put("/api/items/42")
-      .send(fakeItem);
+    const response = await supertest(app).put("/api/items/42").send(fakeItem);
 
     // Assertions
     expect(response.status).toBe(400);
@@ -176,9 +172,7 @@ describe("PUT /api/items/:id", () => {
     const fakeItem = { title: "foo", user_id: 0 };
 
     // Send a PUT request to the /api/items/:id endpoint with a test item
-    const response = await supertest(app.app)
-      .put("/api/items/43")
-      .send(fakeItem);
+    const response = await supertest(app).put("/api/items/43").send(fakeItem);
 
     // Assertions
     expect(response.status).toBe(404);
@@ -199,7 +193,7 @@ describe("DELETE /api/items/:id", () => {
       .mockImplementation(async () => [result, []]);
 
     // Send a DELETE request to the /api/items/:id endpoint
-    const response = await supertest(app.app).delete("/api/items/42");
+    const response = await supertest(app).delete("/api/items/42");
 
     // Assertions
     expect(response.status).toBe(204);
@@ -216,7 +210,7 @@ describe("DELETE /api/items/:id", () => {
       .mockImplementation(async () => [result, []]);
 
     // Send a DELETE request to the /api/items/:id endpoint
-    const response = await supertest(app.app).delete("/api/items/43");
+    const response = await supertest(app).delete("/api/items/43");
 
     // Assertions
     expect(response.status).toBe(404);

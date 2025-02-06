@@ -102,4 +102,4 @@ const mountRouter = () => {
 
 /* ************************************************************************* */
 
-export default { router, routerWs, mountRouter };
+export { router, routerWs, mountRouter };
