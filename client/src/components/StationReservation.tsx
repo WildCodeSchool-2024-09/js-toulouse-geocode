@@ -49,6 +49,9 @@ function StationReservation() {
       form.reset();
       setMessage("Votre réservation a bien été effectuée.");
       setErrorMessage("");
+      setTimeout(() => {
+        stationsLocationsContext.setIsReservationComponentDisplayed(false);
+      }, 2500);
     } else {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
     }

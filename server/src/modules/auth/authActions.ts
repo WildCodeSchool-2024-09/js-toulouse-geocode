@@ -45,7 +45,7 @@ const login: RequestHandler = async (req, res, next) => {
       false,
     );
 
-    sendResponse(token, id, res);
+    sendResponse(token, id, res, false);
   } catch (err) {
     // Pass any errors to the error-handling middleware
     next(err);
@@ -64,7 +64,7 @@ const adminLogin: RequestHandler = async (req, res, next) => {
       res.sendStatus(401);
     }
 
-    sendResponse(token, id, res);
+    sendResponse(token, id, res, true);
   } catch (err) {
     // Pass any errors to the error-handling middleware
     next(err);
@@ -75,6 +75,7 @@ const sendResponse = (
   token: string | undefined,
   id: number | undefined,
   res: Response,
+  isAdmin: boolean,
 ) => {
   if (token && id) {
     res.cookie("token", token, {
@@ -91,7 +92,7 @@ const sendResponse = (
     });
     res.json({
       user_id: id,
-      is_admin: true,
+      is_admin: isAdmin,
     });
   } else {
     res.sendStatus(422);
@@ -190,16 +191,9 @@ const verifyRequest: RequestHandler = (req, res) => {
       throw new Error("Authentication failed");
     }
 
-    const cookieObject = buildCookieObject(
-      req.get("Cookie"),
-      req.url as string,
-    );
-    if (!cookieObject.user_id) {
-      throw new Error("User id not found in cookies");
-    }
-
     res.json({
-      user_id: cookieObject.user_id,
+      user_id: req.auth.sub,
+      is_admin: req.auth.isAdmin,
     });
   } catch (err) {
     console.error(err);
