@@ -187,6 +187,10 @@ main form.station-reservation-form > select {
   width: 66%;
 }
 
+main form.station-reservation-form > p.error {
+  color: var(--red-color);
+}
+
 main form.station-reservation-form input {
   padding: 0.5rem;
   border-radius: 1rem;

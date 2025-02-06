@@ -119,8 +119,8 @@ create table booking (
   date datetime,
   vehicle_id int,
   foreign key(vehicle_id) references vehicle(id) on delete cascade,
-  station_id int,
-  foreign key(station_id) references station(id) on delete cascade
+  pdc_id int,
+  foreign key(pdc_id) references pdc(id) on delete cascade
 );
 
 create table contact (

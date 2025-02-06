@@ -7,6 +7,7 @@ const router = express.Router();
 /* ************************************************************************* */
 
 import authActions from "./modules/auth/authActions";
+import bookingActions from "./modules/booking/bookingActions";
 import cityActions from "./modules/city/cityActions";
 import codeInseeActions from "./modules/codeInsee/codeInseeActions";
 import contactActions from "./modules/contact/contactActions";
@@ -92,6 +93,8 @@ router.get("/api/geocoords/:id", geoCoordsActions.read);
 router.get("/api/outlets/:id", outletActions.read);
 
 router.get("/api/vehicles", vehicleActions.browse);
+
+router.post("/api/bookings", bookingActions.add);
 
 /* ************************************************************************* */
 
