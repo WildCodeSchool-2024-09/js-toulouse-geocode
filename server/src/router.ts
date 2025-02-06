@@ -8,6 +8,7 @@ const routerWs = express.Router();
 /* ************************************************************************* */
 
 import authActions from "./modules/auth/authActions";
+import bookingActions from "./modules/booking/bookingActions";
 import cityActions from "./modules/city/cityActions";
 import codeInseeActions from "./modules/codeInsee/codeInseeActions";
 import contactActions from "./modules/contact/contactActions";
@@ -99,6 +100,8 @@ router.get("/api/vehicles", vehicleActions.browse);
 const mountRouter = () => {
   routerWs.ws("/api/ws", webSocketActions.webSocketEngine);
 };
+
+router.post("/api/bookings", bookingActions.add);
 
 /* ************************************************************************* */
 

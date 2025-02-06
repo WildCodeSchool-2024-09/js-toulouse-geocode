@@ -28,11 +28,13 @@ export class AdminstrativeAreaProps {
 }
 
 export class PdcProps {
+  id: number;
   name: string;
   power_max: number;
   type: string;
 
-  constructor(name = "", power_max = -1, type = "") {
+  constructor(id = 0, name = "", power_max = -1, type = "") {
+    this.id = id;
     this.name = name;
     this.power_max = power_max;
     this.type = type;

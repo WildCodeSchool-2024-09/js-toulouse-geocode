@@ -84,9 +84,6 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
           responseOutlet.json(),
         ]);
 
-      console.info(
-        `${Math.max(...dataOutlet.map((outlet: OutletPros) => outlet.power_max))}`,
-      );
       setStation((prev) => ({
         ...prev,
         sign: dataSign.name,
