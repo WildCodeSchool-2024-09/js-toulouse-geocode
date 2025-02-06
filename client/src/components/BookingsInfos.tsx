@@ -1,28 +1,44 @@
+import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthProvider";
 import "../styles/BookingsInfos.css";
 import BookingsInfosCard from "./BookingsInfosCard";
 
-const bookingsInfos = [
-  {
-    id: 1,
-    date: "2021-09-01",
-    startTime: "10:00",
-    city: "Toulouse",
-  },
-  {
-    id: 2,
-    date: "2021-09-02",
-    startTime: "14:00",
-    city: "Blagnac",
-  },
-  {
-    id: 3,
-    date: "2021-09-03",
-    startTime: "16:00",
-    city: "Toulouse",
-  },
-];
+type Booking = {
+  id: number;
+  date: string;
+  station_name: string;
+  city_name: string;
+  pdc_name: string;
+};
 
 export default function BookingsInfos() {
+  const { auth } = useAuth();
+  const [bookingsInfos, setBookingsInfos] = useState<Booking[]>([]);
+
+  const fetchBookingsInfos = useCallback(async () => {
+    fetch(
+      `${import.meta.env.VITE_API_URL}/api/bookings/user/${auth?.user_id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    )
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((data: Booking[]) => {
+            setBookingsInfos(data);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [auth]);
+
+  useEffect(() => {
+    fetchBookingsInfos();
+  }, [fetchBookingsInfos]);
+
   return (
     <section className="bookings-info-container">
       {bookingsInfos.length !== 0 ? (
@@ -34,9 +50,9 @@ export default function BookingsInfos() {
             {bookingsInfos.map((item) => (
               <BookingsInfosCard
                 key={item.id}
-                date={item.date}
-                startTime={item.startTime}
-                city={item.city}
+                date={new Date(item.date).toLocaleDateString("fr-FR")}
+                startTime={new Date(item.date).toLocaleTimeString("fr-FR")}
+                city={`${item.station_name} - ${item.city_name}`}
               />
             ))}
           </article>

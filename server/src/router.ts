@@ -101,6 +101,7 @@ const mountRouter = () => {
   routerWs.ws("/api/ws", webSocketActions.webSocketEngine);
 };
 
+router.get("/api/bookings/user/:id", bookingActions.readAllByUser);
 router.post("/api/bookings", bookingActions.add);
 
 /* ************************************************************************* */
