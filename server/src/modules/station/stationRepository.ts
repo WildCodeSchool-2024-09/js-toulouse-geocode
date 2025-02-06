@@ -6,9 +6,7 @@ import type { Result, Rows } from "../../../database/client";
 import {
   AdminstrativeAreaProps,
   GeoLocationProps,
-  PdcProps,
   StationProps,
-  type StationPropsWithIndex,
 } from "../../../common/types/StationProps";
 import insertDataRepository from "../insertData/insertDataRepository";
 

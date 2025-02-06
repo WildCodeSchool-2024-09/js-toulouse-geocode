@@ -1,7 +1,31 @@
-import { useState } from "react";
+import { nanoid } from "nanoid";
+import { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthProvider";
+import { useStationsLocationsContext } from "../contexts/StationsLocationsContextProvider";
+
+interface OutletProps {
+  id: number;
+  type: string;
+  power_max: number;
+  name: string;
+}
+interface VehicleProps {
+  id: number;
+  brand: string;
+  model: string;
+  type: string;
+  user_id: number;
+}
 
 function StationReservation() {
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [pdcs, setPdcs] = useState<OutletProps[]>(Array<OutletProps>());
+  const [vehicles, setVehicles] = useState<VehicleProps[]>(
+    Array<VehicleProps>(),
+  );
+
+  const stationsLocationsContext = useStationsLocationsContext();
+  const authContext = useAuth();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const form = event?.currentTarget;
@@ -20,6 +44,28 @@ function StationReservation() {
       setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard");
     }
   };
+
+  useEffect(() => {
+    fetch(
+      `${import.meta.env.VITE_API_URL}/api/stations/outlet/${stationsLocationsContext.station.id}`,
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setPdcs(data as OutletProps[]);
+      });
+    fetch(
+      `${import.meta.env.VITE_API_URL}/api/vehicles/user/${authContext.auth?.user_id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setVehicles(data as VehicleProps[]);
+      });
+  }, [stationsLocationsContext.station.id, authContext.auth?.user_id]);
+
   return (
     <>
       <form
@@ -28,19 +74,27 @@ function StationReservation() {
         onSubmit={handleSubmit}
         className="station-reservation-form"
       >
+        <select name="pdc" id="pdc">
+          <option value="">Sélectionnez votre prise...</option>
+          {pdcs.map((pdc: OutletProps) => (
+            <option key={nanoid()} value={pdc.id}>
+              {`Prise (${pdc.name}) - Type: ${pdc.type} - Puissance: ${pdc.power_max} kW`}
+            </option>
+          ))}
+        </select>
         <select name="vehicule" id="vehicule">
           <option value="">Sélectionnez votre véhicule...</option>
-          <option value="vehicule1">Véhicule 1</option>
-          <option value="vehicule2">Véhicule 2</option>
-          <option value="vehicule3">Véhicule 3</option>
+          {vehicles.map((vehicle: VehicleProps) => (
+            <option key={nanoid()} value={vehicle.id}>
+              {`${vehicle.brand} ${vehicle.model} - Type: ${vehicle.type}`}
+            </option>
+          ))}
         </select>
         <label htmlFor="reservation-date">Date et heure de réservation:</label>
         <input type="datetime-local" name="reservation-date" />
         {errorMessage && <p>{errorMessage}</p>}
         <section className="station-reservation-validate">
-          <button type="submit" onClick={() => {}}>
-            Valider la réservation
-          </button>
+          <button type="submit">Valider la réservation</button>
         </section>
       </form>
     </>
