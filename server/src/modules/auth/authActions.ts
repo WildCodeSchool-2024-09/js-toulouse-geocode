@@ -1,13 +1,14 @@
 // Options de hachage (voir documentation : https://github.com/ranisalt/node-argon2/wiki/Options)
 
 import argon2 from "argon2";
-import type { RequestHandler } from "express";
+import type { RequestHandler, Response } from "express";
 import jwt from "jsonwebtoken";
 import userRepository from "../user/userRepository";
 
 const verifyEmailPassword = async (
   email: string,
   password: string,
+  isAdmin: boolean,
 ): Promise<[string | undefined, number | undefined]> => {
   // Fetch a specific user from the database based on the provided email
   const user = await userRepository.readByEmailWithPassword(email);
@@ -26,6 +27,7 @@ const verifyEmailPassword = async (
 
   const myPayload: GeocodePayload = {
     sub: id.toString(),
+    isAdmin: isAdmin,
   };
 
   const token = await jwt.sign(myPayload, process.env.APP_SECRET as string, {
@@ -40,30 +42,59 @@ const login: RequestHandler = async (req, res, next) => {
     const [token, id] = await verifyEmailPassword(
       req.body.email,
       req.body.password,
+      false,
     );
 
-    if (token && id) {
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        expires: new Date(Date.now() + 3600000),
-      });
-      res.cookie("user_id", id, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        expires: new Date(Date.now() + 3600000),
-      });
-      res.json({
-        user_id: id,
-      });
-    } else {
-      res.sendStatus(422);
-    }
+    sendResponse(token, id, res);
   } catch (err) {
     // Pass any errors to the error-handling middleware
     next(err);
+  }
+};
+
+const adminLogin: RequestHandler = async (req, res, next) => {
+  try {
+    const [token, id] = await verifyEmailPassword(
+      req.body.email,
+      req.body.password,
+      true,
+    );
+
+    if (req.body.email !== process.env.ADMIN_EMAIL) {
+      res.sendStatus(401);
+    }
+
+    sendResponse(token, id, res);
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
+  }
+};
+
+const sendResponse = (
+  token: string | undefined,
+  id: number | undefined,
+  res: Response,
+) => {
+  if (token && id) {
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      expires: new Date(Date.now() + 3600000),
+    });
+    res.cookie("user_id", id, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      expires: new Date(Date.now() + 3600000),
+    });
+    res.json({
+      user_id: id,
+      is_admin: true,
+    });
+  } else {
+    res.sendStatus(422);
   }
 };
 
@@ -209,4 +240,11 @@ const disconnect: RequestHandler = (req, res) => {
   }
 };
 
-export default { hashPassword, login, verifyToken, verifyRequest, disconnect };
+export default {
+  hashPassword,
+  login,
+  adminLogin,
+  verifyToken,
+  verifyRequest,
+  disconnect,
+};
