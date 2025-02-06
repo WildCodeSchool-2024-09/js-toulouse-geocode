@@ -36,6 +36,10 @@
   color: red;
 }
 
+.message-success {
+  color: green;
+}
+
 .upload-page-button {
   all: unset;
   background-color: #7dc952;
