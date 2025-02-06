@@ -44,7 +44,7 @@ router.post("/api/contacts", contactActions.validate, contactActions.add);
 
 router.post("/api/login", authActions.login);
 
-router.post("/api/admin/login", authActions.login);
+router.post("/api/admin/login", authActions.adminLogin);
 
 router.use(authActions.verifyToken);
 

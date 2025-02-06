@@ -28,7 +28,9 @@ export default function FormConnexionAdmin() {
       );
 
       if (response.status === 200) {
-        setAuth({ token: "", user_id: 0 });
+        const data = await response.json();
+
+        setAuth({ token: "", user_id: data.user_id, isAdmin: data.is_admin });
         navigate("/admin");
       } else {
         setErrorMessage("L'adresse email ou le mot de passe est incorrect");

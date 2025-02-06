@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 interface AuthType {
   token: string;
   user_id: number;
+  isAdmin: boolean;
 }
 
 interface AuthContextType {
@@ -36,7 +37,7 @@ export default function AuthProvider({
     }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
-          setAuth({ token: "", user_id: data.user_id });
+          setAuth({ token: "", user_id: data.user_id, isAdmin: data.isAdmin });
         });
       }
     });
