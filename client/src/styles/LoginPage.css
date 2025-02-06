@@ -144,3 +144,7 @@ main
   color: var(--red-color);
   font-size: 0.875rem;
 }
+
+#header-forgotten-password {
+  font-size: 1.2rem;
+}

@@ -87,7 +87,7 @@ const verifyEmail: RequestHandler = async (req, res, next) => {
       return;
     }
 
-    res.sendStatus(200);
+    res.status(200).json(user.id);
   } catch (error) {
     // Pass any errors to the error-handling middleware
     next(error);

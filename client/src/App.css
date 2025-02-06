@@ -11,24 +11,23 @@ a {
 }
 
 :root {
-  --keppel-color-400: #51a69a;
-  --keppel-color-600: #2d746c;
-  --chicago-color-950: #252726;
-  --chicago-color-600: #545b5a;
-  --chicago-color-700: #4c5251;
-  --chicago-color-200: #cfd2d1;
-  --blue-color: #21a89a;
-  --keppel-color-500: #3b9186;
-  --keppel-color-600: #2d746c;
+  --ghost-white-color: #f9f9f9;
   --egg-color: #e5e9e7;
   --beige-color: #f0e6db;
-  --fire-bush-color-400: #eca547;
+  --chicago-color-200: #cfd2d1;
+  --chicago-color-600: #545b5a;
+  --chicago-color-700: #4c5251;
+  --chicago-color-950: #252726;
   --green-light-color: #7cd858;
+  --blue-color: #21a89a;
+  --keppel-color-400: #51a69a;
+  --keppel-color-500: #3b9186;
+  --keppel-color-600: #2d746c;
+  --pastel-green-800: #2f551f;
+  --fire-bush-color-400: #eca547;
   --red-color: #d63d3d;
   --dark-red-color: #bb3434;
   --dark-color: #0c0c0c;
-  --ghost-white-color: #f9f9f9;
-  --pastel-green-800: #2f551f;
 }
 
 @media (orientation: landscape) {

@@ -27,21 +27,25 @@ import userActions from "./modules/user/userActions";
 import userPhotoActions from "./modules/userPhoto/userPhotoActions";
 import vehicleActions from "./modules/vehicle/vehicleActions";
 
+import temporaryCodeActions from "./modules/temporaryCode/temporaryCodeActions";
 import webSocketActions from "./modules/webSocket/webSocketActions";
+
+router.post("/api/csv", csvManagementActions.addStations);
 
 router.get("/api/items", itemActions.browse);
 router.get("/api/items/:id", itemActions.read);
 router.post("/api/items", itemActions.add);
 
-router.post("/api/csv", csvManagementActions.addStations);
-
 router.get("/api/stations/geolocation", stationActions.browseByGeoLocation);
 router.get("/api/stations/outlet/:id", outletActions.readAllByStation);
 
 router.get("/api/users/verify-email", userActions.verifyEmail);
+router.post("/api/contacts", contactActions.validate, contactActions.add);
 router.post("/api/users", authActions.hashPassword, userActions.add);
 
-router.post("/api/contacts", contactActions.validate, contactActions.add);
+router.get("/api/tempcode/:id", temporaryCodeActions.read);
+router.post("/api/tempcode/:id", temporaryCodeActions.add);
+router.delete("/api/tempcode/:id", temporaryCodeActions.destroy);
 
 router.post("/api/login", authActions.login);
 

@@ -131,6 +131,13 @@ create table contact (
   message text not null
 );
 
+create table temporary_code (
+  id int primary key auto_increment not null,
+  code varchar(8) not null,
+  user_id int,
+  foreign key(user_id) references user(id)
+);
+
 insert into region (name) values ('Occitanie');
 insert into department (name, region_id) values ('Haute-Garonne', 1);
 insert into city (name, department_id) values ('Balma', 1);

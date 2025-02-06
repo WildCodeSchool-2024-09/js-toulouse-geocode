@@ -1,8 +1,13 @@
 import { type FormEventHandler, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
+import "../styles/LoginForm.css";
 
-export default function LoginForm() {
+interface LoginFormProps {
+  setIsLogin: (isLogin: boolean) => void;
+}
+
+export default function LoginForm({ setIsLogin }: LoginFormProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
 
@@ -35,7 +40,7 @@ export default function LoginForm() {
 
         navigate("/user");
       } else {
-        setErrorMessage("L'adresse email ou le mot de passe est incorrect");
+        setErrorMessage("L'adresse email n'est associée à aucun compte.");
       }
     } catch (err) {
       console.error(err);
@@ -44,8 +49,14 @@ export default function LoginForm() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email-connection">Email</label>
+      <form
+        onSubmit={handleSubmit}
+        className="login-user-form"
+        id="login-user-form"
+      >
+        <label htmlFor="email-connection" className="label-user-login">
+          Email
+        </label>
         <input type="email" id="email-connection" name="email" ref={emailRef} />
         <label htmlFor="password-connection">Mot de passe</label>
         <input
@@ -57,11 +68,24 @@ export default function LoginForm() {
         {errorMessage && (
           <p className="login-form-error-message">{errorMessage}</p>
         )}
+        <button
+          type="button"
+          id="password-forgotten"
+          onClick={() => setIsLogin(false)}
+        >
+          Vous avez oublié votre mot de passe ?{" "}
+        </button>
         <div className="button-container">
-          <button type="submit">Se connecter</button>
+          <button type="submit" id="login-user-button">
+            Se connecter
+          </button>
         </div>
-        <p className="p-not-register">Pas encore inscrit ?</p>
-        <a href="/register">Créez votre compte maintenant.</a>
+        <p className="p-not-register" id="p-not-register">
+          Pas encore inscrit ?
+        </p>
+        <a href="/register" id="p-not-register">
+          Créez votre compte maintenant.
+        </a>
       </form>
     </section>
   );
