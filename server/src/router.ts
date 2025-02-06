@@ -1,6 +1,7 @@
 import express from "express";
 
 const router = express.Router();
+const routerWs = express.Router();
 
 /* ************************************************************************* */
 // Define Your API Routes Here
@@ -25,6 +26,8 @@ import stationActions from "./modules/station/stationActions";
 import userActions from "./modules/user/userActions";
 import userPhotoActions from "./modules/userPhoto/userPhotoActions";
 import vehicleActions from "./modules/vehicle/vehicleActions";
+
+import webSocketActions from "./modules/webSocket/webSocketActions";
 
 router.get("/api/items", itemActions.browse);
 router.get("/api/items/:id", itemActions.read);
@@ -94,8 +97,12 @@ router.get("/api/outlets/:id", outletActions.read);
 
 router.get("/api/vehicles", vehicleActions.browse);
 
+const mountRouter = () => {
+  routerWs.ws("/api/ws", webSocketActions.webSocketEngine);
+};
+
 router.post("/api/bookings", bookingActions.add);
 
 /* ************************************************************************* */
 
-export default router;
+export { router, routerWs, mountRouter };
