@@ -20,6 +20,13 @@ export default function LoginForm({ setIsLogin }: LoginFormProps) {
     event.preventDefault();
 
     try {
+      const responseEmail = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/users/verify-email?email=${emailRef.current?.value}`,
+      );
+      if (!responseEmail.ok) {
+        setErrorMessage("L'adresse email n'est associée à aucun compte.");
+        return;
+      }
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/login`,
         {
@@ -40,7 +47,7 @@ export default function LoginForm({ setIsLogin }: LoginFormProps) {
 
         navigate("/user");
       } else {
-        setErrorMessage("L'adresse email n'est associée à aucun compte.");
+        setErrorMessage("L'adresse email ou le mot de passe est incorrect.");
       }
     } catch (err) {
       console.error(err);

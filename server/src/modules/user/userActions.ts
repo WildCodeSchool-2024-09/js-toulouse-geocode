@@ -118,4 +118,27 @@ const updateUserInfos: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read, add, verifyEmail, updateUserInfos, destroy };
+const updatePassword: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { hashed_password } = req.body;
+
+    const updatedId = await userRepository.updatePassword(
+      Number.parseInt(id),
+      hashed_password,
+    );
+    res.status(204).json({ updatedId });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default {
+  browse,
+  read,
+  add,
+  verifyEmail,
+  updateUserInfos,
+  updatePassword,
+  destroy,
+};
