@@ -44,6 +44,12 @@ class bookingRepository {
 
     return bookings as Booking[];
   }
+
+  async delete(id: number) {
+    await databaseClient.query<Result>("delete from booking where id = ?", [
+      id,
+    ]);
+  }
 }
 
 export default new bookingRepository();

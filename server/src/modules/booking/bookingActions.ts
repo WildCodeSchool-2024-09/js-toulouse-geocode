@@ -28,4 +28,14 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { add, readAllByUser };
+const destroy: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await bookingRepository.delete(Number.parseInt(id));
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { add, readAllByUser, destroy };

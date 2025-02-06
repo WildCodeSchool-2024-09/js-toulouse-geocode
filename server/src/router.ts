@@ -107,6 +107,7 @@ const mountRouter = () => {
 
 router.get("/api/bookings/user/:id", bookingActions.readAllByUser);
 router.post("/api/bookings", bookingActions.add);
+router.delete("/api/bookings/:id", bookingActions.destroy);
 
 /* ************************************************************************* */
 

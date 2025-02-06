@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
 import "../styles/BookingsInfos.css";
+import { useRefresh } from "../contexts/RefreshProvider";
 import BookingsInfosCard from "./BookingsInfosCard";
 
 type Booking = {
@@ -13,6 +14,7 @@ type Booking = {
 
 export default function BookingsInfos() {
   const { auth } = useAuth();
+  const { refresh } = useRefresh();
   const [bookingsInfos, setBookingsInfos] = useState<Booking[]>([]);
 
   const fetchBookingsInfos = useCallback(async () => {
@@ -37,7 +39,8 @@ export default function BookingsInfos() {
 
   useEffect(() => {
     fetchBookingsInfos();
-  }, [fetchBookingsInfos]);
+    refresh;
+  }, [fetchBookingsInfos, refresh]);
 
   return (
     <section className="bookings-info-container">
@@ -50,6 +53,7 @@ export default function BookingsInfos() {
             {bookingsInfos.map((item) => (
               <BookingsInfosCard
                 key={item.id}
+                id={item.id}
                 date={new Date(item.date).toLocaleDateString("fr-FR")}
                 startTime={new Date(item.date).toLocaleTimeString("fr-FR")}
                 city={`${item.station_name} - ${item.city_name}`}
