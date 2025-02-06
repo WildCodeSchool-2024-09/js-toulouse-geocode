@@ -8,7 +8,7 @@ type PageContainerProps = {
 function AdminPageContainer({ children }: PageContainerProps) {
   const { auth } = useAuth();
 
-  return <>{auth ? children : <ConnectionAdminPage />}</>;
+  return <>{auth?.isAdmin ? children : <ConnectionAdminPage />}</>;
 }
 
 export default AdminPageContainer;

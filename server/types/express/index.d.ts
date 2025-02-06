@@ -1,7 +1,7 @@
 import type { JwtPayload } from "jsonwebtoken";
 
 declare global {
-  export type GeocodePayload = JwtPayload & { sub: string };
+  export type GeocodePayload = JwtPayload & { sub: string; isAdmin: boolean };
 
   namespace Express {
     export interface Request {
