@@ -1,6 +1,17 @@
 import type { RequestHandler } from "express";
 import bookingRepository from "./bookingRepository";
 
+const readAllByUser: RequestHandler = async (req, res, next) => {
+  try {
+    const itemId = Number(req.params.id);
+    const bookings = await bookingRepository.readAllByUser(itemId);
+
+    res.status(200).json(bookings);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const add: RequestHandler = async (req, res, next) => {
   try {
     const newBooking = {
@@ -17,4 +28,4 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { add };
+export default { add, readAllByUser };
