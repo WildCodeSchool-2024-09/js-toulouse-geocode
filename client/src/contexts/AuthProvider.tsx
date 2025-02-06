@@ -37,7 +37,7 @@ export default function AuthProvider({
     }).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
-          setAuth({ token: "", user_id: data.user_id, isAdmin: data.isAdmin });
+          setAuth({ token: "", user_id: data.user_id, isAdmin: data.is_admin });
         });
       }
     });
