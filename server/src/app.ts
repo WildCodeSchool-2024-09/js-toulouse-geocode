@@ -2,8 +2,13 @@
 
 import express from "express";
 import fileUpload from "express-fileupload";
+import expressWs from "express-ws";
+import router from "./router";
 
 const app = express();
+const appWs = express();
+expressWs(appWs);
+router.mountRouter();
 
 // Configure it
 
@@ -23,6 +28,10 @@ import cors from "cors";
 
 if (process.env.CLIENT_URL != null) {
   app.use(cors({ origin: [process.env.CLIENT_URL], credentials: true }));
+}
+
+if (process.env.CLIENT_URL != null) {
+  appWs.use(cors({ origin: [process.env.CLIENT_URL] }));
 }
 
 // If you need to allow extra origins, you can add something like this:
@@ -62,10 +71,10 @@ app.use(fileUpload());
 /* ************************************************************************* */
 
 // Import the API router
-import router from "./router";
 
 // Mount the API router under the "/api" endpoint
-app.use(router);
+app.use(router.router);
+appWs.use(router.routerWs);
 
 /* ************************************************************************* */
 
@@ -124,4 +133,4 @@ app.use(logErrors);
 
 /* ************************************************************************* */
 
-export default app;
+export default { app, appWs };

@@ -5,6 +5,7 @@ import {
 import type { Result, Rows } from "../../../database/client";
 import databaseClient from "../../../database/client";
 import type { CsvDataType } from "../../../types/csvDataType";
+import { eventEmitter } from "../webSocket/webSocketActions";
 
 class InsertDataRepository {
   async insertRegion(elem: CsvDataType) {
@@ -360,7 +361,10 @@ class InsertDataRepository {
     try {
       for (const elem of data) {
         count++;
-        console.info(`${count} / ${data.length}`);
+        eventEmitter.emit(
+          "update",
+          JSON.stringify({ value: count, max: data.length }),
+        );
         if (elem.geo_point_borne === "") continue;
         const correctData = await correctionData(elem);
 
