@@ -1,5 +1,5 @@
 import { useModal } from "../contexts/ShowModalProvider";
-import "../styles/UserDeleteModal.css";
+import "../styles/DeleteModal.css";
 
 interface UserDeleteModalProps {
   title: string;
