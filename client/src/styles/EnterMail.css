@@ -16,3 +16,19 @@
   font-size: 0.8rem;
   padding: .4rem .8rem;
 }
+
+#prev-login-mail {
+  background-color: transparent;
+  padding: 0;
+  margin-right: .6rem;
+}
+
+#prev-login-mail img {
+  width: 1rem;
+}
+
+#label-login-mail-forgotten {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

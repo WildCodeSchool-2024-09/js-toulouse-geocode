@@ -29,6 +29,7 @@ const sendMail = async (code: string, email: string) => {
 const read: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
+
     const temporaryCodes = await temporaryCodeRepository.read(
       Number.parseInt(id),
     );
@@ -58,9 +59,12 @@ const add: RequestHandler = async (req, res, next) => {
     }
     sendMail(code, email);
     await temporaryCodeRepository.create(code, Number.parseInt(id));
-    setTimeout(async () => {
-      await temporaryCodeRepository.delete(Number.parseInt(id));
-    }, 1000 * 10);
+    setTimeout(
+      async () => {
+        await temporaryCodeRepository.delete(Number.parseInt(id));
+      },
+      1000 * 60 * 10,
+    );
     res.sendStatus(201);
   } catch (error) {
     next(error);
