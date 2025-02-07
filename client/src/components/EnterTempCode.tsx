@@ -42,6 +42,30 @@ export default function EnterTempCode({
     }
   };
 
+  const handlePaste = (
+    e: React.ClipboardEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text");
+    const chars = pastedData.split("");
+
+    chars.forEach((char, i) => {
+      const input = inputRefs.current[index + i];
+      if (input) {
+        input.value = char;
+        const event = new Event("input", { bubbles: true });
+        input.dispatchEvent(event);
+      }
+    });
+
+    // Déplacer le focus sur le dernier input rempli
+    const nextIndex = index + chars.length;
+    if (inputRefs.current[nextIndex]) {
+      inputRefs.current[nextIndex].focus();
+    }
+  };
+
   const createTempCode = async () => {
     try {
       setMessageError("");
@@ -138,6 +162,7 @@ export default function EnterTempCode({
                 if (el) inputRefs.current[i] = el;
               }}
               onChange={(e) => handleChange(i, e)}
+              onPaste={(e) => handlePaste(e, i)}
             />
           ))}
         </div>
