@@ -124,6 +124,10 @@ main > div.login-page-container form > div.location-container {
   gap: 0.625rem;
 }
 
+main div.login-user-form-container form > p {
+  color: var(--red-color);
+}
+
 main
   > div.login-page-container
   form
@@ -143,6 +147,10 @@ main
 .login-form-error-message {
   color: var(--red-color);
   font-size: 0.875rem;
+}
+
+main > div.login-page-container form input.error {
+  border: 1px solid var(--red-color);
 }
 
 #header-forgotten-password {

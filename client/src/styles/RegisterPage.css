@@ -89,6 +89,10 @@ div.register-page-container form select {
   padding: 0.5rem;
 }
 
+div.register-page-container form input.error {
+  border: 1px solid var(--red-color);
+}
+
 main > div.register-page-container form > p {
   color: var(--red-color);
 }

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/LoginPage.css";
 
 interface ChangePasswordProps {
   userId: number;
@@ -92,6 +93,7 @@ export default function ChangePassword({ userId }: ChangePasswordProps) {
           name="email"
           ref={passwordRef}
           onChange={handleChangePassword}
+          className={passwordValid ? "password" : "password error"}
         />
         {!passwordValid && (
           <p>
@@ -112,6 +114,9 @@ export default function ChangePassword({ userId }: ChangePasswordProps) {
           name="email"
           ref={confirmPasswordRef}
           onChange={handleChangeConfirmPassword}
+          className={
+            bothPasswordsEqual ? "password-confirm" : "password-confirm error"
+          }
         />
         {!bothPasswordsEqual && <p>Les mots de passe ne correspondent pas</p>}
         <div className="button-container">
