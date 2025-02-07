@@ -59,7 +59,6 @@ export default function EnterTempCode({
       }
     });
 
-    // Déplacer le focus sur le dernier input rempli
     const nextIndex = index + chars.length;
     if (inputRefs.current[nextIndex]) {
       inputRefs.current[nextIndex].focus();
