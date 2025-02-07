@@ -206,6 +206,15 @@ class UserRepository {
     return result;
   }
 
+  async updatePassword(id: number, hashed_password: string) {
+    const [result] = await databaseClient.query<Result>(
+      "update user set hashed_password = ? where id = ?",
+      [hashed_password, id],
+    );
+
+    return result;
+  }
+
   async readUser(id: number) {
     const [rows] = await databaseClient.query<Rows>(
       `select id, firstname,

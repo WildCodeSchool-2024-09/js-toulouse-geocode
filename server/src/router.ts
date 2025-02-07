@@ -41,11 +41,16 @@ router.get("/api/stations/outlet/:id", outletActions.readAllByStation);
 
 router.get("/api/users/verify-email", userActions.verifyEmail);
 router.post("/api/contacts", contactActions.validate, contactActions.add);
-router.post("/api/users", authActions.hashPassword, userActions.add);
 
 router.get("/api/tempcode/:id", temporaryCodeActions.read);
 router.post("/api/tempcode/:id", temporaryCodeActions.add);
 router.delete("/api/tempcode/:id", temporaryCodeActions.destroy);
+router.post("/api/users", authActions.hashPassword, userActions.add);
+router.put(
+  "/api/users/update-password/:id",
+  authActions.hashPassword,
+  userActions.updatePassword,
+);
 
 router.post("/api/login", authActions.login);
 
