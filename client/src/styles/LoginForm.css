@@ -2,10 +2,6 @@
   margin-top: 0.5rem;
 }
 
-#login-user-form {
-  all: unset;
-}
-
 #login-user-form label {
   font-size: .9rem !important;
 }
