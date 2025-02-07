@@ -162,6 +162,7 @@ function RegisterForm() {
           name="email"
           id="email"
           onChange={handleChangeEmail}
+          className={emailValid ? "email" : "email error"}
         />
         {!emailValid && <p>Adresse email invalide.</p>}
         <label htmlFor="sex">Genre</label>
@@ -203,6 +204,7 @@ function RegisterForm() {
           name="password"
           id="password"
           onChange={handleChangePassword}
+          className={passwordValid ? "password" : "password error"}
         />
         {!passwordValid && (
           <p>
@@ -217,6 +219,9 @@ function RegisterForm() {
           placeholder="Confirmer le mot de passe *"
           name="passwordConfirm"
           id="password-confirm"
+          className={
+            bothPasswordsEqual ? "password-confirm" : "password-confirm error"
+          }
           onChange={handleChangeConfirmPassword}
         />
         {!bothPasswordsEqual && <p>Les mots de passe ne correspondent pas</p>}
