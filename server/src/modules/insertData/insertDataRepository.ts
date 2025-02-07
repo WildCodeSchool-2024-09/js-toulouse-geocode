@@ -322,6 +322,27 @@ class InsertDataRepository {
 
       if (row.length > 0) {
         station_id = row[0].id;
+        const [result] = await databaseClient.query<Result>(
+          "UPDATE station SET name = ?, address = ?, identifier = ?, sign_id = ?, operator_id = ?, provider_id = ?, postalcode_id = ?, insee_code_id = ?, geo_coords_id = ?, number_pdc = ?, access_charging = ?, accessibility = ?, update_date_time = ?, source = ? WHERE id = ?",
+          [
+            name,
+            address,
+            identifier,
+            signId,
+            operatorId,
+            providerId,
+            postalcodeId,
+            inseeCodeId,
+            geoCoordsId,
+            number_of_pdcs,
+            access_charging,
+            accessibility,
+            update_date_time,
+            source,
+            station_id,
+          ],
+        );
+        station_id = result.insertId;
       } else {
         const [result] = await databaseClient.query<Result>(
           "INSERT INTO station (name, address, identifier, sign_id, operator_id, provider_id, postalcode_id, insee_code_id, geo_coords_id, number_pdc, access_charging, accessibility, update_date_time, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",

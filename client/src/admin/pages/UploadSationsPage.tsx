@@ -64,7 +64,7 @@ export default function UploadSationsPage() {
     <div className="upload-page-container">
       <HeaderAdminPage title="Mise a jour des bornes" />
       <div className="upload-page-drap-and-drop-container">
-        <h2>Upload file</h2>
+        <h2>Téléchargement du fichier de mise à jour</h2>
         <DragAndDrop setFile={setFile} setMessage={setMessage} />
         <section>
           <p>
