@@ -342,7 +342,6 @@ class InsertDataRepository {
             station_id,
           ],
         );
-        station_id = result.insertId;
       } else {
         const [result] = await databaseClient.query<Result>(
           "INSERT INTO station (name, address, identifier, sign_id, operator_id, provider_id, postalcode_id, insee_code_id, geo_coords_id, number_pdc, access_charging, accessibility, update_date_time, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
