@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthProvider";
 import "../styles/LoginForm.css";
 
 interface LoginFormProps {
-  setIsLogin: (isLogin: boolean) => void;
+  setIsLogin: (isLogin: number) => void;
 }
 
 export default function LoginForm({ setIsLogin }: LoginFormProps) {
@@ -78,7 +78,7 @@ export default function LoginForm({ setIsLogin }: LoginFormProps) {
         <button
           type="button"
           id="password-forgotten"
-          onClick={() => setIsLogin(false)}
+          onClick={() => setIsLogin(1)}
         >
           Vous avez oublié votre mot de passe ?{" "}
         </button>

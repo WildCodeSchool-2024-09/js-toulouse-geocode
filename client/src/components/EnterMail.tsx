@@ -1,9 +1,20 @@
 import { useRef, useState } from "react";
 import type { FormEventHandler } from "react";
 import "../styles/EnterMail.css";
+import BackLeftArrow from "/images/back-left-arrow.svg";
 import { isValidEmail } from "../types/tools";
 
-export default function EnterMail() {
+interface LoginFormProps {
+  setIsLogin: (isLogin: number) => void;
+  setMail: (mail: string) => void;
+  setUserId: (userId: number) => void;
+}
+
+export default function EnterMail({
+  setIsLogin,
+  setMail,
+  setUserId,
+}: LoginFormProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const emailRef = useRef<HTMLInputElement>(null);
@@ -35,6 +46,8 @@ export default function EnterMail() {
         return;
       }
 
+      setUserId(userId);
+
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/tempcode/${userId}`,
         {
@@ -53,6 +66,10 @@ export default function EnterMail() {
         setErrorMessage(data.message);
         throw new Error(data.message);
       }
+
+      setMail(email);
+
+      setIsLogin(2);
     } catch (err) {
       console.error(err);
     }
@@ -61,7 +78,18 @@ export default function EnterMail() {
   return (
     <div className="login-user-form-container">
       <form onSubmit={handleSubmit} id="password-forgotten-user-form">
-        <label htmlFor="email-connection" className="label-user-login">
+        <label
+          htmlFor="email-connection"
+          className="label-user-login"
+          id="label-login-mail-forgotten"
+        >
+          <button
+            id="prev-login-mail"
+            type="button"
+            onClick={() => setIsLogin(0)}
+          >
+            <img src={BackLeftArrow} alt="" />
+          </button>
           Rentrez votre email
         </label>
         <input type="email" id="email-connection" name="email" ref={emailRef} />

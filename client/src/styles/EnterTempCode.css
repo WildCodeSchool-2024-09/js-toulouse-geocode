@@ -1,0 +1,15 @@
+#checktempcode {
+  width: 2rem;
+  height: auto;
+}
+
+#all-eight-inputs-for-code {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+#error-message-temp-code {
+  color: red;
+  font-size: 0.8rem;
+}
