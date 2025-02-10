@@ -25,9 +25,19 @@ main > div.login-page-container > article {
   z-index: 1;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (orientation: landscape) {
   main > div.login-page-container > article {
     width: 66%;
+    height: fit-content;
+    bottom: unset;
+  }
+
+  main > div.login-page-container section {
+    border-radius: 1.5625rem;
+  }
+
+  main > div.login-page-container form {
+    margin-bottom: unset !important;
   }
 }
 

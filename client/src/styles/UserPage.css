@@ -3,7 +3,7 @@
   background-color: var(--keppel-color-600);
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) and (orientation: landscape) {
   .user-page-container {
     padding: 0 17%;
     margin: 0 auto;

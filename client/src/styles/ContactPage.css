@@ -25,9 +25,17 @@ main > div.contact-page-container > article {
   z-index: 1;
 }
 
-@media (min-width: 768px) {
+@media screen and (min-width: 768px) and (orientation: landscape) {
   main > div.contact-page-container > article {
     width: 66%;
+    top: 0px;
+    height: unset;
+    bottom: 2rem !important;
+    border-radius: 1.5625rem !important;
+  }
+
+  main > div.contact-page-container section {
+    border-radius: 1.5625rem;
   }
 }
 

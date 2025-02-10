@@ -25,9 +25,17 @@ main > div.register-page-container > article {
   z-index: 1;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (orientation: landscape) {
   main > div.register-page-container > article {
     width: 66%;
+    top: 0px;
+    bottom: 2rem !important;
+    height: calc(100% - 6.25rem) !important;
+    border-radius: 1.5625rem !important;
+  }
+
+  main > div.register-page-container section {
+    border-radius: 1.5625rem;
   }
 }
 

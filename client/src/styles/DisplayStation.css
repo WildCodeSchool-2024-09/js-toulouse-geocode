@@ -32,6 +32,13 @@ main div.display-station {
   border: black 1px solid;
 }
 
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  main div.display-station {
+    border-radius: 1.5625rem;
+    bottom: 2rem;
+  }
+}
+
 main div.display-station.collapsed:has(h2:empty) {
   max-height: 9rem;
   min-height: 8.8675rem;
@@ -39,7 +46,7 @@ main div.display-station.collapsed:has(h2:empty) {
 
 main div.display-station.collapsed {
   max-height: 10.43rem;
-  min-height: 8.8675rem;
+  min-height: 9.8675rem;
 }
 
 main div.display-station > div.station-title {
@@ -96,9 +103,18 @@ main div.display-station.collapsed img {
   transform: rotate(180deg);
 }
 
-@media (min-width: 768px) {
+@media screen and (min-width: 768px) and (orientation: landscape) {
   main div.display-station {
     width: 66%;
+  }
+
+  main div.station-main.collapsed {
+    z-index: -1;
+  }
+
+  main div.station-main.collapsed,
+  main div.station-main.collapsed * {
+    display: none;
   }
 }
 
