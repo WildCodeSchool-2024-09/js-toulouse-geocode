@@ -28,6 +28,16 @@ main > div.login-page-container > article {
 @media (min-width: 768px) {
   main > div.login-page-container > article {
     width: 66%;
+    height: fit-content;
+    bottom: unset;
+  }
+
+  main > div.login-page-container section {
+    border-radius: 1.5625rem;
+  }
+
+  main > div.login-page-container form {
+    margin-bottom: unset !important;
   }
 }
 

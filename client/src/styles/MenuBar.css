@@ -24,9 +24,16 @@ footer {
   align-items: stretch;
 }
 
-@media (min-width: 768px) {
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  div.footer-container {
+    bottom: 2rem;
+  }
   footer {
     width: 66%;
+  }
+
+  footer ul {
+    border-radius: 1.5625rem !important;
   }
 }
 
