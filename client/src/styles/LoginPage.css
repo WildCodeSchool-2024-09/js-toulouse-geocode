@@ -25,7 +25,7 @@ main > div.login-page-container > article {
   z-index: 1;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (orientation: landscape) {
   main > div.login-page-container > article {
     width: 66%;
     height: fit-content;
