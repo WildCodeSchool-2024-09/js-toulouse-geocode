@@ -57,7 +57,7 @@ export default function LoginPage() {
     <div className="login-page-container">
       <article>
         <h2>Reinitialiser votre mot de passe</h2>
-        <ChangePassword userId={userId} />
+        <ChangePassword userId={userId} setIsLogin={setIsLogin} />
       </article>
     </div>
   );

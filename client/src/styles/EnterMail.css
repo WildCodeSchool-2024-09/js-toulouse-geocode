@@ -1,20 +1,51 @@
 .login-user-form-container {
   width: 100%;
-  background-color: var(--keppel-color-600);
+  background-color: var(--beige-color);
+  border: black 1px solid;
+  border-top-left-radius: 1.5625rem;
+  border-top-right-radius: 1.5625rem;
   height: 90%;
+  padding: 1rem;
+}
+
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  .login-user-form-container {
+    border-radius: 1.5625rem;
+  }
+}
+
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  #label-login-mail-forgotten {
+    font-size: 1.7rem;
+  }
 }
 
 #password-forgotten-user-form {
-  background-color: var(--beige-color);
+  background-color: var(--ghost-white-color);
 }
 
 .label-user-login {
   color: var(--chicago-color-700);
 }
 
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  main > div.login-page-container form input {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+}
+
 #button-get-numbers-password {
   font-size: 0.8rem;
   padding: .4rem .8rem;
+}
+
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  #button-get-numbers-password {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    padding: .6rem 1rem;
+  }
 }
 
 #prev-login-mail {
@@ -27,8 +58,21 @@
   width: 1rem;
 }
 
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  #prev-login-mail img {
+    width: 1.5rem;
+  }
+}
+
 #label-login-mail-forgotten {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  #email-connection {
+    font-size: 1.7rem;
+    margin-top: 2rem;
+  }
 }
