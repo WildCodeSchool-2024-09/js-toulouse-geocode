@@ -9,6 +9,18 @@
   width: 100%;
 }
 
+@media screen and (width > 768px) and (orientation: landscape) {
+  #all-eight-inputs-for-code {
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  #all-eight-inputs-for-code input {
+    width: 2.5rem;
+  }
+}
+
 #error-message-temp-code {
   color: red;
   font-size: 0.8rem;

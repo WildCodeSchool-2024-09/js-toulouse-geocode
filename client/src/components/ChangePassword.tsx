@@ -1,17 +1,20 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
+import "../styles/ChangePassword.css";
 
 interface ChangePasswordProps {
   userId: number;
+  setIsLogin: (isLogin: number) => void;
 }
 
-export default function ChangePassword({ userId }: ChangePasswordProps) {
+export default function ChangePassword({
+  userId,
+  setIsLogin,
+}: ChangePasswordProps) {
   const [passwordValid, setPasswordValid] = useState(false);
   const [bothPasswordsEqual, setBothPasswordsEqual] = useState(false);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
 
   const testString = (str: string) => {
     // Vérifie si la longueur de la chaîne est supérieure à 13
@@ -54,25 +57,35 @@ export default function ChangePassword({ userId }: ChangePasswordProps) {
     setBothPasswordsEqual(password === confirmPassword);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     const password = passwordRef.current?.value;
     try {
       if (password === undefined) return;
 
-      const formData = new FormData();
-
-      formData.append("password", password);
+      const data = {
+        password: password,
+      };
 
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/users/update-password/${userId}`,
         {
           method: "PUT",
-          body: formData,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         },
       );
 
       if (response.ok) {
-        navigate("/login");
+        if (passwordRef.current) {
+          passwordRef.current.value = "";
+        }
+        if (confirmPasswordRef.current) {
+          confirmPasswordRef.current.value = "";
+        }
+        setIsLogin(0);
       }
     } catch (error) {}
   };
@@ -89,14 +102,14 @@ export default function ChangePassword({ userId }: ChangePasswordProps) {
         </label>
         <input
           type="password"
-          id="email-connection"
-          name="email"
+          id="password-input"
+          name="password"
           ref={passwordRef}
           onChange={handleChangePassword}
           className={passwordValid ? "password" : "password error"}
         />
         {!passwordValid && (
-          <p>
+          <p id="update-password-error">
             {`Le mot de passe doit contenir au moins 13 caractères, une majuscule,
             une minuscule, un chiffre et un caractère spécial (!"#$%&'()*+,\x5C-./:;<=>?@[\x5D^_\x60\x7B|\x7D~)`}
           </p>
@@ -110,15 +123,19 @@ export default function ChangePassword({ userId }: ChangePasswordProps) {
         </label>
         <input
           type="password"
-          id="email-connection"
-          name="email"
+          id="confirm-password-input" // Changed from email-connection
+          name="confirm-password"
           ref={confirmPasswordRef}
           onChange={handleChangeConfirmPassword}
           className={
             bothPasswordsEqual ? "password-confirm" : "password-confirm error"
           }
         />
-        {!bothPasswordsEqual && <p>Les mots de passe ne correspondent pas</p>}
+        {!bothPasswordsEqual && (
+          <p id="update-password-error">
+            Les mots de passe ne correspondent pas
+          </p>
+        )}
         <div className="button-container">
           <button type="submit" id="button-get-numbers-password">
             Confirmer
