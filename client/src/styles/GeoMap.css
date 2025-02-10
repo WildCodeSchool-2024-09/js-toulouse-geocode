@@ -72,3 +72,14 @@ main div.main > ul > li {
   font-size: 0.7rem;
   cursor: pointer;
 }
+
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  main div.query-city > h2 {
+    font-size: 1.7rem;
+  }
+
+  main div.main,
+  main div.main > ul > li {
+    font-size: 1.3rem;
+  }
+}
