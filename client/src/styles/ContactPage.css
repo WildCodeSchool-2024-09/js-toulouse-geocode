@@ -36,6 +36,7 @@ main > div.contact-page-container > article {
 
   main > div.contact-page-container section {
     border-radius: 1.5625rem;
+    font-size: 1.3rem;
   }
 }
 
@@ -108,6 +109,6 @@ main > div.contact-page-container form > button {
   border: none;
   border-radius: 1.0625rem;
   padding: 0.5rem 1.25rem;
-  font-size: 1.25rem;
+  font-size: 1.7rem;
   cursor: pointer;
 }
