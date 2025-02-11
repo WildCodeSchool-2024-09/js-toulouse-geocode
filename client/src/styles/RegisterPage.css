@@ -36,6 +36,7 @@ main > div.register-page-container > article {
 
   main > div.register-page-container section {
     border-radius: 1.5625rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -103,6 +104,7 @@ div.register-page-container form input.error {
 
 main > div.register-page-container form > p {
   color: var(--red-color);
+  font-size: 1.3rem;
 }
 
 main > div.register-page-container form button {
@@ -112,6 +114,7 @@ main > div.register-page-container form button {
   border-radius: 1.0625rem;
   padding: 0.5rem 1.25rem;
   font-size: 1.25rem;
+  font-size: 1.7rem;
   cursor: pointer;
 }
 
