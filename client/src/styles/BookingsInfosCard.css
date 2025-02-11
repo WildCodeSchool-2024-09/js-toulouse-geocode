@@ -5,8 +5,26 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  gap: 1.5rem;
   padding: 1rem;
   border-radius: 0.5rem;
+}
+
+.booking-item-infos {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.booking-item-infos p:last-of-type {
+  white-space: wrap;
+}
+
+@media screen and (width > 768px) and (orientation: landscape) {
+  .booking-item-infos {
+    font-size: 1.7rem;
+  }
 }
 
 .delete-booking-button {

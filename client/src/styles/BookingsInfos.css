@@ -6,6 +6,12 @@
   height: 80%;
 }
 
+@media screen and (width > 768px) and (orientation: landscape) {
+  .bookings-info-container {
+    padding: 3rem;
+  }
+}
+
 .bookings-infos-header {
   display: flex;
   color: var(--chicago-color-700);
