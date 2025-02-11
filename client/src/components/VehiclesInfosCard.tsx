@@ -20,19 +20,19 @@ export default function VehiclesInfosCard({
 
   return (
     <article className="vehicles-infos-card-container">
-      <div className="brand-and-model-car">
+      <div className="vehicles-infos-card-container">
         <div className="brand-car">
-          <h2>Marque:</h2>
-          <p>{vehicleBrand}</p>
+          <span>Marque: </span>
+          <span>{vehicleBrand}</span>
         </div>
         <div className="model-car">
-          <h2>Modèle:</h2>
-          <p>{vehicleModel}</p>
+          <span>Modèle:</span>
+          <span>{vehicleModel}</span>
         </div>
-      </div>
-      <div className="charging-vehicle-type">
-        <h2>Type de charge</h2>
-        <p>{chargingVehicleType}</p>
+        <div className="charging-vehicle-type">
+          <span>Type de charge: </span>
+          <span>{chargingVehicleType}</span>
+        </div>
       </div>
       <button
         type="button"

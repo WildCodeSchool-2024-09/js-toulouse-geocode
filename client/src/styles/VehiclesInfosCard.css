@@ -6,6 +6,25 @@
   padding: 1rem 2rem;
   border-radius: 0.5rem;
   width: 80%;
+  gap: 1rem;
+}
+
+div.vehicles-infos-card-container {
+  background-color: var(--ghost-white-color);
+  color: var(--chicago-color-700);
+  display: flex;
+  justify-content: space-between;
+  padding: unset;
+  border-radius: 0.5rem;
+  width: 80%;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media screen and (width > 768px) and (orientation: landscape) {
+  div.vehicles-infos-card-container {
+    font-size: 1.5rem;
+  }
 }
 
 @media screen and (width > 900px) {
@@ -23,33 +42,33 @@
 .model-car {
   display: flex;
   gap: 0.5rem;
-  font-size: 1rem;
+  width: fit-content;
+  flex-wrap: nowrap;
 }
 
-.brand-car h2,
-.model-car h2,
-.charging-vehicle-type h2 {
-  font-size: 1rem;
+.brand-car span:first-of-type,
+.model-car span:first-of-type,
+.charging-vehicle-type span:first-of-type {
   font-weight: 400;
+  width: fit-content;
 }
 
-.brand-car p {
-  display: flex;
-  align-items: center;
+.brand-car span:last-of-type {
   font-weight: 700;
+  width: fit-content;
 }
 
-.model-car p {
-  display: flex;
-  align-items: center;
+.model-car span:last-of-type {
   font-weight: 700;
   color: var(--fire-bush-color-400);
+  width: fit-content;
+  white-space: nowrap;
 }
 
-.charging-vehicle-type p {
-  display: flex;
+.charging-vehicle-type span:last-of-type {
   gap: 0.5rem;
   justify-content: center;
+  white-space: nowrap;
 }
 
 .delete-user-vehicle-button {

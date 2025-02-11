@@ -24,10 +24,14 @@ export default function BookingsInfosCard({
 
   return (
     <article className="booking-item-container">
-      {isModalOpen && <DeleteBooking setIsModalOpen={setIsModalOpen} id={id} />}
-      <p>{startTime}</p>
-      <p>{date}</p>
-      <p>{city}</p>
+      <div className="booking-item-infos">
+        {isModalOpen && (
+          <DeleteBooking setIsModalOpen={setIsModalOpen} id={id} />
+        )}
+        <p>{startTime}</p>
+        <p>{date}</p>
+        <p>{city}</p>
+      </div>
       <button
         className="delete-booking-button"
         type="button"

@@ -1,7 +1,7 @@
 .delete-vehicle-user {
   background-color: var(--red-color);
   color: white;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;
@@ -11,7 +11,7 @@
   background-color: transparent;
   color: var(--chicago-color-700);
   border: solid 1px var(--chicago-color-700);
-  padding: 0.5rem;
+  padding: 0.5rem 0.8rem;
   border-radius: 0.5rem;
   cursor: pointer;
 }
@@ -21,4 +21,15 @@
   justify-content: center;
   margin-top: 2rem;
   gap: 3rem;
+}
+
+.warning-delete-text {
+  font-size: 1rem;
+  width: 80%;
+}
+
+@media screen and (width > 768px) and (orientation: landscape) {
+  .warning-delete-text {
+    width: 40%;
+  }
 }
