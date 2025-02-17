@@ -10,8 +10,8 @@ export default function GlobalContext({
   children,
 }: { children: React.ReactNode }) {
   return (
-    <AuthProvider>
-      <GeoPositionContextProvider>
+    <GeoPositionContextProvider>
+      <AuthProvider>
         <ShowMenubarProvider>
           <ShowNavProvider>
             <StationsLocationsContextProvider>
@@ -21,7 +21,7 @@ export default function GlobalContext({
             </StationsLocationsContextProvider>
           </ShowNavProvider>
         </ShowMenubarProvider>
-      </GeoPositionContextProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </GeoPositionContextProvider>
   );
 }

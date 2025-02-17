@@ -69,6 +69,15 @@ export function StationsLocationsContextProvider({
   );
 
   useEffect(() => {
+    if (
+      northWestBoundary.latitude - southEastBoundary.latitude > 5.0 ||
+      northWestBoundary.longitude - southEastBoundary.longitude > 5.0
+    ) {
+      // map is too wide to display stations.
+      setStationLocations([]);
+      return;
+    }
+
     const url = `${import.meta.env.VITE_API_URL}/api/stations/geolocation?northwestlatitude=${northWestBoundary.latitude}&northwestlongitude=${northWestBoundary.longitude}&southeastlatitude=${southEastBoundary.latitude}&southeastlongitude=${southEastBoundary.longitude}`;
     fetch(url)
       .then((response) => response.json())

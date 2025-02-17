@@ -122,6 +122,13 @@ function QueryCity() {
       Latitude: cityProps.Latitude,
       Longitude: cityProps.Longitude,
     });
+    window.sessionStorage.setItem(
+      "position",
+      JSON.stringify({
+        Latitude: cityProps.Latitude,
+        Longitude: cityProps.Longitude,
+      }),
+    );
     geoPositionContext.setDisplayQuery(false);
     geoPositionContext.setZoomLevel(16);
     setCities(Array<CityProps>(0));
