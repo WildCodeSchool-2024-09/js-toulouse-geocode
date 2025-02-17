@@ -203,8 +203,8 @@ function UserModification({ user }: UserModificationProps) {
   useEffect(fetchUserInfos, []);
 
   return (
-    <div className="user-modification-container">
-      <article className="user-modification-dialog_box">
+    <div className="admin-user-modification-container">
+      <article className="admin-user-modification-dialog_box">
         <caption>
           <h2>Modification des données de l'utilisateur</h2>
           <button type="button" onClick={handleClose}>

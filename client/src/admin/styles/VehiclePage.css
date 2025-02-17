@@ -129,9 +129,6 @@
 @media screen and (max-width: 640px) {
   .vehicle-modification-dialog_box > section > form {
     padding: 1rem;
-  }
-
-  form {
     gap: 0.3rem;
     font-size: 0.7rem;
   }
