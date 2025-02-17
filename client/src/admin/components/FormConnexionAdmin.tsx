@@ -41,7 +41,7 @@ export default function FormConnexionAdmin() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form-connexion-admin-container">
       <TextField
         id="outlined-basic"
         label="Email"

@@ -82,3 +82,30 @@
   max-width: fit-content;
   cursor: pointer;
 }
+
+@media screen and (max-width: 830px) {
+  .content-admin-container {
+    position: unset;
+  }
+
+  #content-admin-search-bar {
+    width: 16rem;
+    height: 2rem;
+  }
+
+  .content-admin-container > section {
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .content-admin-container {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .content-admin-container > section {
+    height: calc(100% - 7rem);
+  }
+}

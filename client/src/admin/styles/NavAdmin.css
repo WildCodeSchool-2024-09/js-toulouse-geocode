@@ -161,3 +161,52 @@
     transform: translate(-100%, 0);
   }
 }
+
+@media screen and (max-width: 830px) {
+  .nav-admin-container {
+    top: 13%;
+    padding: 1rem;
+    gap: 0.2rem;
+  }
+
+  .nav-admin-content {
+    gap: 0.5rem;
+  }
+
+  .nav-admin-arrow {
+    width: 0.8rem;
+  }
+
+  .nav-admin-content > ul > li {
+    font-size: 1rem;
+  }
+
+  .nav-admin-content > ul {
+    gap: 1rem;
+  }
+
+  .nav-admin-content > button {
+    font-size: 1rem;
+    gap: 1rem;
+  }
+
+  .nav-admin-link {
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 468px) {
+  .nav-admin-container {
+    top: 11%;
+    padding: 1rem;
+    gap: 0.2rem;
+  }
+}
+
+@media screen and (max-width: 432px) {
+  .nav-admin-container {
+    top: 15%;
+    padding: 1rem;
+    gap: 0.2rem;
+  }
+}
