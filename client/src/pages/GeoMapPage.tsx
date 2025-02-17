@@ -26,12 +26,10 @@ function GeoMapPage() {
   const geoPositionContext = useGeoPositionContext();
 
   const stationsLocationsContext = useStationsLocationsContext();
-  const [previousNorthWest, setPreviousNorthWest] = useState(
-    new GeoLocationProps(),
-  );
-  const [previousSouthEast, setPreviousSouthEast] = useState(
-    new GeoLocationProps(),
-  );
+  const [previousNorthWest, setPreviousNorthWest] =
+    useState<GeoLocationProps | null>(null);
+  const [previousSouthEast, setPreviousSouthEast] =
+    useState<GeoLocationProps | null>(null);
 
   const [centerOnGeoLocation, setCenterOnGeoLocation] = useState(true);
 
@@ -47,7 +45,33 @@ function GeoMapPage() {
   const ObserveEvents = () => {
     const map = useMap();
 
+    const initializeBoundaries = () => {
+      if (previousNorthWest != null && previousSouthEast != null) {
+        return;
+      }
+
+      const bounds = map.getBounds();
+      const northWest = bounds.getNorthWest();
+      const southEast = bounds.getSouthEast();
+      const northWestBoundary = new GeoLocationProps(
+        northWest.lat,
+        northWest.lng,
+      );
+      const southEastBoundary = new GeoLocationProps(
+        southEast.lat,
+        southEast.lng,
+      );
+      setPreviousNorthWest(northWestBoundary);
+      setPreviousSouthEast(southEastBoundary);
+      stationsLocationsContext.setNorthWestBoundary(northWestBoundary);
+      stationsLocationsContext.setSouthEastBoundary(southEastBoundary);
+    };
+
     const detectViewChange = () => {
+      if (previousNorthWest == null || previousSouthEast == null) {
+        return;
+      }
+
       setCenterOnGeoLocation(false);
       const bounds = map.getBounds();
       const northWest = bounds.getNorthWest();
@@ -105,6 +129,7 @@ function GeoMapPage() {
       },
     });
 
+    initializeBoundaries();
     return null;
   };
 

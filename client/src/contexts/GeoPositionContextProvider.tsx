@@ -1,6 +1,9 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { PositionProps } from "../types/GeoCoords";
 
+const positionCenterOfFrance = { Latitude: 46.7285, Longitude: 2.21 };
+const falsyPosition = { Latitude: -1, Longitude: -1 };
+
 interface GeoPositionContextProps {
   position: PositionProps;
   setPosition: React.Dispatch<React.SetStateAction<PositionProps>>;
@@ -20,9 +23,11 @@ type GeoPositionContextProviderProps = {
 export function GeoPositionContextProvider({
   children,
 }: GeoPositionContextProviderProps) {
-  const positionOrigin = { Latitude: 46.7285, Longitude: 2.21 };
+  const [position, setPosition] = useState<PositionProps>({
+    Latitude: -1,
+    Longitude: -1,
+  });
 
-  const [position, setPosition] = useState<PositionProps>(positionOrigin);
   const [displayQuery, setDisplayQuery] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(16);
 
@@ -39,21 +44,59 @@ export function GeoPositionContextProvider({
   );
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position: GeolocationPosition) => {
-        setPosition({
-          Latitude: position.coords.latitude,
-          Longitude: position.coords.longitude,
-        });
+    const sessionPosition = window.sessionStorage.getItem("position");
+
+    const positionOrigin =
+      sessionPosition != null
+        ? (JSON.parse(sessionPosition) as PositionProps)
+        : falsyPosition;
+
+    if (
+      positionOrigin.Latitude === falsyPosition.Latitude &&
+      positionOrigin.Longitude === falsyPosition.Longitude
+    ) {
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          setPosition({
+            Latitude: position.coords.latitude,
+            Longitude: position.coords.longitude,
+          });
+
+          window.sessionStorage.setItem(
+            "position",
+            JSON.stringify({
+              Latitude: position.coords.latitude,
+              Longitude: position.coords.longitude,
+            }),
+          );
+
+          setDisplayQuery(false);
+          setZoomLevel(16);
+        },
+        (_positionError: GeolocationPositionError) => {
+          setPosition(positionCenterOfFrance);
+          window.sessionStorage.setItem(
+            "position",
+            JSON.stringify(positionCenterOfFrance),
+          );
+
+          setDisplayQuery(true);
+          setZoomLevel(6);
+        },
+      );
+    } else {
+      setPosition(positionOrigin);
+      if (
+        positionOrigin.Latitude === positionCenterOfFrance.Latitude &&
+        positionOrigin.Longitude === positionCenterOfFrance.Longitude
+      ) {
+        setDisplayQuery(true);
+        setZoomLevel(6);
+      } else {
         setDisplayQuery(false);
         setZoomLevel(16);
-      },
-      (_positionError: GeolocationPositionError) => {
-        setDisplayQuery(true);
-        setPosition(positionOrigin);
-        setZoomLevel(6);
-      },
-    );
+      }
+    }
   }, []);
 
   return (
