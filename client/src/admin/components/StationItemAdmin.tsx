@@ -175,53 +175,59 @@ export default function StationItemAdmin({ item }: StationItemAdminProps) {
       {isVisible && (
         <div className="station-item-admin-full-info">
           <article>
-            <p>Aménageur:</p>
+            <p className="station-item-admin-full-info-label">Aménageur:</p>
             <p className="station-item-admin-full-info-value">
               {station.provider}
             </p>
           </article>
           <article>
-            <p>Enseigne:</p>
+            <p className="station-item-admin-full-info-label">Enseigne:</p>
             <p className="station-item-admin-full-info-value">{station.sign}</p>
           </article>
           <article>
-            <p>Nombre PDC:</p>
+            <p className="station-item-admin-full-info-label">Nombre PDC:</p>
             <p className="station-item-admin-full-info-value">
               {station.number_outlet}
             </p>
           </article>
           <article>
-            <p>Opérateur:</p>
+            <p className="station-item-admin-full-info-label">Opérateur:</p>
             <p className="station-item-admin-full-info-value">
               {station.operator}
             </p>
           </article>
           <article>
-            <p>Identifiant station:</p>
+            <p className="station-item-admin-full-info-label">
+              Identifiant station:
+            </p>
             <p className="station-item-admin-full-info-value">
               {station.identifier}
             </p>
           </article>
           <article>
-            <p>Puissance max:</p>
+            <p className="station-item-admin-full-info-label">Puissance max:</p>
             <p className="station-item-admin-full-info-value">
               {station.outlet?.power_max}
             </p>
           </article>
           <article>
-            <p>Adresse station:</p>
+            <p className="station-item-admin-full-info-label">
+              Adresse station:
+            </p>
             <p className="station-item-admin-full-info-value">
               {station.address}
             </p>
           </article>
           <article>
-            <p>Type de prise:</p>
+            <p className="station-item-admin-full-info-label">Type de prise:</p>
             <p className="station-item-admin-full-info-value">
               {station.outlet?.type}
             </p>
           </article>
           <article>
-            <p>Acces recharge:</p>
+            <p className="station-item-admin-full-info-label">
+              Acces recharge:
+            </p>
             <p className="station-item-admin-full-info-value">
               {station.access_charging}
             </p>

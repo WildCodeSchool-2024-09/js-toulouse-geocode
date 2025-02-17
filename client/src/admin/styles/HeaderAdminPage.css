@@ -14,3 +14,28 @@
 .header-admin-title {
   font-size: 2.24rem;
 }
+
+@media screen and (max-width: 830px) {
+  .header-admin-title {
+    font-size: 1.2rem;
+  }
+
+  .header-admin-geocode-logo {
+    width: 8.0rem;
+  }
+
+  .header-admin-container {
+    gap: 0;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .header-admin-title {
+    font-size: 1rem;
+  }
+
+  .header-admin-geocode-logo {
+    width: 7rem;
+  }
+}

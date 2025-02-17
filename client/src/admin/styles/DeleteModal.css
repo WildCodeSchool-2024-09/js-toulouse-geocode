@@ -8,6 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .user-delete-modal-container > article {
@@ -60,4 +61,29 @@
 .user-delete-modal-button:hover {
   background-color: #2d746cb9;
   transition: 0.2s;
+}
+
+@media screen and (max-width: 830px) {
+  .user-delete-modal-container > article {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .user-delete-modal-title-container {
+    font-size: 1rem;
+  }
+
+  .user-delete-modal-container > article > p {
+    font-size: 1rem;
+  }
+
+  .user-delete-modal-button {
+    padding: 0.5rem 6%;
+    font-size: 0.7rem;
+  }
+
+  .user-delete-modal-button-container {
+    padding: 0.7rem;
+  }
 }

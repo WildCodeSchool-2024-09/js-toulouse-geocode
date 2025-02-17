@@ -20,6 +20,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .station-modification-dialog_box {
@@ -225,4 +226,28 @@
 
 .group:has(#source) > input {
   max-width: unset !important;
+}
+
+@media screen and (max-width: 580px) {
+  .station-page-container {
+    display: flex;
+    gap: 5rem;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .station-modification-dialog_box > section > form {
+    padding: 1rem;
+  }
+
+  form {
+    gap: 0.3rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 468px) {
+  .station-page-container {
+    gap: 4rem;
+  }
 }

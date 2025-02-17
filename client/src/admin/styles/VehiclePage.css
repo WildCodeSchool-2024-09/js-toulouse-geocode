@@ -20,6 +20,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 
 .vehicle-modification-dialog_box {
@@ -116,4 +117,28 @@
 
 .group:has(#type-name) {
   grid-column: span 2;
+}
+
+@media screen and (max-width: 580px) {
+  .vehicle-page-container {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .vehicle-modification-dialog_box > section > form {
+    padding: 1rem;
+  }
+
+  form {
+    gap: 0.3rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 355px) {
+  .vehicle-modification-dialog_box > section > form {
+    display: flex;
+  }
 }
