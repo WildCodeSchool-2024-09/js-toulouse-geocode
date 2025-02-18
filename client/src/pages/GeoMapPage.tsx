@@ -11,7 +11,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import "../styles/GeoMap.css";
 import type { LatLngLiteral } from "leaflet";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GeoLocationProps } from "../../../server/common/types/StationProps";
 import DisplayStation from "../components/DisplayStation";
 import QueryCity from "../components/QueryCity";
@@ -45,7 +45,7 @@ function GeoMapPage() {
   const ObserveEvents = () => {
     const map = useMap();
 
-    const initializeBoundaries = () => {
+    const initializeBoundaries = useCallback(() => {
       if (previousNorthWest != null && previousSouthEast != null) {
         return;
       }
@@ -65,7 +65,7 @@ function GeoMapPage() {
       setPreviousSouthEast(southEastBoundary);
       stationsLocationsContext.setNorthWestBoundary(northWestBoundary);
       stationsLocationsContext.setSouthEastBoundary(southEastBoundary);
-    };
+    }, [map]);
 
     const detectViewChange = () => {
       if (previousNorthWest == null || previousSouthEast == null) {
@@ -129,7 +129,9 @@ function GeoMapPage() {
       },
     });
 
-    initializeBoundaries();
+    useEffect(() => {
+      initializeBoundaries();
+    }, [initializeBoundaries]);
     return null;
   };
 
@@ -176,6 +178,7 @@ function GeoMapPage() {
               station.geo_coords.longitude,
             ]}
             station={station}
+            setStationCollapsed={setStationCollapsed}
           />
         ))}
       </MapContainer>

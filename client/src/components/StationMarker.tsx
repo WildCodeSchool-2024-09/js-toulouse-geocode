@@ -7,9 +7,14 @@ import { useStationsLocationsContext } from "../contexts/StationsLocationsContex
 interface StationMarkerProps {
   position: LatLngExpression;
   station: StationProps;
+  setStationCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function StationMarker({ position, station }: StationMarkerProps) {
+function StationMarker({
+  position,
+  station,
+  setStationCollapsed,
+}: StationMarkerProps) {
   const stationIcon = new Icon({
     iconUrl: "/images/marker.svg",
     iconSize: [32, 39],
@@ -23,6 +28,7 @@ function StationMarker({ position, station }: StationMarkerProps) {
       eventHandlers={{
         click: () => {
           stationsLocationsContext.setStation(station);
+          setStationCollapsed(false);
           stationsLocationsContext.setIsReservationComponentDisplayed(false);
         },
       }}
