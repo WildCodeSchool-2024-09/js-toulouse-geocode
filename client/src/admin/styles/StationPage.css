@@ -74,7 +74,9 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(8, 1fr);
+  gap: 0.625rem;
 }
+
 .station-modification-dialog_box > section label {
   color: black;
 }
