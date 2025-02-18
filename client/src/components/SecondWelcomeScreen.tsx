@@ -7,11 +7,11 @@ export default function SecondWelcomeScreen() {
     <div className="second-welcome-screen">
       <div className="upper-part">
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et ex
-          diam. Nullam iaculis tortor at posuere aliquet. Aenean libero neque,
-          ullamcorper eu gravida ut, pretium sit amet sem. Sed nec elit turpis.
-          Aenean et placerat arcu. Etiam lacus turpis, egestas sed facilisis at,
-          scelerisque in magna. Pellentesque imperdiet tristique viverra.
+          Geocode – Trouvez et gérez vos bornes de recharge électriques Geocode
+          vous permet de localiser facilement une borne de recharge à proximité,
+          de réserver un créneau horaire adapté à vos besoins et de gérer
+          plusieurs véhicules électriques en toute simplicité. Profitez d'une
+          expérience fluide et optimisée pour la recharge de vos véhicules.
         </p>
       </div>
       <div className="second-welcome-screen-lower-part">
