@@ -202,6 +202,7 @@ export default function ModifyProfileInfos({
           />
           <input type="hidden" name="insee_code_id" value={insee_code_id} />
           <input
+            className="modify-city-input"
             type="text"
             placeholder="Ville"
             name="city"
