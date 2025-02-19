@@ -19,14 +19,14 @@ export default function ConfirmationUploadPhoto({
         <div className="warning-upload-buttons">
           <button
             type="button"
-            className="confirm-upload"
+            className="cancel-delete"
             onClick={() => setShowDeleteConfirmation(false)}
           >
             Annuler
           </button>
           <button
             type="button"
-            className="cancel-upload"
+            className="confirm-delete"
             onClick={() => {
               handlePhotoDelete();
               setShowDeleteConfirmation(false);
