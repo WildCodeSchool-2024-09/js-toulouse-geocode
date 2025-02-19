@@ -43,13 +43,13 @@
   cursor: pointer;
 }
 
-.cancel-upload {
+.confirm-delete {
   background-color: var(--dark-red-color);
   color: var(--ghost-white-color);
   border: none;
 }
 
-.confirm-upload {
+.cancel-delete {
   background-color: var(--beige-color);
   color: black;
   border: 1px solid black;

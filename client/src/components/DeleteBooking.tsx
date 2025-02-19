@@ -33,23 +33,20 @@ export default function DeleteBooking({
     }
   };
   return (
-    <div className="booking-delete-modal-container">
-      <article>
-        <div className="booking-delete-modal-title-container">
-          <h3>Suppression </h3>
-        </div>
+    <div className="confirmation-delete-photo-container">
+      <article className="warning-delete-text">
         <p>Êtes vous sûre de vouloir supprimer la réservation ?</p>
-        <div className="booking-delete-modal-button-container">
+        <div className="warning-delete-vehicle-buttons">
           <button
             type="button"
-            className="booking-delete-modal-button"
+            className="delete-vehicle-user"
             onClick={handleCancel}
           >
             Annuler
           </button>
           <button
             type="button"
-            className="booking-delete-modal-button delete"
+            className="confirm-delete-vehicle-user"
             onClick={handleDelete}
           >
             Supprimer

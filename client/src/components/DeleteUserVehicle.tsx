@@ -60,7 +60,7 @@ export default function ConfirmationUploadPhoto({
               handleVehicleDeletion();
             }}
           >
-            Confirmer
+            Supprimer
           </button>
         </div>
       </article>
