@@ -48,19 +48,19 @@ export default function ConfirmationUploadPhoto({
         <div className="warning-delete-vehicle-buttons">
           <button
             type="button"
-            className="delete-vehicle-user"
+            className="confirm-delete-vehicle-user"
             onClick={() => setIsDeletingVehicle(false)}
           >
             Annuler
           </button>
           <button
             type="button"
-            className="confirm-delete-vehicle-user"
+            className="delete-vehicle-user"
             onClick={() => {
               handleVehicleDeletion();
             }}
           >
-            Confirmer
+            Supprimer
           </button>
         </div>
       </article>
